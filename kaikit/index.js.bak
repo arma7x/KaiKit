@@ -1,0 +1,101 @@
+const KaiKit = (function() {
+
+  function KaiKit(obj) {
+
+    this.name = 'KaiKit';
+    this.data;
+    this.templateUrl;
+    this.methods = {};
+
+    this._KaiKit = function (obj) {
+      const public = ['name', 'data' ,'templateUrl', 'methods', 'mounted', 'unmount'];
+      for (var i in obj) {
+        if (public.indexOf(i) !== -1) { // allow override
+          if (i === 'data') {
+            for (var d in obj[i]) { // block override
+              if ([...public, 'mount'].indexOf(d) === -1) {
+                this[d] = obj[i][d];
+              }
+            }
+          } else if (i === 'methods') {
+            for (f in obj[i]) {
+              if (typeof obj[i][f] === 'function') {
+                this.methods[f] = obj[i][f].bind(this);
+              }
+            }
+          } else {
+            this[i] = obj[i];
+          }
+        }
+      }
+    }
+    this._KaiKit(obj);
+  }
+
+  KaiKit.prototype.handleClick = function(evt) {
+    var _this = this;
+    var extractFuncRegex = /\b[^()]+\((.*)\)$/;
+    switch (evt.target.tagName) {
+      case 'BUTTON':
+        const target = evt.target.attributes.getNamedItem('kai:click');
+        if (evt.target.attributes.length > 0 && target) {
+          if (target.nodeValue !== '') {
+            const params = target.nodeValue.split(';');
+            params.forEach(function(v) {
+              var fName = v.substring(0, v.indexOf('('));
+              var fParams = null
+              if (v.search(extractFuncRegex) !== -1) {
+                var _fParams = v.substring((v.indexOf('(') + 1), v.indexOf(')')).split(',');
+                fParams = _fParams.length === 1 && _fParams[0] === '' ? null : _fParams;
+              }
+              if (_this.methods[fName]) {
+                _this.methods[fName].apply(null, fParams);
+              }
+            });
+          }
+        }
+    }
+  }
+
+  KaiKit.prototype.mount = function(id) {
+
+    try {
+      // console.log('mounting:', this.name);
+      const _this = this;
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          const doc = document.getElementById(id);
+          const f = function(evt) {
+            
+          }
+          if ((doc.__kaikit__ !== undefined || doc.__kaikit__ !== null) && typeof doc.__kaikit__ === 'object') {
+            // console.log('unmounting previous:', doc.__kaikit__.name);
+            doc.__kaikit__.unmount();
+            doc.removeEventListener('click', _this.handleClick.bind(_this));
+          }
+          doc.__kaikit__ = _this;
+          doc.addEventListener('click', _this.handleClick.bind(_this));
+          doc.innerHTML = xhttp.responseText;
+          _this.mounted();
+        }
+      };
+      xhttp.open('GET', this.templateUrl, true);
+      xhttp.send();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  KaiKit.prototype.mounted = function() {
+    // console.log('execute mounted:', this.name);
+  }
+
+  KaiKit.prototype.unmount = function(name) {
+    // console.log('execute unmount:', this.name);
+  }
+
+  return KaiKit;
+
+})()
+
