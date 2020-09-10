@@ -95,7 +95,7 @@ const KaiRouter = (function() {
           component.mount('__kai_router__');
           this.setLeftText(component.softkey.left.text);
           this.setCenterText(component.softkey.center.text);
-          this.setRightText(component.softkey.center.text);
+          this.setRightText(component.softkey.right.text);
           this.addKeydownListener();
         } else {
           this._404.mount('__kai_router__');
@@ -136,7 +136,7 @@ const KaiRouter = (function() {
       clone.mount('__kai_router__');
       this.setLeftText(clone.softkey.left.text);
       this.setCenterText(clone.softkey.center.text);
-      this.setRightText(clone.softkey.center.text);
+      this.setRightText(clone.softkey.right.text);
       this.stack.push(clone);
     } else if (path instanceof Kai) {
       const clone = path.reset();
@@ -144,7 +144,7 @@ const KaiRouter = (function() {
       clone.mount('__kai_router__');
       this.setLeftText(clone.softkey.left.text);
       this.setCenterText(clone.softkey.center.text);
-      this.setRightText(clone.softkey.center.text);
+      this.setRightText(clone.softkey.right.text);
       this.stack.push(clone);
       name = clone.name;
     } else {
@@ -189,7 +189,7 @@ const KaiRouter = (function() {
         component.mount('__kai_router__');
         this.setLeftText(component.softkey.left.text);
         this.setCenterText(component.softkey.center.text);
-        this.setRightText(component.softkey.center.text);
+        this.setRightText(component.softkey.right.text);
         r = true;
       }
       window.history.pushState("/", "", pathname + createPageURLParam(paths));
@@ -199,6 +199,9 @@ const KaiRouter = (function() {
     }
     return false;
   }
+
+  KaiRouter.prototype.showDialog = function() {}
+  KaiRouter.prototype.hideDialog = function() {}
 
   KaiRouter.prototype.calcBodyHeight = function() {
     var padding = 0;
@@ -370,7 +373,7 @@ const KaiRouter = (function() {
           }
           e.preventDefault();
           e.stopPropagation();
-        } else {
+        } else { // else if modal open
           if (_router) {
             if (_router.pop()) {
               e.preventDefault();

@@ -34,21 +34,21 @@ window.addEventListener("load", function() {
     },
     softkey: {
       left: {
-        text: 'L 4',
+        text: '-1',
         func: function() {
           this.setData({ counter: this.data.counter - 1 });
           this.$state.setState('counter', this.$state.getState('counter') - 1);
         }
       },
       center: {
-        text: 'C 4',
+        text: '0',
         func: function() {
           this.setData({ counter: 0 });
           this.$state.setState('counter', 0);
         }
       },
       right: {
-        text: 'R 4',
+        text: '+1',
         func: function() {
           this.setData({ counter: this.data.counter + 1 });
           this.$state.setState('counter', this.$state.getState('counter') + 1);
@@ -88,21 +88,21 @@ window.addEventListener("load", function() {
     },
     softkey: {
       left: {
-        text: 'L 1',
+        text: '-1',
         func: function() {
           this.setData({ counter: this.data.counter - 1 });
           this.$state.setState('counter', this.$state.getState('counter') - 1);
         }
       },
       center: {
-        text: 'C 1',
+        text: '0',
         func: function() {
           this.setData({ counter: 0 });
           this.$state.setState('counter', 0);
         }
       },
       right: {
-        text: 'R 1',
+        text: '+1',
         func: function() {
           this.setData({ counter: this.data.counter + 1 });
           this.$state.setState('counter', this.$state.getState('counter') + 1);
@@ -142,21 +142,21 @@ window.addEventListener("load", function() {
     },
     softkey: {
       left: {
-        text: 'L 2',
+        text: '-1',
         func: function() {
           this.setData({ counter: this.data.counter - 1 });
           this.$state.setState('counter', this.$state.getState('counter') - 1);
         }
       },
       center: {
-        text: 'C 2',
+        text: '0',
         func: function() {
           this.setData({ counter: 0 });
           this.$state.setState('counter', 0);
         }
       },
       right: {
-        text: 'R 2',
+        text: '+1',
         func: function() {
           this.setData({ counter: this.data.counter + 1 });
           this.$state.setState('counter', this.$state.getState('counter') + 1);
@@ -196,21 +196,21 @@ window.addEventListener("load", function() {
     },
     softkey: {
       left: {
-        text: 'L 3',
+        text: '-1',
         func: function() {
           this.setData({ counter: this.data.counter - 1 });
           this.$state.setState('counter', this.$state.getState('counter') - 1);
         }
       },
       center: {
-        text: 'C 3',
+        text: '0',
         func: function() {
           this.setData({ counter: 0 });
           this.$state.setState('counter', 0);
         }
       },
       right: {
-        text: 'R 3',
+        text: '+1',
         func: function() {
           this.setData({ counter: this.data.counter + 1 });
           this.$state.setState('counter', this.$state.getState('counter') + 1);

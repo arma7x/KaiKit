@@ -167,7 +167,7 @@ const Kai = (function() {
           var fName = v.substring(0, v.indexOf('('));
           var fParams = null
           if (v.search(extractFuncRegex) !== -1) {
-            var _fParams = v.substring((v.indexOf('(') + 1), v.indexOf(')')).split(',');
+            var _fParams = v.substring((v.indexOf('(') +1), v.indexOf(')')).split(',');
             fParams = _fParams.length === 1 && _fParams[0] === '' ? null : _fParams;
           }
           if (_this.methods[fName]) {
