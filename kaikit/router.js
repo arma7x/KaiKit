@@ -6,7 +6,7 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.init = function(options) {
 
-    this._404 = new Kai({template: '404'});
+    this._404 = new Kai({name: '404', template: '404'});
     this.title = '';
     this.routes = {};
     this.stack = [];
