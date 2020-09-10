@@ -8,6 +8,7 @@ window.addEventListener("load", function() {
       title: '_LASTCHILD_',
       counter: -1,
     },
+    state,
     mustache: Mustache,
     templateUrl: document.location.origin + '/template.html',
     mounted: function() {
@@ -221,7 +222,7 @@ window.addEventListener("load", function() {
   const router = new KaiRouter({
     title: 'Kai',
     routes: {
-      'index.html' : {
+      'index' : {
         name: 'firstChild',
         component: firstChild
       },

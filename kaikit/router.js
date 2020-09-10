@@ -10,13 +10,13 @@ const KaiRouter = (function() {
       template: '404',
       softkey: {
         left: {
-          text: 'L 404'
+          text: ''
         },
         center: {
-          text: 'C 404'
+          text: ''
         },
         right: {
-          text: 'R 404'
+          text: ''
         }
       }
     });
@@ -49,17 +49,54 @@ const KaiRouter = (function() {
     this._KaiRouter(options);
   }
 
+  function getURLParam(key, target) {
+    var values = [];
+    if (!target) target = location.href;
+
+    key = key.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+
+    var pattern = key + '=([^&#]+)';
+    var o_reg = new RegExp(pattern,'ig');
+    while (true){
+      var matches = o_reg.exec(target);
+      if (matches && matches[1]){
+        values.push(matches[1]);
+      } else {
+        break;
+      }
+    }
+
+    if (!values.length){
+      return [];
+    } else {
+      return values.length == 1 ? [values[0]] : values;
+    }
+  }
+
+  function createPageURLParam(paths) {
+    const cols = [];
+    paths.forEach(function(v) {
+      cols.push('page[]=' + v);
+    });
+    if (cols.length > 0) {
+      return  '?' + cols.join('&');
+    }
+    return '';
+  }
+
   KaiRouter.prototype.run = function() {
     this.renderHeader();
     this.renderSoftKey();
     this.calcBodyHeight();
+    const paths = getURLParam('page[]');
+    if (paths.length === 0) {
+      paths.push('index');
+    }
     var pathname = window.location.pathname.replace(/\/$/, '');
     if (pathname.length === 0) {
       pathname = '/index.html';
     }
-    window.history.pushState("/", "", pathname);
-    const paths = pathname.split('/');
-    paths.shift();
+    window.history.pushState("/", "", pathname + createPageURLParam(paths));
     paths.forEach((path, k) => {
       if (k === (paths.length - 1)) {
         if (this.routes[path]) {
@@ -131,14 +168,23 @@ const KaiRouter = (function() {
       this.setRightText(this._404.softkey.right.text);
       this.stack.push(this._404);
     }
+    const paths = getURLParam('page[]');
+    paths.push(name);
     var pathname = window.location.pathname.replace(/\/$/, '');
-    window.history.pushState("/", "", pathname + '/' + name);
+    if (pathname.length === 0) {
+      pathname = '/index.html';
+    }
+    window.history.pushState("/", "", pathname + createPageURLParam(paths));
   }
 
   KaiRouter.prototype.pop = function() {
+
+    const paths = getURLParam('page[]');
     var pathname = window.location.pathname.replace(/\/$/, '');
-    var paths = pathname.split('/');
-    if ((paths.length - 1) > 0 && this.stack.length > 0 && ((paths.length - 1) === this.stack.length)) {
+    if (pathname.length === 0) {
+      pathname = '/index.html';
+    }
+    if ((paths.length > 0 && this.stack.length) > 0 && (paths.length === this.stack.length)) {
       var r = false;
       if ((this.stack.length - 1) > 0) {
         paths.pop();
@@ -159,7 +205,7 @@ const KaiRouter = (function() {
         this.setRightText(component.softkey.center.text);
         r = true;
       }
-      window.history.pushState("/", "", paths.join('/').length === 0 ? '/' : paths.join('/'));
+      window.history.pushState("/", "", pathname + createPageURLParam(paths));
       return r;
     } else {
       return false;
@@ -288,15 +334,33 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.clickLeft = function() {
-    this.stack[this.stack.length - 1].softkey.left.func();
+    if (this.stack[this.stack.length - 1].softkey) {
+      if (this.stack[this.stack.length - 1].softkey.left) {
+        if (typeof this.stack[this.stack.length - 1].softkey.left.func === 'function') {
+          this.stack[this.stack.length - 1].softkey.left.func();
+        }
+      }
+    }
   }
 
   KaiRouter.prototype.clickCenter = function() {
-    this.stack[this.stack.length - 1].softkey.center.func();
+    if (this.stack[this.stack.length - 1].softkey) {
+      if (this.stack[this.stack.length - 1].softkey.center) {
+        if (typeof this.stack[this.stack.length - 1].softkey.center.func === 'function') {
+          this.stack[this.stack.length - 1].softkey.center.func();
+        }
+      }
+    }
   }
 
   KaiRouter.prototype.clickRight = function() {
-    this.stack[this.stack.length - 1].softkey.right.func();
+    if (this.stack[this.stack.length - 1].softkey) {
+      if (this.stack[this.stack.length - 1].softkey.right) {
+        if (typeof this.stack[this.stack.length - 1].softkey.right.func === 'function') {
+          this.stack[this.stack.length - 1].softkey.right.func();
+        }
+      }
+    }
   }
 
   KaiRouter.prototype.handleKeydown = function(e) {
@@ -325,7 +389,7 @@ const KaiRouter = (function() {
               e.preventDefault();
               e.stopPropagation();
             } else {
-              console.log('ROOT');
+              // console.log('ROOT');
             }
           }
         }
