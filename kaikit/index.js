@@ -137,11 +137,11 @@ const Kai = (function() {
       // console.log(vdom, this.isMounted);
     }
     if (this.mustache) {
-      const data = this.data;
+      const data = JSON.parse(JSON.stringify(this.data));
       if (this.$state) {
-        data.$state = this.$state.getState();
+        data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      vdom.innerHTML = Mustache.render(this.template, this.data);
+      vdom.innerHTML = Mustache.render(this.template, data);
     } else {
       // console.log(this.template);
       vdom.innerHTML = this.template;

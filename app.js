@@ -105,19 +105,19 @@ window.addEventListener("load", function() {
       left: {
         text: 'Minus',
         func: function() {
-          this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', -1, 'Yes', this.methods.minus, 'Cancel', undefined);
+          this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', this.data, 'Yes', this.methods.minus, 'Cancel', undefined);
         }
       },
       center: {
         text: 'Reset',
         func: function() {
-          this.$router.showDialog('Decrement', 'Are sure to reset the counter ?', 0, 'Yes', this.methods.reset, 'Cancel', undefined);
+          this.$router.showDialog('Decrement', 'Are sure to reset the counter ?', this.data, 'Yes', this.methods.reset, 'Cancel', undefined);
         }
       },
       right: {
         text: 'Plus',
         func: function() {
-          this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', +1, 'Yes', this.methods.plus, 'Cancel', undefined);
+          this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', this.data, 'Yes', this.methods.plus, 'Cancel', undefined);
         }
       }
     }

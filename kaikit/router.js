@@ -6,7 +6,7 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.init = function(options) {
 
-    this._404 = new Kai({name: '404', template: '404'});
+    this._404 = new Kai({name: '404', template: '<div style="text-align:center;padding-top:50%;">404</div>'});
     this.title = '';
     this.routes = {};
     this.stack = [];
@@ -216,7 +216,7 @@ const KaiRouter = (function() {
       },
       mustache: Mustache,
       template: '<div style="background-color:white;position:absolute;bottom:0;width:100%;">\
-        <div style="padding-left:5px;height:28px;line-height:28px;background-color:#873eff;color:#ffffff;text-align:center;">{{ title }}</div>\
+        <div style="padding-left:5px;height:28px;line-height:28px;background-color:#cccccc;text-align:center;">{{ title }}</div>\
         <div style="padding:5px;font-size:14px;">{{ body }}</div>\
         </div>',
       softkey: {
@@ -265,6 +265,9 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.hideDialog = function() {
+    if (!this.dialog) {
+      return;
+    }
     this.dialog = false;
     this.stack.pop();
     this.setLeftText(this.stack[this.stack.length -1].softkey.left.text);
@@ -308,7 +311,7 @@ const KaiRouter = (function() {
           title: ''
         },
         mustache: Mustache,
-        template: '<span id="__kai_header_title__" style="margin-left: 8px;">{{ title }}</span>',
+        template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:800;">{{ title }}</span>',
         mounted: function() {
           EL.style.color = '#fff';
           EL.style.fontWeight = 'bold';
@@ -348,7 +351,7 @@ const KaiRouter = (function() {
           right: ''
         },
         mustache: Mustache,
-        template: '<div kai:click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;">{{ left }}</div><div kai:click="clickCenter()" style="width:36%;text-align:center;">{{ center }}</div><div kai:click="clickRight()" style="width:32%;text-align:right;padding-right:5px;">{{ right }}</div>',
+        template: '<div kai:click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:500;">{{ left }}</div><div kai:click="clickCenter()" style="width:36%;text-align:center;font-weight:800;">{{ center }}</div><div kai:click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:500;">{{ right }}</div>',
         mounted: function() {
           EL.style.height = '30px';
           EL.style.lineHeight = '30px';
