@@ -84,28 +84,40 @@ window.addEventListener("load", function() {
       },
       pop: function() {
         this.$router.pop();
+      },
+      reset: function(data) {
+        console.log(data);
+        this.setData({ counter: 0 });
+        this.$state.setState('counter', 0);
+      },
+      plus: function(data) {
+        console.log(data);
+        this.setData({ counter: this.data.counter + 1 });
+        this.$state.setState('counter', this.$state.getState('counter') + 1);
+      },
+      minus: function(data) {
+        console.log(data);
+        this.setData({ counter: this.data.counter - 1 });
+        this.$state.setState('counter', this.$state.getState('counter') - 1);
       }
     },
     softkey: {
       left: {
-        text: '-1',
+        text: 'Minus',
         func: function() {
-          this.setData({ counter: this.data.counter - 1 });
-          this.$state.setState('counter', this.$state.getState('counter') - 1);
+          this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', -1, 'Yes', this.methods.minus, 'Cancel', undefined);
         }
       },
       center: {
-        text: '0',
+        text: 'Reset',
         func: function() {
-          this.setData({ counter: 0 });
-          this.$state.setState('counter', 0);
+          this.$router.showDialog('Decrement', 'Are sure to reset the counter ?', 0, 'Yes', this.methods.reset, 'Cancel', undefined);
         }
       },
       right: {
-        text: '+1',
+        text: 'Plus',
         func: function() {
-          this.setData({ counter: this.data.counter + 1 });
-          this.$state.setState('counter', this.$state.getState('counter') + 1);
+          this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', +1, 'Yes', this.methods.plus, 'Cancel', undefined);
         }
       }
     }

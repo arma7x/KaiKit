@@ -12,6 +12,7 @@ const KaiRouter = (function() {
     this.stack = [];
     this.header;
     this.softwareKey;
+    this.dialog = false;
 
     this._KaiRouter = function (options) {
       const public = ['routes', 'title'];
@@ -129,6 +130,9 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.push = function(path) {
+    if (this.dialog) {
+      return;
+    }
     var name = path;
     if (typeof path === 'string' && this.routes[path]) {
       const clone = this.routes[path].component.reset();
@@ -165,7 +169,9 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.pop = function() {
-
+    if (this.dialog) {
+      return;
+    }
     const paths = getURLParam('page[]');
     var pathname = window.location.pathname.replace(/\/$/, '');
     if (pathname.length === 0) {
@@ -200,8 +206,79 @@ const KaiRouter = (function() {
     return false;
   }
 
-  KaiRouter.prototype.showDialog = function() {}
-  KaiRouter.prototype.hideDialog = function() {}
+  KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb) {
+    const _this = this;
+    const d = new Kai({
+      name: 'dialog',
+      data: {
+        title: title,
+        body: body
+      },
+      mustache: Mustache,
+      template: '<div style="background-color:white;position:absolute;bottom:0;width:100%;">\
+        <div style="padding-left:5px;height:28px;line-height:28px;background-color:#873eff;color:#ffffff;text-align:center;">{{ title }}</div>\
+        <div style="padding:5px;font-size:14px;">{{ body }}</div>\
+        </div>',
+      softkey: {
+        left: {
+          text: negativeText || 'Cancel',
+          func: function() {
+            console.log(negativeText);
+            if (typeof negativeCb === 'function') {
+              negativeCb(dataCb);
+            }
+            _this.hideDialog();
+          }
+        },
+        center: {
+          text: '',
+          func: function() {}
+        },
+        right: {
+          text: positiveText || 'Yes',
+          func: function() {
+            console.log(positiveText);
+            if (typeof positiveCb === 'function') {
+              positiveCb(dataCb);
+            }
+            _this.hideDialog();
+          }
+        }
+      }
+    });
+    d.mount('__kai_dialog__');
+    this.setLeftText(d.softkey.left.text);
+    this.setCenterText(d.softkey.center.text);
+    this.setRightText(d.softkey.right.text);
+    this.dialog = true;
+    this.stack.push(d);
+    const dom = document.getElementById('__kai_dialog__');
+    dom.style.position = 'fixed';
+    dom.style.backgroundColor = 'rgba(64,64,64,0.5)';
+    dom.style.height = 'calc(100% - 30px)';
+    dom.style.width = '100%';
+    dom.style.top = '0';
+    dom.style.zIndex = '1';
+    dom.style.visibility =  'visible';
+    dom.style.opacity = '1';
+    dom.style.transition = 'opacity 0.1s linear';
+  }
+
+  KaiRouter.prototype.hideDialog = function() {
+    this.dialog = false;
+    this.stack.pop();
+    this.setLeftText(this.stack[this.stack.length -1].softkey.left.text);
+    this.setCenterText(this.stack[this.stack.length -1].softkey.center.text);
+    this.setRightText(this.stack[this.stack.length -1].softkey.right.text);
+    const dom = document.getElementById('__kai_dialog__');
+    dom.style.height = '0';
+    dom.style.width = '0';
+    dom.style.top = '0';
+    dom.style.zIndex = '-1';
+    dom.style.visibility =  'hidden';
+    dom.style.opacity = '0';
+    dom.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
+  }
 
   KaiRouter.prototype.calcBodyHeight = function() {
     var padding = 0;
@@ -373,7 +450,11 @@ const KaiRouter = (function() {
           }
           e.preventDefault();
           e.stopPropagation();
-        } else { // else if modal open
+        } else if (_router.dialog) {
+          _router.hideDialog();
+          e.preventDefault();
+          e.stopPropagation();
+        } else {
           if (_router) {
             if (_router.pop()) {
               e.preventDefault();
