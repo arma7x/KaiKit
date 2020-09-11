@@ -32,7 +32,7 @@ window.addEventListener("load", function() {
         this.$router.pop();
       }
     },
-    softkey: {
+    softKeyListener: {
       left: {
         text: '-1',
         func: function() {
@@ -54,6 +54,20 @@ window.addEventListener("load", function() {
           this.$state.setState('counter', this.$state.getState('counter') + 1);
         }
       }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        console.log('arrowUp');
+      },
+      arrowRight: function() {
+        console.log('arrowRight');
+      },
+      arrowDown: function() {
+        console.log('arrowDown');
+      },
+      arrowLeft: function() {
+        console.log('arrowLeft');
+      },
     }
   });
 
@@ -101,7 +115,7 @@ window.addEventListener("load", function() {
         this.$state.setState('counter', this.$state.getState('counter') - 1);
       }
     },
-    softkey: {
+    softKeyListener: {
       left: {
         text: 'Minus',
         func: function() {
@@ -152,7 +166,7 @@ window.addEventListener("load", function() {
         this.$router.pop();
       }
     },
-    softkey: {
+    softKeyListener: {
       left: {
         text: '-1',
         func: function() {
@@ -206,7 +220,7 @@ window.addEventListener("load", function() {
         this.$router.pop();
       }
     },
-    softkey: {
+    softKeyListener: {
       left: {
         text: '-1',
         func: function() {

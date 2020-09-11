@@ -94,16 +94,16 @@ const KaiRouter = (function() {
           }
           // component.$router = this;
           component.mount('__kai_router__');
-          this.setLeftText(component.softkey.left.text);
-          this.setCenterText(component.softkey.center.text);
-          this.setRightText(component.softkey.right.text);
+          this.setLeftText(component.softKeyListener.left.text);
+          this.setCenterText(component.softKeyListener.center.text);
+          this.setRightText(component.softKeyListener.right.text);
           this.addKeydownListener();
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
-          this.setLeftText(this._404.softkey.left.text);
-          this.setCenterText(this._404.softkey.center.text);
-          this.setRightText(this._404.softkey.right.text);
+          this.setLeftText(this._404.softKeyListener.left.text);
+          this.setCenterText(this._404.softKeyListener.center.text);
+          this.setRightText(this._404.softKeyListener.right.text);
           this.addKeydownListener();
           this.stack.push(this._404);
         }
@@ -115,9 +115,9 @@ const KaiRouter = (function() {
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
-          this.setLeftText(this._404.softkey.left.text);
-          this.setCenterText(this._404.softkey.center.text);
-          this.setRightText(this._404.softkey.right.text);
+          this.setLeftText(this._404.softKeyListener.left.text);
+          this.setCenterText(this._404.softKeyListener.center.text);
+          this.setRightText(this._404.softKeyListener.right.text);
           this.addKeydownListener();
           this.stack.push(this._404);
         }
@@ -133,30 +133,31 @@ const KaiRouter = (function() {
     if (this.dialog) {
       return;
     }
+    const vdom = document.getElementById('__kai_router__');
+    vdom.scrollTop = 0;
     var name = path;
     if (typeof path === 'string' && this.routes[path]) {
       const clone = this.routes[path].component.reset();
-      // clone.$router = this;
       clone.mount('__kai_router__');
-      this.setLeftText(clone.softkey.left.text);
-      this.setCenterText(clone.softkey.center.text);
-      this.setRightText(clone.softkey.right.text);
+      this.setLeftText(clone.softKeyListener.left.text);
+      this.setCenterText(clone.softKeyListener.center.text);
+      this.setRightText(clone.softKeyListener.right.text);
       this.stack.push(clone);
     } else if (path instanceof Kai) {
       const clone = path.reset();
       clone.$router = this;
       clone.mount('__kai_router__');
-      this.setLeftText(clone.softkey.left.text);
-      this.setCenterText(clone.softkey.center.text);
-      this.setRightText(clone.softkey.right.text);
+      this.setLeftText(clone.softKeyListener.left.text);
+      this.setCenterText(clone.softKeyListener.center.text);
+      this.setRightText(clone.softKeyListener.right.text);
       this.stack.push(clone);
       name = clone.name;
     } else {
       this._404.mount('__kai_router__');
       this._404.$router = this;
-      this.setLeftText(this._404.softkey.left.text);
-      this.setCenterText(this._404.softkey.center.text);
-      this.setRightText(this._404.softkey.right.text);
+      this.setLeftText(this._404.softKeyListener.left.text);
+      this.setCenterText(this._404.softKeyListener.center.text);
+      this.setRightText(this._404.softKeyListener.right.text);
       this.stack.push(this._404);
     }
     const paths = getURLParam('page[]');
@@ -181,21 +182,23 @@ const KaiRouter = (function() {
       var r = false;
       if ((this.stack.length - 1) > 0) {
         paths.pop();
+        this.stack[this.stack.length - 1].scrollThreshold = 0;
         this.stack.pop();
         const vdom = document.getElementById('__kai_router__');
         if (vdom) {
           if (vdom.__kaikit__ != undefined && vdom.__kaikit__ instanceof Kai && vdom.__kaikit__.id === '__kai_router__') {
-            console.log('unmounted previous:', vdom.__kaikit__.name);
-            vdom.__kaikit__.unmounted();
-            vdom.__kaikit__.isMounted = false;
+            console.log('unmount previous:', vdom.__kaikit__.name);
+            vdom.__kaikit__.unmount();
             vdom.removeEventListener('click', vdom.__kaikit__.handleClick);
           }
         }
         const component = this.stack[this.stack.length - 1];
         component.mount('__kai_router__');
-        this.setLeftText(component.softkey.left.text);
-        this.setCenterText(component.softkey.center.text);
-        this.setRightText(component.softkey.right.text);
+        this.setLeftText(component.softKeyListener.left.text);
+        this.setCenterText(component.softKeyListener.center.text);
+        this.setRightText(component.softKeyListener.right.text);
+        console.log(this.stack[this.stack.length - 1].scrollThreshold);
+        vdom.scrollTop = this.stack[this.stack.length - 1].scrollThreshold;
         r = true;
       }
       window.history.pushState("/", "", pathname + createPageURLParam(paths));
@@ -219,7 +222,7 @@ const KaiRouter = (function() {
         <div style="padding-left:5px;height:28px;line-height:28px;background-color:#cccccc;text-align:center;">{{ title }}</div>\
         <div style="padding:5px;font-size:14px;">{{ body }}</div>\
         </div>',
-      softkey: {
+      softKeyListener: {
         left: {
           text: negativeText || 'Cancel',
           func: function() {
@@ -247,21 +250,21 @@ const KaiRouter = (function() {
       }
     });
     d.mount('__kai_dialog__');
-    this.setLeftText(d.softkey.left.text);
-    this.setCenterText(d.softkey.center.text);
-    this.setRightText(d.softkey.right.text);
+    this.setLeftText(d.softKeyListener.left.text);
+    this.setCenterText(d.softKeyListener.center.text);
+    this.setRightText(d.softKeyListener.right.text);
     this.dialog = true;
     this.stack.push(d);
-    const dom = document.getElementById('__kai_dialog__');
-    dom.style.position = 'fixed';
-    dom.style.backgroundColor = 'rgba(64,64,64,0.5)';
-    dom.style.height = 'calc(100% - 30px)';
-    dom.style.width = '100%';
-    dom.style.top = '0';
-    dom.style.zIndex = '1';
-    dom.style.visibility =  'visible';
-    dom.style.opacity = '1';
-    dom.style.transition = 'opacity 0.1s linear';
+    const vdom = document.getElementById('__kai_dialog__');
+    vdom.style.position = 'fixed';
+    vdom.style.backgroundColor = 'rgba(64,64,64,0.5)';
+    vdom.style.height = 'calc(100% - 30px)';
+    vdom.style.width = '100%';
+    vdom.style.top = '0';
+    vdom.style.zIndex = '1';
+    vdom.style.visibility =  'visible';
+    vdom.style.opacity = '1';
+    vdom.style.transition = 'opacity 0.1s linear';
   }
 
   KaiRouter.prototype.hideDialog = function() {
@@ -270,17 +273,24 @@ const KaiRouter = (function() {
     }
     this.dialog = false;
     this.stack.pop();
-    this.setLeftText(this.stack[this.stack.length -1].softkey.left.text);
-    this.setCenterText(this.stack[this.stack.length -1].softkey.center.text);
-    this.setRightText(this.stack[this.stack.length -1].softkey.right.text);
-    const dom = document.getElementById('__kai_dialog__');
-    dom.style.height = '0';
-    dom.style.width = '0';
-    dom.style.top = '0';
-    dom.style.zIndex = '-1';
-    dom.style.visibility =  'hidden';
-    dom.style.opacity = '0';
-    dom.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
+    this.setLeftText(this.stack[this.stack.length -1].softKeyListener.left.text);
+    this.setCenterText(this.stack[this.stack.length -1].softKeyListener.center.text);
+    this.setRightText(this.stack[this.stack.length -1].softKeyListener.right.text);
+    const vdom = document.getElementById('__kai_dialog__');
+    if (vdom) {
+      if (vdom.__kaikit__ != undefined && vdom.__kaikit__ instanceof Kai && vdom.__kaikit__.id === '__kai_dialog__') {
+        console.log('unmount previous:', vdom.__kaikit__.name);
+        vdom.__kaikit__.unmount();
+        vdom.removeEventListener('click', vdom.__kaikit__.handleClick);
+      }
+    }
+    vdom.style.height = '0';
+    vdom.style.width = '0';
+    vdom.style.top = '0';
+    vdom.style.zIndex = '-1';
+    vdom.style.visibility =  'hidden';
+    vdom.style.opacity = '0';
+    vdom.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
   }
 
   KaiRouter.prototype.calcBodyHeight = function() {
@@ -351,7 +361,7 @@ const KaiRouter = (function() {
           right: ''
         },
         mustache: Mustache,
-        template: '<div kai:click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:500;">{{ left }}</div><div kai:click="clickCenter()" style="width:36%;text-align:center;font-weight:800;">{{ center }}</div><div kai:click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:500;">{{ right }}</div>',
+        template: '<div kai:click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:bold;">{{ left }}</div><div kai:click="clickCenter()" style="width:36%;text-align:center;font-weight:800;">{{ center }}</div><div kai:click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:bold;">{{ right }}</div>',
         mounted: function() {
           EL.style.height = '30px';
           EL.style.lineHeight = '30px';
@@ -404,30 +414,30 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.clickLeft = function() {
-    if (this.stack[this.stack.length - 1].softkey) {
-      if (this.stack[this.stack.length - 1].softkey.left) {
-        if (typeof this.stack[this.stack.length - 1].softkey.left.func === 'function') {
-          this.stack[this.stack.length - 1].softkey.left.func();
+    if (this.stack[this.stack.length - 1].softKeyListener) {
+      if (this.stack[this.stack.length - 1].softKeyListener.left) {
+        if (typeof this.stack[this.stack.length - 1].softKeyListener.left.func === 'function') {
+          this.stack[this.stack.length - 1].softKeyListener.left.func();
         }
       }
     }
   }
 
   KaiRouter.prototype.clickCenter = function() {
-    if (this.stack[this.stack.length - 1].softkey) {
-      if (this.stack[this.stack.length - 1].softkey.center) {
-        if (typeof this.stack[this.stack.length - 1].softkey.center.func === 'function') {
-          this.stack[this.stack.length - 1].softkey.center.func();
+    if (this.stack[this.stack.length - 1].softKeyListener) {
+      if (this.stack[this.stack.length - 1].softKeyListener.center) {
+        if (typeof this.stack[this.stack.length - 1].softKeyListener.center.func === 'function') {
+          this.stack[this.stack.length - 1].softKeyListener.center.func();
         }
       }
     }
   }
 
   KaiRouter.prototype.clickRight = function() {
-    if (this.stack[this.stack.length - 1].softkey) {
-      if (this.stack[this.stack.length - 1].softkey.right) {
-        if (typeof this.stack[this.stack.length - 1].softkey.right.func === 'function') {
-          this.stack[this.stack.length - 1].softkey.right.func();
+    if (this.stack[this.stack.length - 1].softKeyListener) {
+      if (this.stack[this.stack.length - 1].softKeyListener.right) {
+        if (typeof this.stack[this.stack.length - 1].softKeyListener.right.func === 'function') {
+          this.stack[this.stack.length - 1].softKeyListener.right.func();
         }
       }
     }
@@ -482,6 +492,18 @@ const KaiRouter = (function() {
         if (_router) {
           _router.clickCenter();
         }
+        break
+      case 'ArrowUp':
+        _router.stack[_router.stack.length - 1].dPadNavListener.arrowUp();
+        break
+      case 'ArrowRight':
+        _router.stack[_router.stack.length - 1].dPadNavListener.arrowRight();
+        break
+      case 'ArrowDown':
+        _router.stack[_router.stack.length - 1].dPadNavListener.arrowDown();
+        break
+      case 'ArrowLeft':
+        _router.stack[_router.stack.length - 1].dPadNavListener.arrowLeft();
         break
       default:
         console.log(e.key);
