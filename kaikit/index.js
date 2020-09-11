@@ -16,7 +16,28 @@ const Kai = (function() {
     this.mustache;
     this.$router;
     this.$state;
-    this.softkey = { left: {}, center: {}, right: {} };
+    this.softKeyListener = { left: {}, center: {}, right: {} };
+    this.scrollThreshold = 0;
+    this.dPadNavListener = {
+      arrowUp: () => {
+        const vdom = document.getElementById(this.id);
+        vdom.scrollTop -= 20;
+        this.scrollThreshold = vdom.scrollTop;
+      },
+      arrowRight: () => {
+        const vdom = document.getElementById(this.id);
+        vdom.scrollLeft = +20;
+      },
+      arrowDown: () => {
+        const vdom = document.getElementById(this.id);
+        vdom.scrollTop += 20;
+        this.scrollThreshold = vdom.scrollTop;
+      },
+      arrowLeft: () => {
+        const vdom = document.getElementById(this.id);
+        vdom.scrollLeft = -20;
+      },
+    };
     this._router;
     this._state;
     this._options;
@@ -25,7 +46,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const public = ['id','name', 'data', 'template' , 'templateUrl', 'mustache', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softkey'];
+      const public = ['id','name', 'data', 'template' , 'templateUrl', 'mustache', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener'];
       for (var i in options) {
         if (public.indexOf(i) !== -1) { // allow override
           if (i === 'methods') {
@@ -34,13 +55,19 @@ const Kai = (function() {
                 this[i][f] = options[i][f].bind(this);
               }
             }
-          } else if (i === 'softkey') {
+          } else if (i === 'softKeyListener') {
             for (f in options[i]) {
-              this.softkey[f] = options[i][f];
+              this.softKeyListener[f] = options[i][f];
               for (g in options[i][f]) {
                 if (typeof options[i][f][g] === 'function') {
                   this[i][f][g] = options[i][f][g].bind(this);
                 }
+              }
+            }
+          } else if (i === 'dPadNavListener') {
+            for (f in options[i]) {
+              if (typeof options[i][f] === 'function') {
+                this[i][f] = options[i][f].bind(this);
               }
             }
           } else if (i === 'mustache' && options[i] === Mustache.__proto__) {
@@ -85,16 +112,16 @@ const Kai = (function() {
       return;
     }
     if ((vdom.__kaikit__ !== undefined || vdom.__kaikit__ !== null) && vdom.__kaikit__ instanceof Kai && this.id !== '__kai_router__') {
-      console.log('unmounted previous:', vdom.__kaikit__.name);
+      console.log('unmount previous:', vdom.__kaikit__.name);
       if (vdom.__kaikit__._router) {
         vdom.__kaikit__._router.removeKeydownListener();
       }
-      vdom.__kaikit__.unmounted();
-      vdom.__kaikit__.isMounted = false;
+      vdom.__kaikit__.unmount();
       vdom.removeEventListener('click', this.handleClick);
     }
     vdom.__kaikit__ = this;
     vdom.addEventListener('click', this.handleClick);
+
     if (this.isMounted) {
       this.render();
       // console.log('RE-RENDER', this.name, this.isMounted);
@@ -117,6 +144,11 @@ const Kai = (function() {
       xhttp.open('GET', this.templateUrl, true);
       xhttp.send();
     }
+  }
+
+  Kai.prototype.unmount = function() {
+    this.isMounted = false;
+    this.unmounted();
   }
 
   Kai.prototype.exec = function() {
