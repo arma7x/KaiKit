@@ -197,7 +197,6 @@ const KaiRouter = (function() {
         this.setLeftText(component.softKeyListener.left.text);
         this.setCenterText(component.softKeyListener.center.text);
         this.setRightText(component.softKeyListener.right.text);
-        console.log(this.stack[this.stack.length - 1].scrollThreshold);
         vdom.scrollTop = this.stack[this.stack.length - 1].scrollThreshold;
         r = true;
       }
