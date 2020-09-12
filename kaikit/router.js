@@ -320,7 +320,7 @@ const KaiRouter = (function() {
           title: ''
         },
         mustache: Mustache,
-        template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:800;">{{ title }}</span>',
+        template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ title }}</span>',
         mounted: function() {
           EL.style.color = '#fff';
           EL.style.fontWeight = 'bold';
@@ -360,7 +360,7 @@ const KaiRouter = (function() {
           right: ''
         },
         mustache: Mustache,
-        template: '<div kai:click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div kai:click="clickCenter()" style="width:36%;text-align:center;font-weight:800;">{{ center }}</div><div kai:click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
+        template: '<div kai:click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div kai:click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ center }}</div><div kai:click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
         mounted: function() {
           EL.style.height = '30px';
           EL.style.lineHeight = '30px';
