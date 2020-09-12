@@ -1,7 +1,12 @@
 <div style="padding:5px;">
+  <h5>{{ title }}</h5>
+  <h5>Local: {{ counter }}</h5>
+  <h5>State: {{ $state.counter }}</h5>
+  <button click="push()">Push</button>
+  <button click="pop()">Pop</button>
   <ul class="kui-list">
-    <li class="nav-sample" tabIndex="0" click="selectNav('volvo')">Volvo</li>
-    <li class="nav-sample" tabIndex="1" click="selectNav('Honda')">Honda</li>
-    <li class="nav-sample" tabIndex="2" click="selectNav('Mitsubishi')">Mitsubishi</li>
+    <li class="kai-list-nav" tabIndex="0" click="plus()">Plus +1</li>
+    <li class="kai-list-nav" tabIndex="1" click="reset()">Reset 0</li>
+    <li class="kai-list-nav" tabIndex="2" click="minus()">Minus -1</li>
   </ul>
 </div>

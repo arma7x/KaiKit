@@ -19,7 +19,8 @@ const Kai = (function() {
     this.$state;
     this.softKeyListener = { left: {}, center: {}, right: {} };
     this.scrollThreshold = 0;
-    this.tabIndex = -1;
+    this.listNavClass = '.kai-list-nav';
+    this.listNavIndex = -1;
     this.dPadNavListener = {
       arrowUp: function() {
         const vdom = document.getElementById(_this.id);
@@ -48,7 +49,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const public = ['id','name', 'data', 'template' , 'templateUrl', 'mustache', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener'];
+      const public = ['id','name', 'data', 'template' , 'templateUrl', 'mustache', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass'];
       for (var i in options) {
         if (public.indexOf(i) !== -1) { // allow override
           if (i === 'methods') {
@@ -131,6 +132,9 @@ const Kai = (function() {
     }
     // console.log('mounting:', this.name);
     if (!this.templateUrl) {
+      if (this.mustache) {
+        this.mustache.parse(this.template);
+      }
       this.exec();
       this.mounted();
     } else {
@@ -138,6 +142,9 @@ const Kai = (function() {
       xhttp.onreadystatechange = (evt) => {
         if (evt.target.readyState == 4 && evt.target.status == 200) {
           this.template = xhttp.responseText;
+          if (this.mustache) {
+            this.mustache.parse(this.template);
+          }
           this.exec();
           this.mounted();
         }
@@ -151,7 +158,7 @@ const Kai = (function() {
   Kai.prototype.unmount = function() {
     this.isMounted = false;
     this.scrollThreshold = 0;
-    this.tabIndex = -1;
+    this.listNavIndex = -1;
     this.unmounted();
   }
 
@@ -174,10 +181,17 @@ const Kai = (function() {
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      vdom.innerHTML = Mustache.render(this.template, data);
+      vdom.innerHTML = this.mustache.render(this.template, data);
     } else {
       // console.log(this.template);
       vdom.innerHTML = this.template;
+    }
+    const nav = document.querySelectorAll(this.listNavClass);
+    if (nav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
+      if (this.listNavIndex === -1) {
+        this.listNavIndex = 0;
+      }
+      nav[this.listNavIndex].focus();
     }
     this.isMounted = true;
     // console.log(this.id, vdom);
@@ -241,13 +255,13 @@ const Kai = (function() {
   }
 
   Kai.prototype.nav = function(next, selector) {
-    const currentIndex = this.tabIndex;
-    const nav = document.querySelectorAll(selector);
+    const currentIndex = this.listNavIndex;
+    const nav = document.querySelectorAll(this.listNavClass);
     var move = currentIndex + next;
     var targetElement = nav[move];
     if (targetElement !== undefined) {
       targetElement.focus();
-      this.tabIndex = move;
+      this.listNavIndex = move;
     } else {
       if (move < 0) {
         move = nav.length - 1;
@@ -256,7 +270,7 @@ const Kai = (function() {
       }
       targetElement = nav[move];
       targetElement.focus();
-      this.tabIndex = move;
+      this.listNavIndex = move;
     }
   }
 

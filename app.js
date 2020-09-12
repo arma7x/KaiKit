@@ -15,12 +15,6 @@ window.addEventListener("load", function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
       console.log('STATE', this.name, this.$state.getState('counter'));
-      const nav = document.querySelectorAll('.nav-sample');
-      console.log(nav.length);
-      if (nav.length > 0) {
-        this.tabIndex = 0;
-        nav[this.tabIndex].focus();
-      }
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -39,42 +33,52 @@ window.addEventListener("load", function() {
       },
       selectNav: function(name) {
         console.log(name);
-      }
+      },
+      minus: function() {
+        this.setData({ counter: this.data.counter - 1 });
+        this.$state.setState('counter', this.$state.getState('counter') - 1);
+      },
+      reset: function() {
+        this.setData({ counter: 0 });
+        this.$state.setState('counter', 0);
+      },
+      plus: function() {
+        this.setData({ counter: this.data.counter + 1 });
+        this.$state.setState('counter', this.$state.getState('counter') + 1);
+      },
     },
     softKeyListener: {
       left: {
         text: '-1',
         func: function() {
-          this.setData({ counter: this.data.counter - 1 });
-          this.$state.setState('counter', this.$state.getState('counter') - 1);
+          this.methods.minus();
         }
       },
       center: {
         text: 'SELECT',
         func: function() {
-          if (this.tabIndex > -1) {
-            const nav = document.querySelectorAll('.nav-sample');
-            nav[this.tabIndex].click();
+          if (this.listNavIndex > -1) {
+            const nav = document.querySelectorAll(this.listNavClass);
+            nav[this.listNavIndex].click();
           }
         }
       },
       right: {
         text: '+1',
         func: function() {
-          this.setData({ counter: this.data.counter + 1 });
-          this.$state.setState('counter', this.$state.getState('counter') + 1);
+          this.methods.plus();
         }
       }
     },
     dPadNavListener: {
       arrowUp: function() {
-        this.nav(-1, '.nav-sample');
+        this.nav(-1);
       },
       arrowRight: function() {
         console.log('arrowRight');
       },
       arrowDown: function() {
-        this.nav(1, '.nav-sample');
+        this.nav(1);
       },
       arrowLeft: function() {
         console.log('arrowLeft');
@@ -209,7 +213,7 @@ window.addEventListener("load", function() {
       counter: -1,
     },
     mustache: Mustache,
-    templateUrl: document.location.origin + '/template.html',
+    templateUrl: document.location.origin + '/listview.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
@@ -229,30 +233,59 @@ window.addEventListener("load", function() {
       },
       pop: function() {
         this.$router.pop();
-      }
+      },
+      selectNav: function(name) {
+        console.log(name);
+      },
+      minus: function() {
+        this.setData({ counter: this.data.counter - 1 });
+        this.$state.setState('counter', this.$state.getState('counter') - 1);
+      },
+      reset: function() {
+        this.setData({ counter: 0 });
+        this.$state.setState('counter', 0);
+      },
+      plus: function() {
+        this.setData({ counter: this.data.counter + 1 });
+        this.$state.setState('counter', this.$state.getState('counter') + 1);
+      },
     },
     softKeyListener: {
       left: {
         text: '-1',
         func: function() {
-          this.setData({ counter: this.data.counter - 1 });
-          this.$state.setState('counter', this.$state.getState('counter') - 1);
+          this.methods.minus();
         }
       },
       center: {
-        text: '0',
+        text: 'SELECT',
         func: function() {
-          this.setData({ counter: 0 });
-          this.$state.setState('counter', 0);
+          if (this.listNavIndex > -1) {
+            const nav = document.querySelectorAll(this.listNavClass);
+            nav[this.listNavIndex].click();
+          }
         }
       },
       right: {
         text: '+1',
         func: function() {
-          this.setData({ counter: this.data.counter + 1 });
-          this.$state.setState('counter', this.$state.getState('counter') + 1);
+          this.methods.plus();
         }
       }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.nav(-1);
+      },
+      arrowRight: function() {
+        console.log('arrowRight');
+      },
+      arrowDown: function() {
+        this.nav(1);
+      },
+      arrowLeft: function() {
+        console.log('arrowLeft');
+      },
     }
   });
 
