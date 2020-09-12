@@ -46,8 +46,11 @@ window.addEventListener("load", function() {
       center: {
         text: 'SELECT',
         func: function() {
-          const nav = document.querySelectorAll('.nav-sample');
-          console.log(nav[document.activeElement.tabIndex].textContent);
+          if (this.tabIndex > -1) {
+            const nav = document.querySelectorAll('.nav-sample');
+            console.log('from event');
+            nav[this.tabIndex].click();
+          }
         }
       },
       right: {

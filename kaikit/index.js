@@ -189,20 +189,40 @@ const Kai = (function() {
   }
 
   Kai.prototype.handleClick = function(evt) {
+
+    function dataType(n, scope) {
+      if (!isNaN(parseFloat(n)) && isFinite(n)) {
+        return parseFloat(n);
+      } else if (scope[n]) {
+        return scope[n];
+      } else {
+        if ((n.charAt(0) === "'" && n.charAt(n.length - 1) === "'") || (n.charAt(0) === '"' && n.charAt(n.length - 1) === '"')) {
+          const n2 = n.split('');
+          n2.splice(0,1);
+          n2.pop();
+          n = n2.join('');
+        }
+        return n;
+      }
+    }
+
     evt.stopImmediatePropagation();
     var _this = this.__kaikit__;
     var extractFuncRegex = /\b[^()]+\((.*)\)$/;
-    const target = evt.target.attributes.getNamedItem('kai:click');
+    const target = evt.target.attributes.getNamedItem('click');
     if (evt.target.attributes.length > 0 && target) {
       if (target.nodeValue !== '') {
         const params = target.nodeValue.split(';');
         params.forEach(function(v) {
           var fName = v.substring(0, v.indexOf('('));
-          var fParams = null
+          var fParams = [];
           if (v.search(extractFuncRegex) !== -1) {
             var _fParams = v.substring((v.indexOf('(') +1), v.indexOf(')')).split(',');
-            fParams = _fParams.length === 1 && _fParams[0] === '' ? null : _fParams;
+            fParams = _fParams.length === 1 && _fParams[0] === '' ? [] : _fParams;
           }
+          fParams.forEach(function(v, k) {
+            fParams[k] = dataType(v, _this);
+          });
           if (_this.methods[fName]) {
             _this.methods[fName].apply(null, fParams);
           }
