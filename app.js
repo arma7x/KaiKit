@@ -16,9 +16,10 @@ window.addEventListener("load", function() {
       this.$state.addStateListener('counter', this.methods.listenState);
       console.log('STATE', this.name, this.$state.getState('counter'));
       const nav = document.querySelectorAll('.nav-sample');
-        console.log(nav.length);
+      console.log(nav.length);
       if (nav.length > 0) {
         this.tabIndex = 0;
+        nav[this.tabIndex].focus();
       }
     },
     unmounted: function() {
