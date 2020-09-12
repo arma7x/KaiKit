@@ -182,7 +182,6 @@ const KaiRouter = (function() {
       var r = false;
       if ((this.stack.length - 1) > 0) {
         paths.pop();
-        this.stack[this.stack.length - 1].scrollThreshold = 0;
         this.stack.pop();
         const vdom = document.getElementById('__kai_router__');
         if (vdom) {

@@ -19,6 +19,7 @@ const Kai = (function() {
     this.$state;
     this.softKeyListener = { left: {}, center: {}, right: {} };
     this.scrollThreshold = 0;
+    this.tabIndex = -1;
     this.dPadNavListener = {
       arrowUp: function() {
         const vdom = document.getElementById(_this.id);
@@ -149,6 +150,8 @@ const Kai = (function() {
 
   Kai.prototype.unmount = function() {
     this.isMounted = false;
+    this.scrollThreshold = 0;
+    this.tabIndex = -1;
     this.unmounted();
   }
 
@@ -218,13 +221,13 @@ const Kai = (function() {
   }
 
   Kai.prototype.nav = function(next, selector) {
-    const currentIndex = document.activeElement.tabIndex;
+    const currentIndex = this.tabIndex;
     const nav = document.querySelectorAll(selector);
     var move = currentIndex + next;
     var targetElement = nav[move];
     if (targetElement !== undefined) {
       targetElement.focus();
-      document.activeElement.tabIndex = move;
+      this.tabIndex = move;
     } else {
       if (move < 0) {
         move = nav.length - 1;
@@ -233,7 +236,7 @@ const Kai = (function() {
       }
       targetElement = nav[move];
       targetElement.focus();
-      document.activeElement.tabIndex = move;
+      this.tabIndex = move;
     }
   }
 
