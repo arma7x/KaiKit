@@ -165,9 +165,6 @@ const Kai = (function() {
     if (!vdom) {
       return;
     }
-    if (this._router && this.isMounted) {
-      // console.log(vdom, this.isMounted);
-    }
     if (this.mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       if (this.$state) {
@@ -210,8 +207,12 @@ const Kai = (function() {
     }
   }
 
-  Kai.prototype.reset = function() {
-    this.data = JSON.parse(this._data);
+  Kai.prototype.reset = function(data) {
+    if (typeof data === 'object') {
+      this.data = JSON.parse(JSON.stringify(data));
+    } else {
+      this.data = JSON.parse(this._data);
+    }
     return this;
   }
 
