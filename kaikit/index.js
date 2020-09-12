@@ -217,6 +217,26 @@ const Kai = (function() {
     return this;
   }
 
+  Kai.prototype.nav = function(next, selector) {
+    const currentIndex = document.activeElement.tabIndex;
+    const nav = document.querySelectorAll(selector);
+    var move = currentIndex + next;
+    var targetElement = nav[move];
+    if (targetElement !== undefined) {
+      targetElement.focus();
+      document.activeElement.tabIndex = move;
+    } else {
+      if (move < 0) {
+        move = nav.length - 1;
+      } else if (move >= nav.length) {
+        move = 0;
+      }
+      targetElement = nav[move];
+      targetElement.focus();
+      document.activeElement.tabIndex = move;
+    }
+  }
+
   return Kai;
 
 })()

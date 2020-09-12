@@ -10,7 +10,7 @@ window.addEventListener("load", function() {
     },
     state,
     mustache: Mustache,
-    templateUrl: document.location.origin + '/template.html',
+    templateUrl: document.location.origin + '/listview.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
@@ -30,6 +30,9 @@ window.addEventListener("load", function() {
       },
       pop: function() {
         this.$router.pop();
+      },
+      selectNav: function(name) {
+        console.log(name);
       }
     },
     softKeyListener: {
@@ -41,10 +44,10 @@ window.addEventListener("load", function() {
         }
       },
       center: {
-        text: '0',
+        text: 'SELECT',
         func: function() {
-          this.setData({ counter: 0 });
-          this.$state.setState('counter', 0);
+          const nav = document.querySelectorAll('.nav-sample');
+          console.log(nav[document.activeElement.tabIndex].textContent);
         }
       },
       right: {
@@ -57,13 +60,13 @@ window.addEventListener("load", function() {
     },
     dPadNavListener: {
       arrowUp: function() {
-        console.log('arrowUp');
+        this.nav(-1, '.nav-sample');
       },
       arrowRight: function() {
         console.log('arrowRight');
       },
       arrowDown: function() {
-        console.log('arrowDown');
+        this.nav(1, '.nav-sample');
       },
       arrowLeft: function() {
         console.log('arrowLeft');

@@ -225,6 +225,7 @@ h1, h2, h3, h4, h5, ul, p {
 .kui-list li:focus {
     background-color: #873eff;
     outline: 0;
+    color: #fff;
 }
 
 .kui-list li:focus .kui-pri,
