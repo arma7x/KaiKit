@@ -6,6 +6,7 @@ const Kai = (function() {
 
   Kai.prototype.init = function(options) {
 
+    const _this = this;
     this.id;
     this.name = 'Kai';
     this.data;
@@ -19,22 +20,22 @@ const Kai = (function() {
     this.softKeyListener = { left: {}, center: {}, right: {} };
     this.scrollThreshold = 0;
     this.dPadNavListener = {
-      arrowUp: () => {
-        const vdom = document.getElementById(this.id);
+      arrowUp: function() {
+        const vdom = document.getElementById(_this.id);
         vdom.scrollTop -= 20;
-        this.scrollThreshold = vdom.scrollTop;
+        _this.scrollThreshold = vdom.scrollTop;
       },
-      arrowRight: () => {
-        const vdom = document.getElementById(this.id);
+      arrowRight: function() {
+        const vdom = document.getElementById(_this.id);
         vdom.scrollLeft = +20;
       },
-      arrowDown: () => {
-        const vdom = document.getElementById(this.id);
+      arrowDown: function() {
+        const vdom = document.getElementById(_this.id);
         vdom.scrollTop += 20;
-        this.scrollThreshold = vdom.scrollTop;
+        _this.scrollThreshold = vdom.scrollTop;
       },
-      arrowLeft: () => {
-        const vdom = document.getElementById(this.id);
+      arrowLeft: function() {
+        const vdom = document.getElementById(_this.id);
         vdom.scrollLeft = -20;
       },
     };
