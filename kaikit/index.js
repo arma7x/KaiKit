@@ -131,15 +131,15 @@ const Kai = (function() {
     }
     // console.log('mounting:', this.name);
     if (!this.templateUrl) {
-      this.mounted();
       this.exec();
+      this.mounted();
     } else {
       const xhttp = new XMLHttpRequest({ mozSystem: true });
       xhttp.onreadystatechange = (evt) => {
         if (evt.target.readyState == 4 && evt.target.status == 200) {
           this.template = xhttp.responseText;
-          this.mounted();
           this.exec();
+          this.mounted();
         }
       };
       // console.log(this.templateUrl);

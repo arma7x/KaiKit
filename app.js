@@ -15,6 +15,11 @@ window.addEventListener("load", function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
       console.log('STATE', this.name, this.$state.getState('counter'));
+      const nav = document.querySelectorAll('.nav-sample');
+        console.log(nav.length);
+      if (nav.length > 0) {
+        this.tabIndex = 0;
+      }
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -48,7 +53,6 @@ window.addEventListener("load", function() {
         func: function() {
           if (this.tabIndex > -1) {
             const nav = document.querySelectorAll('.nav-sample');
-            console.log('from event');
             nav[this.tabIndex].click();
           }
         }
