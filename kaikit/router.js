@@ -97,14 +97,12 @@ const KaiRouter = (function() {
           this.setLeftText(component.softKeyListener.left.text);
           this.setCenterText(component.softKeyListener.center.text);
           this.setRightText(component.softKeyListener.right.text);
-          this.addKeydownListener();
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
           this.setLeftText(this._404.softKeyListener.left.text);
           this.setCenterText(this._404.softKeyListener.center.text);
           this.setRightText(this._404.softKeyListener.right.text);
-          this.addKeydownListener();
           this.stack.push(this._404);
         }
       } else {
@@ -118,7 +116,6 @@ const KaiRouter = (function() {
           this.setLeftText(this._404.softKeyListener.left.text);
           this.setCenterText(this._404.softKeyListener.center.text);
           this.setRightText(this._404.softKeyListener.right.text);
-          this.addKeydownListener();
           this.stack.push(this._404);
         }
         if (paths.length === this.stack.length) {
@@ -441,16 +438,7 @@ const KaiRouter = (function() {
     }
   }
 
-  KaiRouter.prototype.handleKeydown = function(e) {
-    var _router;
-    if (this.children.length > 0) {
-      const child = this.children[0];
-      if (child.__kaikit__) {
-        if (child.__kaikit__._router) {
-          _router = child.__kaikit__._router;
-        }
-      }
-    }
+  KaiRouter.prototype.handleKeydown = function(e, _router) {
     switch(e.key) {
       case "BrowserBack":
       case 'Backspace':
@@ -506,14 +494,6 @@ const KaiRouter = (function() {
       default:
         console.log(e.key);
     }
-  }
-
-  KaiRouter.prototype.addKeydownListener = function() {
-    document.activeElement.addEventListener('keydown', this.handleKeydown);
-  }
-
-  KaiRouter.prototype.removeKeydownListener = function() {
-    document.activeElement.removeEventListener('keydown', this.handleKeydown);
   }
 
   return KaiRouter;

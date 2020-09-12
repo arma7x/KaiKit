@@ -117,13 +117,14 @@ const Kai = (function() {
     if ((vdom.__kaikit__ !== undefined || vdom.__kaikit__ !== null) && vdom.__kaikit__ instanceof Kai && this.id !== '__kai_router__') {
       console.log('unmount previous:', vdom.__kaikit__.name);
       if (vdom.__kaikit__._router) {
-        vdom.__kaikit__._router.removeKeydownListener();
+        // vdom.__kaikit__.removeKeydownListener();
       }
       vdom.__kaikit__.unmount();
       vdom.removeEventListener('click', this.handleClick);
     }
     vdom.__kaikit__ = this;
     vdom.addEventListener('click', this.handleClick);
+    this.addKeydownListener();
 
     if (this.isMounted) {
       this.render();
@@ -159,6 +160,7 @@ const Kai = (function() {
     this.isMounted = false;
     this.scrollThreshold = 0;
     this.listNavIndex = -1;
+    this.removeKeydownListener();
     this.unmounted();
   }
 
@@ -200,6 +202,36 @@ const Kai = (function() {
   Kai.prototype.setData = function(data) {
     this.data = Object.assign(JSON.parse(JSON.stringify(this.data)), data); // immutability
     this.exec();
+  }
+
+  Kai.prototype.addKeydownListener = function() {
+    if (this._router) {
+      console.log('addKeydownListener', this.id);
+      document.addEventListener('keydown', this.handleRouterKeydown.bind(this));
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__'].indexOf(this.id) === -1) {
+      console.log('addKeydownListener', this.id);
+      document.addEventListener('keydown', this.handleLocalKeydown.bind(this), true);
+    }
+  }
+
+  Kai.prototype.removeKeydownListener = function() {
+    if (this._router) {
+      console.log('removeKeydownListener', this.id);
+      document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__'].indexOf(this.id) === -1) {
+      console.log('removeKeydownListener', this.id);
+      document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
+    }
+  }
+
+  Kai.prototype.handleRouterKeydown = function(evt) {
+    console.log('handleRouterKeydown', this.id);
+    this._router.handleKeydown(evt, this._router);
+  }
+
+  Kai.prototype.handleLocalKeydown = function(evt) {
+    console.log('handleLocalKeydown', this.id);
+    console.log(evt.key);
   }
 
   Kai.prototype.handleClick = function(evt) {

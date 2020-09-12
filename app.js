@@ -14,7 +14,7 @@ window.addEventListener("load", function() {
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      console.log('STATE', this.name, this.$state.getState('counter'));
+      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -22,7 +22,7 @@ window.addEventListener("load", function() {
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       push: function() {
@@ -97,7 +97,7 @@ window.addEventListener("load", function() {
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      console.log('STATE', this.name, this.$state.getState('counter'));
+      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -105,7 +105,7 @@ window.addEventListener("load", function() {
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       push: function() {
@@ -163,7 +163,7 @@ window.addEventListener("load", function() {
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      console.log('STATE', this.name, this.$state.getState('counter'));
+      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -171,7 +171,7 @@ window.addEventListener("load", function() {
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       push: function() {
@@ -217,7 +217,7 @@ window.addEventListener("load", function() {
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      console.log('STATE', this.name, this.$state.getState('counter'));
+      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -225,7 +225,7 @@ window.addEventListener("load", function() {
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       push: function() {
@@ -331,7 +331,7 @@ window.addEventListener("load", function() {
   try {
     app.mount('app');
     //setTimeout(function() {
-    //  firstChild.mount('app');
+      //firstChild.mount('app');
     //}, 2000);
   } catch(e) {
     console.log(e);
