@@ -169,12 +169,12 @@ const Kai = (function() {
     if (!vdom) {
       return;
     }
-    if (Mustache) {
+    if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      vdom.innerHTML = Mustache.render(this.template, data);
+      vdom.innerHTML = window.Mustache.render(this.template, data);
     } else {
       // console.log(this.template);
       vdom.innerHTML = this.template;
