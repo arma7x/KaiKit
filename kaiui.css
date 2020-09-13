@@ -458,12 +458,12 @@ button.kui-btn:focus {
 
 .kui-tab li {
     background-color: #fff;
-    height: 27px;
-    line-height: 27px;
+    height: 30px;
+    line-height: 30px;
     display: inline;
     align-items: center;
-    margin: 0px 0.75px;
-    padding: 0px 2px;
+    margin: 0px 0px 0px 2px;
+    padding: 3px 3px;
     font-size: 14px;
     text-align: center;
     color: #8A8A8A;

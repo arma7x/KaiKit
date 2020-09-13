@@ -25,20 +25,24 @@ const Kai = (function() {
     this.components = [];
     this.dPadNavListener = {
       arrowUp: function() {
+        console.log('stock arrowUp');
         const vdom = document.getElementById(_this.id);
         vdom.scrollTop -= 20;
         _this.scrollThreshold = vdom.scrollTop;
       },
       arrowRight: function() {
+        console.log('stock arrowRight');
         const vdom = document.getElementById(_this.id);
         vdom.scrollLeft = +20;
       },
       arrowDown: function() {
+        console.log('stock arrowDown');
         const vdom = document.getElementById(_this.id);
         vdom.scrollTop += 20;
         _this.scrollThreshold = vdom.scrollTop;
       },
       arrowLeft: function() {
+        console.log('stock arrowLeft');
         const vdom = document.getElementById(_this.id);
         vdom.scrollLeft = -20;
       },
@@ -209,7 +213,7 @@ const Kai = (function() {
     if (this._router) {
       console.log('addKeydownListener', this.id);
       document.addEventListener('keydown', this.handleRouterKeydown.bind(this));
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__'].indexOf(this.id) === -1) {
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
       console.log('addKeydownListener', this.id);
       document.addEventListener('keydown', this.handleLocalKeydown.bind(this), true);
     }
@@ -219,7 +223,7 @@ const Kai = (function() {
     if (this._router) {
       console.log('removeKeydownListener', this.id);
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__'].indexOf(this.id) === -1) {
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
       console.log('removeKeydownListener', this.id);
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
     }
@@ -315,6 +319,18 @@ const Kai = (function() {
       targetElement = nav[move];
       targetElement.focus();
       this[navIndex] = move;
+    }
+    if (navClass === 'tabNavClass') {
+      const ul = document.getElementById(this[navClass].replace('.', ''));
+      var threshold = targetElement.offsetWidth;
+      for(var i=0;i<this[navIndex];i++) {
+        threshold += nav[i].offsetWidth;
+      }
+      if (threshold < window.innerWidth) {
+        ul.scrollLeft = 0;
+      } else {
+        ul.scrollLeft = (ul.scrollLeft + targetElement.offsetWidth);
+      }
     }
   }
 

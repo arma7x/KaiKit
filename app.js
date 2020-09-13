@@ -178,6 +178,24 @@ window.addEventListener("load", function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
       // console.log('STATE', this.name, this.$state.getState('counter'));
+      var padding = 0;
+      const header = document.getElementById('__kai_header__');
+      if (header) {
+        padding += 28;
+      }
+      const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
+      if (tabHeader) {
+        padding += 30;
+      }
+      const sk = document.getElementById('__kai_soft_key__');
+      if (sk) {
+        padding += 30;
+      }
+      const tabBody = document.getElementById('__kai_tab__');
+      if (tabBody && padding > 0) {
+        tabBody.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
+        tabBody.style.overflowY = 'scroll';
+      }
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -197,38 +215,42 @@ window.addEventListener("load", function() {
     },
     softKeyListener: {
       left: {
-        text: '-1',
+        text: 'Push',
         func: function() {
-          this.setData({ counter: this.data.counter - 1 });
-          this.$state.setState('counter', this.$state.getState('counter') - 1);
+          this.methods.push();
         }
       },
       center: {
-        text: '0',
+        text: 'RESET',
         func: function() {
           this.setData({ counter: 0 });
           this.$state.setState('counter', 0);
         }
       },
       right: {
-        text: '+1',
+        text: 'Pop',
         func: function() {
-          this.setData({ counter: this.data.counter + 1 });
-          this.$state.setState('counter', this.$state.getState('counter') + 1);
+          this.methods.pop();
         }
       }
     },
     dPadNavListener: {
       arrowUp: function() {
-        // handle component nav
-        this.navigateListNav(-1);
+        console.log('handle component nav');
+        const vdom = document.getElementById('__kai_tab__');
+        vdom.scrollTop -= 20;
+        //_this.scrollThreshold = vdom.scrollTop;
+        // this.navigateListNav(-1);
       },
       arrowRight: function() {
         this.navigateTabNav(+1);
       },
       arrowDown: function() {
-        // handle component nav
-        this.navigateListNav(1);
+        console.log('handle component nav');
+        const vdom = document.getElementById('__kai_tab__');
+        vdom.scrollTop += 20;
+        //_this.scrollThreshold = vdom.scrollTop;
+        // this.navigateListNav(1);
       },
       arrowLeft: function() {
         this.navigateTabNav(-1);
