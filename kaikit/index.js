@@ -14,7 +14,6 @@ const Kai = (function() {
     this.templateUrl;
     this.methods = {};
     this.isMounted = false;
-    this.mustache;
     this.$router;
     this.$state;
     this.softKeyListener = { left: {}, center: {}, right: {} };
@@ -49,7 +48,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const public = ['id','name', 'data', 'template' , 'templateUrl', 'mustache', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass'];
+      const public = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass'];
       for (var i in options) {
         if (public.indexOf(i) !== -1) { // allow override
           if (i === 'methods') {
@@ -73,8 +72,6 @@ const Kai = (function() {
                 this[i][f] = options[i][f].bind(this);
               }
             }
-          } else if (i === 'mustache' && options[i] === Mustache.__proto__) {
-            this[i] = options[i];
           } else if (i === 'router' && options[i] instanceof KaiRouter) {
             this._router = options[i];
             this.$router = this._router;
@@ -133,9 +130,6 @@ const Kai = (function() {
     }
     // console.log('mounting:', this.name);
     if (!this.templateUrl) {
-      if (this.mustache) {
-        this.mustache.parse(this.template);
-      }
       this.exec();
       this.mounted();
     } else {
@@ -143,9 +137,6 @@ const Kai = (function() {
       xhttp.onreadystatechange = (evt) => {
         if (evt.target.readyState == 4 && evt.target.status == 200) {
           this.template = xhttp.responseText;
-          if (this.mustache) {
-            this.mustache.parse(this.template);
-          }
           this.exec();
           this.mounted();
         }
@@ -178,12 +169,12 @@ const Kai = (function() {
     if (!vdom) {
       return;
     }
-    if (this.mustache) {
+    if (Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      vdom.innerHTML = this.mustache.render(this.template, data);
+      vdom.innerHTML = Mustache.render(this.template, data);
     } else {
       // console.log(this.template);
       vdom.innerHTML = this.template;

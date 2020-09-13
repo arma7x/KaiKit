@@ -9,7 +9,6 @@ window.addEventListener("load", function() {
       counter: -1,
     },
     state,
-    mustache: Mustache,
     templateUrl: document.location.origin + '/listview.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -92,7 +91,6 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 1',
       counter: -1,
     },
-    mustache: Mustache,
     templateUrl: document.location.origin + '/template.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -158,7 +156,6 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 2',
       counter: -1,
     },
-    mustache: Mustache,
     templateUrl: document.location.origin + '/template.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -212,7 +209,6 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 3',
       counter: -1,
     },
-    mustache: Mustache,
     templateUrl: document.location.origin + '/listview.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -312,7 +308,6 @@ window.addEventListener("load", function() {
     data: {
       counter: -1,
     },
-    mustache: Mustache,
     templateUrl: document.location.origin + '/templateRouter.html',
     mounted: function() {
       // console.log('mounted:', this.name);
