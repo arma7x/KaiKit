@@ -117,8 +117,8 @@ const Kai = (function() {
     if (!vdom) {
       return;
     }
-    if ((vdom.__kaikit__ !== undefined || vdom.__kaikit__ !== null) && vdom.__kaikit__ instanceof Kai && this.id !== '__kai_router__') {
-      // console.log('unmount previous:', vdom.__kaikit__.name);
+    if ((vdom.__kaikit__ !== undefined || vdom.__kaikit__ !== null) && vdom.__kaikit__ instanceof Kai && this.id !== '__kai_router__' && this.id !== '__kai_tab__') {
+      console.log('unmount previous:', vdom.__kaikit__.name);
       if (vdom.__kaikit__._router) {
         // vdom.__kaikit__.removeKeydownListener();
       }
@@ -192,13 +192,28 @@ const Kai = (function() {
         this.listNavIndex = 0;
       }
       listNav[this.listNavIndex].focus();
+      listNav[this.listNavIndex].classList.add('focus');
     }
+
+    const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
+    if (tabHeader) {
+      this.components.forEach((v, i) => {
+        const li = document.createElement("LI");
+        li.innerText = v.name;
+        li.setAttribute("class", this.tabNavClass.replace('.', ''));
+        li.setAttribute("tabIndex", i);
+        tabHeader.appendChild(li);
+      });
+    }
+
     const tabNav = document.querySelectorAll(this.tabNavClass);
     if (tabNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
       if (this.tabNavIndex === -1) {
         this.tabNavIndex = 0;
       }
       tabNav[this.tabNavIndex].focus();
+      tabNav[this.tabNavIndex].classList.add('focus');
+      this.components[this.tabNavIndex].component.mount('__kai_tab__');
     }
     this.isMounted = true;
     // console.log(this.id, vdom);
@@ -320,6 +335,8 @@ const Kai = (function() {
       targetElement.focus();
       this[navIndex] = move;
     }
+    targetElement.classList.add('focus');
+    nav[currentIndex].classList.remove('focus');
     if (navClass === 'tabNavClass') {
       const ul = document.getElementById(this[navClass].replace('.', ''));
       var threshold = targetElement.offsetWidth;

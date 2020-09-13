@@ -470,6 +470,12 @@ button.kui-btn:focus {
     font-weight: bold;
 }
 
+.kui-tab li.focus {
+    outline: 0;
+    color: #000;
+    border-bottom: 3px solid #873eff;
+}
+
 .kui-tab li:focus {
     outline: 0;
     color: #000;

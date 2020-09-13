@@ -2,6 +2,201 @@ window.addEventListener("load", function() {
 
   const state = new KaiState({'counter': -1});
 
+  const firstTab = new Kai({
+    name: '_firstTab_',
+    data: {
+      title: '_firstTab_'
+    },
+    state,
+    listNavClass: '.firstTabNav',
+    templateUrl: document.location.origin + '/templates/tabs/firstTab.html',
+    mounted: function() {
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+    },
+    methods: {
+    },
+    softKeyListener: {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: 'SELECT',
+        func: function() {}
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      }
+    }
+  });
+
+  const secondTab = new Kai({
+    name: '_secondTab_',
+    data: {
+      title: '_secondTab_'
+    },
+    state,
+    listNavClass: '.secondTabNav',
+    templateUrl: document.location.origin + '/templates/tabs/secondTab.html',
+    mounted: function() {
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+    },
+    methods: {
+    },
+    softKeyListener: {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: 'SELECT',
+        func: function() {}
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      }
+    }
+  });
+
+  const thirdTab = new Kai({
+    name: '_thirdTab_',
+    data: {
+      title: '_thirdTab_'
+    },
+    state,
+    listNavClass: '.thirdTabNav',
+    templateUrl: document.location.origin + '/templates/tabs/thirdTab.html',
+    mounted: function() {
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+    },
+    methods: {
+    },
+    softKeyListener: {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: 'SELECT',
+        func: function() {}
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      }
+    }
+  });
+
+  const fourthTab = new Kai({
+    name: '_fourthTab_',
+    data: {
+      title: '_fourthTab_'
+    },
+    state,
+    listNavClass: '.fourthTabNav',
+    templateUrl: document.location.origin + '/templates/tabs/fourthTab.html',
+    mounted: function() {
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+    },
+    methods: {
+    },
+    softKeyListener: {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: 'SELECT',
+        func: function() {}
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      }
+    }
+  });
+
+  const fifthTab = new Kai({
+    name: '_fifthTab_',
+    data: {
+      title: '_fifthTab_'
+    },
+    state,
+    listNavClass: '.fifthTabNav',
+    templateUrl: document.location.origin + '/templates/tabs/fifthTab.html',
+    mounted: function() {
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+    },
+    methods: {
+    },
+    softKeyListener: {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: 'SELECT',
+        func: function() {}
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      }
+    }
+  });
+
   const lastChild = new Kai({
     name: '_LASTCHILD_',
     data: {
@@ -173,22 +368,31 @@ window.addEventListener("load", function() {
       counter: -1,
     },
     tabNavClass: '.child2Nav',
+    components: [
+      {name: 'firstTab', component: firstTab},
+      {name: 'secondTab', component: secondTab},
+      {name: 'thirdTab', component: thirdTab},
+      {name: 'fourthTab', component: fourthTab},
+      {name: 'fifthTab', component: fifthTab},
+    ],
     templateUrl: document.location.origin + '/templates/child_2.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
       // console.log('STATE', this.name, this.$state.getState('counter'));
+
+      /////// MOVE TO INDEX
       var padding = 0;
       const header = document.getElementById('__kai_header__');
       if (header) {
         padding += 28;
       }
-      const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
-      if (tabHeader) {
-        padding += 30;
-      }
       const sk = document.getElementById('__kai_soft_key__');
       if (sk) {
+        padding += 30;
+      }
+      const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
+      if (tabHeader) {
         padding += 30;
       }
       const tabBody = document.getElementById('__kai_tab__');
@@ -196,6 +400,7 @@ window.addEventListener("load", function() {
         tabBody.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
         tabBody.style.overflowY = 'scroll';
       }
+      /////// MOVE TO INDEX
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
@@ -237,23 +442,27 @@ window.addEventListener("load", function() {
     dPadNavListener: {
       arrowUp: function() {
         console.log('handle component nav');
-        const vdom = document.getElementById('__kai_tab__');
-        vdom.scrollTop -= 20;
+        //const vdom = document.getElementById('__kai_tab__');
+        //vdom.scrollTop -= 20;
         //_this.scrollThreshold = vdom.scrollTop;
         // this.navigateListNav(-1);
+        this.components[this.tabNavIndex].component.dPadNavListener.arrowUp();
       },
       arrowRight: function() {
         this.navigateTabNav(+1);
+        this.components[this.tabNavIndex].component.mount('__kai_tab__');
       },
       arrowDown: function() {
         console.log('handle component nav');
-        const vdom = document.getElementById('__kai_tab__');
-        vdom.scrollTop += 20;
+        //const vdom = document.getElementById('__kai_tab__');
+        //vdom.scrollTop += 20;
         //_this.scrollThreshold = vdom.scrollTop;
         // this.navigateListNav(1);
+        this.components[this.tabNavIndex].component.dPadNavListener.arrowDown();
       },
       arrowLeft: function() {
         this.navigateTabNav(-1);
+        this.components[this.tabNavIndex].component.mount('__kai_tab__');
       },
     }
   });
