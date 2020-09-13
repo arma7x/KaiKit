@@ -447,3 +447,31 @@ button.kui-btn:focus {
 }
 
 /*** The End ******/
+
+/* ============== Tab ============== */
+.kui-tab {
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    white-space: nowrap;
+}
+
+.kui-tab li {
+    background-color: #fff;
+    height: 30px;
+    line-height: 30px;
+    display: inline;
+    align-items: center;
+    margin: 0px 0.75px;
+    padding: 0px 2px;
+    font-size: 14px;
+    text-align: center;
+    color: #8A8A8A;
+}
+
+.kui-tab li:focus {
+    font-weight: bold;
+    outline: 0;
+    color: #000;
+    border-bottom: 2px solid #873eff;
+}

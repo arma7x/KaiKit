@@ -72,16 +72,16 @@ window.addEventListener("load", function() {
     },
     dPadNavListener: {
       arrowUp: function() {
-        this.nav(-1);
+        this.navigateListNav(-1);
       },
       arrowRight: function() {
-        console.log('arrowRight');
+        this.navigateTabNav(-1);
       },
       arrowDown: function() {
-        this.nav(1);
+        this.navigateListNav(1);
       },
       arrowLeft: function() {
-        console.log('arrowLeft');
+        this.navigateTabNav(1);
       },
     }
   });
@@ -152,16 +152,16 @@ window.addEventListener("load", function() {
     },
     dPadNavListener: {
       arrowUp: function() {
-        this.nav(-1);
+        this.navigateListNav(-1);
       },
       arrowRight: function() {
-        console.log('arrowRight');
+        this.navigateTabNav(-1);
       },
       arrowDown: function() {
-        this.nav(1);
+        this.navigateListNav(1);
       },
       arrowLeft: function() {
-        console.log('arrowLeft');
+        this.navigateTabNav(1);
       },
     }
   });
@@ -172,6 +172,7 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 2',
       counter: -1,
     },
+    tabNavClass: '.child2Nav',
     templateUrl: document.location.origin + '/templates/child_2.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -216,6 +217,20 @@ window.addEventListener("load", function() {
           this.$state.setState('counter', this.$state.getState('counter') + 1);
         }
       }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowRight: function() {
+        this.navigateTabNav(+1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      },
+      arrowLeft: function() {
+        this.navigateTabNav(-1);
+      },
     }
   });
 
@@ -288,16 +303,16 @@ window.addEventListener("load", function() {
     },
     dPadNavListener: {
       arrowUp: function() {
-        this.nav(-1);
+        this.navigateListNav(-1);
       },
       arrowRight: function() {
-        console.log('arrowRight');
+        this.navigateTabNav(-1);
       },
       arrowDown: function() {
-        this.nav(1);
+        this.navigateListNav(1);
       },
       arrowLeft: function() {
-        console.log('arrowLeft');
+        this.navigateTabNav(1);
       },
     }
   });

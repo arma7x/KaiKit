@@ -20,6 +20,9 @@ const Kai = (function() {
     this.scrollThreshold = 0;
     this.listNavClass = '.kai-list-nav';
     this.listNavIndex = -1;
+    this.tabNavClass = '.kai-tab-nav';
+    this.tabNavIndex = -1;
+    this.components = [];
     this.dPadNavListener = {
       arrowUp: function() {
         const vdom = document.getElementById(_this.id);
@@ -48,7 +51,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const public = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass'];
+      const public = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'tabNavClass', 'components'];
       for (var i in options) {
         if (public.indexOf(i) !== -1) { // allow override
           if (i === 'methods') {
@@ -150,6 +153,7 @@ const Kai = (function() {
     this.isMounted = false;
     this.scrollThreshold = 0;
     this.listNavIndex = -1;
+    this.tabNavIndex = -1;
     this.removeKeydownListener();
     this.unmounted();
   }
@@ -276,9 +280,17 @@ const Kai = (function() {
     return this;
   }
 
-  Kai.prototype.nav = function(next, selector) {
-    const currentIndex = this.listNavIndex;
-    const nav = document.querySelectorAll(this.listNavClass);
+  Kai.prototype.navigateListNav = function(next) {
+    this.nav(next, 'listNavIndex', 'listNavClass');
+  }
+
+  Kai.prototype.navigateTabNav = function(next) {
+    this.nav(next, 'tabNavIndex', 'tabNavClass');
+  }
+
+  Kai.prototype.nav = function(next, navIndex, navClass) {
+    const currentIndex = this[navIndex];
+    const nav = document.querySelectorAll(this[navClass]);
     if (nav.length === 0) {
       return
     }
@@ -286,7 +298,7 @@ const Kai = (function() {
     var targetElement = nav[move];
     if (targetElement !== undefined) {
       targetElement.focus();
-      this.listNavIndex = move;
+      this[navIndex] = move;
     } else {
       if (move < 0) {
         move = nav.length - 1;
@@ -295,7 +307,7 @@ const Kai = (function() {
       }
       targetElement = nav[move];
       targetElement.focus();
-      this.listNavIndex = move;
+      this[navIndex] = move;
     }
   }
 
