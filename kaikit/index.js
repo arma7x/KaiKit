@@ -155,6 +155,9 @@ const Kai = (function() {
 
   Kai.prototype.unmount = function() {
     this.isMounted = false;
+    this.components.forEach((v) => {
+      v.component.unmount();
+    });
     this.scrollThreshold = 0;
     this.listNavIndex = -1;
     this.tabNavIndex = -1;
@@ -198,6 +201,7 @@ const Kai = (function() {
     const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
     if (tabHeader) {
       this.components.forEach((v, i) => {
+        v.component.mount('__kai_tab__');
         const li = document.createElement("LI");
         li.innerText = v.name;
         li.setAttribute("class", this.tabNavClass.replace('.', ''));
