@@ -220,12 +220,14 @@ window.addEventListener("load", function() {
     },
     dPadNavListener: {
       arrowUp: function() {
+        // handle component nav
         this.navigateListNav(-1);
       },
       arrowRight: function() {
         this.navigateTabNav(+1);
       },
       arrowDown: function() {
+        // handle component nav
         this.navigateListNav(1);
       },
       arrowLeft: function() {

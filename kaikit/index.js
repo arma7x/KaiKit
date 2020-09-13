@@ -182,12 +182,19 @@ const Kai = (function() {
       // console.log(this.template);
       vdom.innerHTML = this.template;
     }
-    const nav = document.querySelectorAll(this.listNavClass);
-    if (nav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
+    const listNav = document.querySelectorAll(this.listNavClass);
+    if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
       if (this.listNavIndex === -1) {
         this.listNavIndex = 0;
       }
-      nav[this.listNavIndex].focus();
+      listNav[this.listNavIndex].focus();
+    }
+    const tabNav = document.querySelectorAll(this.tabNavClass);
+    if (tabNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
+      if (this.tabNavIndex === -1) {
+        this.tabNavIndex = 0;
+      }
+      tabNav[this.tabNavIndex].focus();
     }
     this.isMounted = true;
     // console.log(this.id, vdom);
