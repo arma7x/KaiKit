@@ -212,7 +212,6 @@ const KaiRouter = (function() {
         title: title,
         body: body
       },
-      mustache: Mustache,
       template: '<div style="background-color:white;position:absolute;bottom:0;width:100%;">\
         <div style="padding-left:5px;height:28px;line-height:28px;background-color:#cccccc;text-align:center;">{{ title }}</div>\
         <div style="padding:5px;font-size:14px;">{{ body }}</div>\
@@ -315,7 +314,6 @@ const KaiRouter = (function() {
         data: {
           title: ''
         },
-        mustache: Mustache,
         template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ title }}</span>',
         mounted: function() {
           EL.style.color = '#fff';
@@ -355,7 +353,6 @@ const KaiRouter = (function() {
           center: '',
           right: ''
         },
-        mustache: Mustache,
         template: '<div click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ center }}</div><div click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
         mounted: function() {
           EL.style.height = '30px';
