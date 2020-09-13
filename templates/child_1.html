@@ -1,0 +1,12 @@
+<div style="padding:5px;">
+  <h5>{{ title }}</h5>
+  <h5>Local: {{ counter }}</h5>
+  <h5>State: {{ $state.counter }}</h5>
+  <button click="push()">Push</button>
+  <button click="pop()">Pop</button>
+  <ul class="kui-list">
+    <li class="child1Nav" tabIndex="0" click="plus()">Plus +1</li>
+    <li class="child1Nav" tabIndex="1" click="reset()">Reset 0</li>
+    <li class="child1Nav" tabIndex="2" click="minus()">Minus -1</li>
+  </ul>
+</div>

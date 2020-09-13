@@ -9,7 +9,7 @@ const Kai = (function() {
     const _this = this;
     this.id;
     this.name = 'Kai';
-    this.data;
+    this.data = {};
     this.template = '';
     this.templateUrl;
     this.methods = {};
@@ -86,7 +86,6 @@ const Kai = (function() {
                 }
               }
             }
-            
           } else {
             this[i] = options[i];
           }
@@ -112,7 +111,7 @@ const Kai = (function() {
       return;
     }
     if ((vdom.__kaikit__ !== undefined || vdom.__kaikit__ !== null) && vdom.__kaikit__ instanceof Kai && this.id !== '__kai_router__') {
-      console.log('unmount previous:', vdom.__kaikit__.name);
+      // console.log('unmount previous:', vdom.__kaikit__.name);
       if (vdom.__kaikit__._router) {
         // vdom.__kaikit__.removeKeydownListener();
       }
@@ -280,6 +279,9 @@ const Kai = (function() {
   Kai.prototype.nav = function(next, selector) {
     const currentIndex = this.listNavIndex;
     const nav = document.querySelectorAll(this.listNavClass);
+    if (nav.length === 0) {
+      return
+    }
     var move = currentIndex + next;
     var targetElement = nav[move];
     if (targetElement !== undefined) {

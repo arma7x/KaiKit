@@ -9,7 +9,8 @@ window.addEventListener("load", function() {
       counter: -1,
     },
     state,
-    templateUrl: document.location.origin + '/listview.html',
+    listNavClass: '.lastChildNav',
+    templateUrl: document.location.origin + '/templates/lastchild.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
@@ -91,7 +92,8 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 1',
       counter: -1,
     },
-    templateUrl: document.location.origin + '/template.html',
+    listNavClass: '.child1Nav',
+    templateUrl: document.location.origin + '/templates/child_1.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
@@ -112,21 +114,21 @@ window.addEventListener("load", function() {
       pop: function() {
         this.$router.pop();
       },
-      reset: function(data) {
-        console.log(data);
+      selectNav: function(name) {
+        console.log(name);
+      },
+      minus: function() {
+        this.setData({ counter: this.data.counter - 1 });
+        this.$state.setState('counter', this.$state.getState('counter') - 1);
+      },
+      reset: function() {
         this.setData({ counter: 0 });
         this.$state.setState('counter', 0);
       },
-      plus: function(data) {
-        console.log(data);
+      plus: function() {
         this.setData({ counter: this.data.counter + 1 });
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
-      minus: function(data) {
-        console.log(data);
-        this.setData({ counter: this.data.counter - 1 });
-        this.$state.setState('counter', this.$state.getState('counter') - 1);
-      }
     },
     softKeyListener: {
       left: {
@@ -147,6 +149,20 @@ window.addEventListener("load", function() {
           this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', this.data, 'Yes', this.methods.plus, 'Cancel', undefined);
         }
       }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.nav(-1);
+      },
+      arrowRight: function() {
+        console.log('arrowRight');
+      },
+      arrowDown: function() {
+        this.nav(1);
+      },
+      arrowLeft: function() {
+        console.log('arrowLeft');
+      },
     }
   });
 
@@ -156,7 +172,7 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 2',
       counter: -1,
     },
-    templateUrl: document.location.origin + '/template.html',
+    templateUrl: document.location.origin + '/templates/child_2.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
@@ -209,7 +225,8 @@ window.addEventListener("load", function() {
       title: '_CHILD_ 3',
       counter: -1,
     },
-    templateUrl: document.location.origin + '/listview.html',
+    listNavClass: '.child2Nav',
+    templateUrl: document.location.origin + '/templates/child_3.html',
     mounted: function() {
       // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
