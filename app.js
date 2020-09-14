@@ -1,5 +1,8 @@
 window.addEventListener("load", function() {
 
+  const sixthTab = `KaiOS is a web-based mobile operating system that enables a new category of smart feature phones. It is forked from B2G (Boot to Gecko), a successor of the discontinued Firefox OS.
+KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and longer battery life, to non-touch devices. It has an optimized user interface for smart feature phones, needs little memory, and consumes less energy than other operating systems. It also comes with the KaiStore, which enables users to download applications in categories like social media, games, navigation, and streaming entertainment.`;
+
   const state = new KaiState({'counter': -1});
 
   const firstTab = new Kai({
@@ -19,15 +22,15 @@ window.addEventListener("load", function() {
     },
     softKeyListener: {
       left: {
-        text: '',
+        text: 'L1',
         func: function() {}
       },
       center: {
-        text: 'SELECT',
+        text: 'C1',
         func: function() {}
       },
       right: {
-        text: '',
+        text: 'R1',
         func: function() {}
       }
     },
@@ -58,15 +61,15 @@ window.addEventListener("load", function() {
     },
     softKeyListener: {
       left: {
-        text: '',
+        text: 'L2',
         func: function() {}
       },
       center: {
-        text: 'SELECT',
+        text: 'C2',
         func: function() {}
       },
       right: {
-        text: '',
+        text: 'R2',
         func: function() {}
       }
     },
@@ -97,15 +100,15 @@ window.addEventListener("load", function() {
     },
     softKeyListener: {
       left: {
-        text: '',
+        text: 'L3',
         func: function() {}
       },
       center: {
-        text: 'SELECT',
+        text: 'C3',
         func: function() {}
       },
       right: {
-        text: '',
+        text: 'R3',
         func: function() {}
       }
     },
@@ -136,15 +139,15 @@ window.addEventListener("load", function() {
     },
     softKeyListener: {
       left: {
-        text: '',
+        text: 'L4',
         func: function() {}
       },
       center: {
-        text: 'SELECT',
+        text: 'C4',
         func: function() {}
       },
       right: {
-        text: '',
+        text: 'R4',
         func: function() {}
       }
     },
@@ -175,15 +178,15 @@ window.addEventListener("load", function() {
     },
     softKeyListener: {
       left: {
-        text: '',
+        text: 'L5',
         func: function() {}
       },
       center: {
-        text: 'SELECT',
+        text: 'C5',
         func: function() {}
       },
       right: {
-        text: '',
+        text: 'R5',
         func: function() {}
       }
     },
@@ -361,111 +364,15 @@ window.addEventListener("load", function() {
     }
   });
 
-  const secondChild = new Kai({
-    name: '_CHILD_ 2',
-    data: {
-      title: '_CHILD_ 2',
-      counter: -1,
-    },
-    tabNavClass: '.child2Nav',
-    components: [
-      {name: 'firstTab', component: firstTab},
-      {name: 'secondTab', component: secondTab},
-      {name: 'thirdTab', component: thirdTab},
-      {name: 'fourthTab', component: fourthTab},
-      {name: 'fifthTab', component: fifthTab},
-    ],
-    templateUrl: document.location.origin + '/templates/child_2.html',
-    mounted: function() {
-      // console.log('mounted:', this.name);
-      this.$state.addStateListener('counter', this.methods.listenState);
-      // console.log('STATE', this.name, this.$state.getState('counter'));
-
-      /////// MOVE TO INDEX
-      var padding = 0;
-      const header = document.getElementById('__kai_header__');
-      if (header) {
-        padding += 28;
-      }
-      const sk = document.getElementById('__kai_soft_key__');
-      if (sk) {
-        padding += 30;
-      }
-      const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
-      if (tabHeader) {
-        padding += 30;
-      }
-      const tabBody = document.getElementById('__kai_tab__');
-      if (tabBody && padding > 0) {
-        tabBody.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
-        tabBody.style.overflowY = 'scroll';
-      }
-      /////// MOVE TO INDEX
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-      this.$state.removeStateListener('counter', this.methods.listenState);
-    },
-    methods: {
-      listenState: function(data) {
-        // console.log('LISTEN', this.name, data);
-        this.render()
-      },
-      push: function() {
-        this.$router.push('third');
-      },
-      pop: function() {
-        this.$router.pop();
-      }
-    },
-    softKeyListener: {
-      left: {
-        text: 'Push',
-        func: function() {
-          this.methods.push();
-        }
-      },
-      center: {
-        text: 'RESET',
-        func: function() {
-          this.setData({ counter: 0 });
-          this.$state.setState('counter', 0);
-        }
-      },
-      right: {
-        text: 'Pop',
-        func: function() {
-          this.methods.pop();
-        }
-      }
-    },
-    dPadNavListener: {
-      arrowUp: function() {
-        console.log('handle component nav');
-        //const vdom = document.getElementById('__kai_tab__');
-        //vdom.scrollTop -= 20;
-        //_this.scrollThreshold = vdom.scrollTop;
-        // this.navigateListNav(-1);
-        this.components[this.tabNavIndex].component.dPadNavListener.arrowUp();
-      },
-      arrowRight: function() {
-        this.navigateTabNav(+1);
-        this.components[this.tabNavIndex].component.mount('__kai_tab__');
-      },
-      arrowDown: function() {
-        console.log('handle component nav');
-        //const vdom = document.getElementById('__kai_tab__');
-        //vdom.scrollTop += 20;
-        //_this.scrollThreshold = vdom.scrollTop;
-        // this.navigateListNav(1);
-        this.components[this.tabNavIndex].component.dPadNavListener.arrowDown();
-      },
-      arrowLeft: function() {
-        this.navigateTabNav(-1);
-        this.components[this.tabNavIndex].component.mount('__kai_tab__');
-      },
-    }
-  });
+  const secondChild = Kai.createTabNav('_CHILD_ 2', '.child2DemoNav', [
+    {name: 'firstTab', component: firstTab},
+    {name: 'secondTab', component: secondTab},
+    {name: 'thirdTab', component: thirdTab},
+    {name: 'fourthTab', component: fourthTab},
+    {name: 'fifthTab', component: fifthTab},
+    {name: 'sixthTab', component: sixthTab},
+    {name: 'lastChild', component: lastChild}, 
+  ]);
 
   const thirdChild = new Kai({
     name: '_CHILD_ 3',
@@ -569,11 +476,11 @@ window.addEventListener("load", function() {
   });
 
   const app = new Kai({
-    name: '_BASE_',
+    name: '_APP_',
     data: {
       counter: -1,
     },
-    templateUrl: document.location.origin + '/templateRouter.html',
+    templateUrl: document.location.origin + '/template.html',
     mounted: function() {
       // console.log('mounted:', this.name);
     },
@@ -591,7 +498,7 @@ window.addEventListener("load", function() {
   try {
     app.mount('app');
     //setTimeout(function() {
-      //firstChild.mount('app');
+      //secondChild.mount('app');
     //}, 2000);
   } catch(e) {
     console.log(e);

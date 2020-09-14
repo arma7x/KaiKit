@@ -146,6 +146,12 @@ h1, h2, h3, h4, h5, ul, p {
     background-color: #320374;
     color: #fff;
     text-align: center;
+    vertical-align: middle;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    margin-bottom: 28px;
+    font-weight: bold;
 }
 
 /* ============== Separator ============== */
@@ -160,11 +166,15 @@ h1, h2, h3, h4, h5, ul, p {
 /* ============== Software key ============== */
 .kui-software-key {
     height: 30px;
+    line-height: 30px;
     background-color: #cccccc;
     display: flex;
     align-items: center;
-    padding: 0 5px;
+    padding: 0px;
     color: #323232;
+    position: fixed;
+    width:  100%;
+    bottom: 0;
 }
 
 .kui-software-key h5 {

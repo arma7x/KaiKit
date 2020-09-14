@@ -93,10 +93,10 @@ const KaiRouter = (function() {
             this.stack.push(component);
           }
           // component.$router = this;
-          component.mount('__kai_router__');
           this.setLeftText(component.softKeyListener.left.text);
           this.setCenterText(component.softKeyListener.center.text);
           this.setRightText(component.softKeyListener.right.text);
+          component.mount('__kai_router__');
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
@@ -135,10 +135,10 @@ const KaiRouter = (function() {
     var name = path;
     if (typeof path === 'string' && this.routes[path]) {
       const clone = this.routes[path].component.reset();
-      clone.mount('__kai_router__');
       this.setLeftText(clone.softKeyListener.left.text);
       this.setCenterText(clone.softKeyListener.center.text);
       this.setRightText(clone.softKeyListener.right.text);
+      clone.mount('__kai_router__');
       this.stack.push(clone);
     } else if (path instanceof Kai) {
       const clone = path.reset();
@@ -316,16 +316,7 @@ const KaiRouter = (function() {
         },
         template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ title }}</span>',
         mounted: function() {
-          EL.style.color = '#fff';
-          EL.style.fontWeight = 'bold';
-          EL.style.verticalAlign = 'middle';
-          EL.style.backgroundColor = '#873eff';
-          EL.style.height = '28px';
-          EL.style.lineHeight = '28px';
-          EL.style.position = 'fixed';
-          EL.style.width =  '100%';
-          EL.style.top = '0';
-          EL.style.marginBottom = '28px';
+          EL.classList.add('kui-header');
         },
         methods: {
           setHeaderTitle: function(txt) {
@@ -355,15 +346,7 @@ const KaiRouter = (function() {
         },
         template: '<div click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ center }}</div><div click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
         mounted: function() {
-          EL.style.height = '30px';
-          EL.style.lineHeight = '30px';
-          EL.style.backgroundColor = '#cccccc';
-          EL.style.display = 'flex';
-          EL.style.alignItems = 'center';
-          EL.style.color = '#323232';
-          EL.style.position = 'fixed';
-          EL.style.width =  '100%';
-          EL.style.bottom = '0';
+          EL.classList.add('kui-software-key');
         },
         methods: {
           setLeftText: function(txt) {
