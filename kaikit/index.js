@@ -178,15 +178,19 @@ const Kai = (function() {
     if (!vdom) {
       return;
     }
+    var output;
     if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      vdom.innerHTML = window.Mustache.render(this.template, data);
+      output = window.Mustache.render(this.template, data);
     } else {
-      vdom.innerHTML = this.template;
+      output = this.template;
     }
+    vdom.innerHTML = output;
+
+    this.isMounted = true;
 
     const listNav = document.querySelectorAll(this.listNavClass);
     if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
@@ -257,7 +261,6 @@ const Kai = (function() {
         tabBody.style.overflowY = 'hidden';
       }
     }
-    this.isMounted = true;
   }
 
   Kai.prototype.setData = function(data) {
@@ -454,8 +457,15 @@ Kai.createTabNav = function(name, tabNavClass, components) {
     },
     methods: {
       globalState: function(data) {
-        // console.log('LISTEN GLOBAL', this.name, data);
-        this.render();
+        console.log('LISTEN GLOBAL', this.name, data);
+        if (this.$router) {
+          if (this.$router.stack[this.$router.stack.length - 1]) {
+            if (this.$router.stack[this.$router.stack.length - 1].name === this.name) {
+              this.render();
+            }
+          }
+        }
+        
       }
     },
     softKeyListener: {
