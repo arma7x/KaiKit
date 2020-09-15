@@ -302,8 +302,8 @@ const KaiRouter = (function() {
     }
     if (padding > 0) {
       body.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
-      body.style.overflowY = 'scroll';
     }
+    body.style.width = '100%';
   }
 
   KaiRouter.prototype.renderHeader = function() {

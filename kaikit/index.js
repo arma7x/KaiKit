@@ -253,7 +253,7 @@ const Kai = (function() {
           padding += 30;
         }
         tabBody.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
-        tabBody.style.overflowY = 'scroll';
+        tabBody.style.overflowY = 'hidden';
       }
     }
     this.isMounted = true;
