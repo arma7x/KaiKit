@@ -462,7 +462,7 @@ const KaiRouter = (function() {
         _router.stack[_router.stack.length - 1].dPadNavListener.arrowLeft();
         break
       default:
-        console.log(e.key);
+        // console.log(e.key);
     }
   }
 

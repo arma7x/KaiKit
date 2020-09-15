@@ -291,8 +291,42 @@ const Kai = (function() {
 
   Kai.prototype.handleLocalKeydown = function(evt) {
     // console.log('handleLocalKeydown', this.id);
-    // TODO
-    console.log(evt.key);
+    switch(evt.key) {
+      case "BrowserBack":
+      case 'Backspace':
+      case 'EndCall':
+        if (document.activeElement.tagName === 'INPUT') {
+          if (document.activeElement.value.length === 0) {
+            document.activeElement.blur();
+          }
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        break
+      case 'SoftLeft':
+        this.softKeyListener.left.func();
+        break
+      case 'SoftRight':
+        this.softKeyListener.right.func();
+        break
+      case 'Enter':
+        this.softKeyListener.center.func();
+        break
+      case 'ArrowUp':
+        this.dPadNavListener.arrowUp();
+        break
+      case 'ArrowRight':
+        this.dPadNavListener.arrowRight();
+        break
+      case 'ArrowDown':
+        this.dPadNavListener.arrowDown();
+        break
+      case 'ArrowLeft':
+        this.dPadNavListener.arrowLeft();
+        break
+      default:
+        // console.log(evt.key);
+    }
   }
 
   Kai.prototype.handleClick = function(evt) {
