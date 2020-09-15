@@ -12,6 +12,7 @@ const KaiState = (function() {
   KaiState.prototype.init = function(initialState) {
     this.state = {};
     this.listener = {};
+    this.globalListener = [];
     if (typeof initialState === 'object') {
       for (var name in initialState) {
         this.state[name] = this.immutability(initialState[name]);
@@ -28,6 +29,25 @@ const KaiState = (function() {
     this.state[name] = this.immutability(data);
     this.listener[name] = [];
     return true;
+  }
+
+  KaiState.prototype.addGlobalListener = function(cb) {
+    if (typeof cb !== 'function') {
+      return false;
+    }
+    this.globalListener.push(cb);
+  }
+
+  KaiState.prototype.removeGlobalListener = function(cb) {
+    if (typeof cb !== 'function') {
+      return false;
+    }
+    const index = this.globalListener.indexOf(cb);
+    if (index > -1) {
+      this.globalListener.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 
   KaiState.prototype.addStateListener = function(name, cb) {
@@ -56,6 +76,9 @@ const KaiState = (function() {
     if (this.state[name] != undefined) {
       this.state[name] = this.immutability(data);
       this.listener[name].forEach((listener) => {
+        listener(this.state[name]);
+      });
+      this.globalListener.forEach((listener) => {
         listener(this.state[name]);
       });
       return this.immutability(data);

@@ -187,6 +187,7 @@ const Kai = (function() {
     } else {
       vdom.innerHTML = this.template;
     }
+
     const listNav = document.querySelectorAll(this.listNavClass);
     if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
       if (this.listNavIndex === -1) {
@@ -411,7 +412,9 @@ const Kai = (function() {
       this[navIndex] = move;
     }
     targetElement.classList.add('focus');
-    nav[currentIndex].classList.remove('focus');
+    if (currentIndex > -1) {
+      nav[currentIndex].classList.remove('focus');
+    }
     if (navClass === 'tabNavClass') {
       const ul = document.getElementById(this[navClass].replace('.', ''));
       var threshold = targetElement.offsetWidth;
@@ -439,11 +442,22 @@ Kai.createTabNav = function(name, tabNavClass, components) {
     template: '<div><ul id="' + tabNavClass.replace('.', '') + '" class="kui-tab"></ul><div id="__kai_tab__"></div></div>',
     mounted: function() {
       // console.log('mounted:', this.name);
+      if (this.$state) {
+        this.$state.addGlobalListener(this.methods.globalState);
+      }
     },
     unmounted: function() {
       // console.log('unmounted:', this.name);
+      if (this.$state) {
+        this.$state.removeGlobalListener(this.methods.globalState);
+      }
     },
-    methods: {},
+    methods: {
+      globalState: function(data) {
+        // console.log('LISTEN GLOBAL', this.name, data);
+        this.render();
+      }
+    },
     softKeyListener: {
       left: {
         text: 'Push',
