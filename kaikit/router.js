@@ -212,10 +212,7 @@ const KaiRouter = (function() {
         title: title,
         body: body
       },
-      template: '<div style="background-color:white;position:absolute;bottom:0;width:100%;">\
-        <div style="padding-left:5px;height:28px;line-height:28px;background-color:#cccccc;text-align:center;">{{ title }}</div>\
-        <div style="padding:5px;font-size:14px;">{{ body }}</div>\
-        </div>',
+      template: '<div class="kui-option-menu"><div class="kui-option-title">{{ title }}</div><div class="kui-option-body">{{ body }}</div></div>',
       softKeyListener: {
         left: {
           text: negativeText || 'Cancel',
@@ -250,14 +247,10 @@ const KaiRouter = (function() {
     this.dialog = true;
     this.stack.push(d);
     const vdom = document.getElementById('__kai_dialog__');
-    vdom.style.position = 'fixed';
-    vdom.style.backgroundColor = 'rgba(64,64,64,0.5)';
+    vdom.classList.add('kui-overlay');
     vdom.style.height = 'calc(100% - 30px)';
-    vdom.style.width = '100%';
-    vdom.style.top = '0';
     vdom.style.zIndex = '1';
     vdom.style.visibility =  'visible';
-    vdom.style.opacity = '1';
     vdom.style.transition = 'opacity 0.1s linear';
   }
 
@@ -279,11 +272,8 @@ const KaiRouter = (function() {
       }
     }
     vdom.style.height = '0';
-    vdom.style.width = '0';
-    vdom.style.top = '0';
     vdom.style.zIndex = '-1';
     vdom.style.visibility =  'hidden';
-    vdom.style.opacity = '0';
     vdom.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
   }
 

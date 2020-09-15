@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, ul, p {
     height: 100%;
     background: rgba(0,0,0, .7);
     position: absolute;
-    display: none;
+    top: 0;
 }
 
 .kui-text-upcase {
@@ -238,7 +238,7 @@ h1, h2, h3, h4, h5, ul, p {
     color: #fff;
 }
 
-.kui-list li:focus {
+.kui-list li.focus {
     background-color: #873eff;
     outline: 0;
     color: #fff;
@@ -251,11 +251,10 @@ h1, h2, h3, h4, h5, ul, p {
 
 /* ============== Options Menu ============== */
 .kui-option-menu {
-    width: 100%;
-    position: absolute;
-    overflow: hidden;
-    bottom: 0;
-    display: none;
+    background-color:white;
+    position:absolute;
+    bottom:0;
+    width:100%;
 }
 
 .kui-option-menu .kui-option-title {
@@ -265,6 +264,11 @@ h1, h2, h3, h4, h5, ul, p {
     background-color: #d8d8d8;
     height: 28px;
     line-height: 28px;
+}
+
+.kui-option-menu .kui-option-body {
+    padding: 5px;
+    font-size: 14px;
 }
 
 .kui-options {
@@ -435,30 +439,30 @@ button.kui-btn:focus {
 /* KaiOS portrait devices (240x320) */
 @media only screen and (orientation : portrait) {
     .kui-content-area {
-        height: 236px;
+        max-height: 236px;
     }
 
     .kui-option-menu {
-        height: 178px;
+        max-height: 178px;
     }
 
     .kui-options {
-        height: 150px;
+        max-height: 150px;
     }
 }
 
 /* KaiOS landscape devices (320x240) */
 @media screen and (orientation: landscape) {
     .kui-content-area {
-        height: 156px;
+        max-height: 156px;
     }
 
     .kui-option-menu {
-        height: 128px;
+        max-height: 128px;
     }
 
     .kui-options {
-        height: 100px;
+        max-height: 100px;
     }
 }
 
