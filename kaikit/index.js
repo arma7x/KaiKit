@@ -55,9 +55,9 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const public = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'tabNavClass', 'components'];
+      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'tabNavClass', 'components'];
       for (var i in options) {
-        if (public.indexOf(i) !== -1) { // allow override
+        if (accesssible.indexOf(i) !== -1) { // allow override
           if (i === 'methods') {
             for (f in options[i]) {
               if (typeof options[i][f] === 'function') {

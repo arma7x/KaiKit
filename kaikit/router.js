@@ -15,9 +15,9 @@ const KaiRouter = (function() {
     this.dialog = false;
 
     this._KaiRouter = function (options) {
-      const public = ['routes', 'title'];
+      const accesssible = ['routes', 'title'];
       for (var i in options) {
-        if (public.indexOf(i) !== -1) { // allow override
+        if (accesssible.indexOf(i) !== -1) { // allow override
           if (i === 'routes') {
             if (typeof options[i] === 'object') {
               for (var path in options[i]) {
