@@ -181,6 +181,9 @@ const Kai = (function() {
     var output;
     if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
+      data['__stringify__'] = function () {
+        return JSON.stringify(this);
+      }
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
@@ -341,13 +344,17 @@ const Kai = (function() {
       } else if (scope[n]) {
         return scope[n];
       } else {
-        if ((n.charAt(0) === "'" && n.charAt(n.length - 1) === "'") || (n.charAt(0) === '"' && n.charAt(n.length - 1) === '"')) {
-          const n2 = n.split('');
-          n2.splice(0,1);
-          n2.pop();
-          n = n2.join('');
+        try {
+          return JSON.parse(n);
+        } catch {
+          if ((n.charAt(0) === "'" && n.charAt(n.length - 1) === "'") || (n.charAt(0) === '"' && n.charAt(n.length - 1) === '"')) {
+            const n2 = n.split('');
+            n2.splice(0,1);
+            n2.pop();
+            n = n2.join('');
+          }
+          return n;
         }
-        return n;
       }
     }
 
@@ -418,10 +425,11 @@ const Kai = (function() {
     if (currentIndex > -1) {
       nav[currentIndex].classList.remove('focus');
     }
+    const sk = document.getElementById('__kai_soft_key__');
     if (navClass === 'tabNavClass') {
-      targetElement.parentElement.scrollLeft = targetElement.offsetLeft - (targetElement.offsetWidth + 30);
+      targetElement.parentElement.scrollLeft = targetElement.offsetLeft - (targetElement.offsetWidth + (sk ? 30 : 0));
     } else if (navClass === 'listNavClass') {
-      targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + 30);
+      targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
     }
   }
 

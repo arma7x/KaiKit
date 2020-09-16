@@ -293,7 +293,7 @@ const KaiRouter = (function() {
         <div class="kui-option-body" style="margin:0;padding:0;">\
           <ul id="kui-options" class="kui-options">\
             {{#options}}\
-            <li class="optMenuNav" click="selectOption(\'{{name}}\')">{{name}}</li>\
+            <li class="optMenuNav" click="selectOption(\{{__stringify__}}\)">{{name}}</li>\
             {{/options}}\
           </ul>\
         </div>\
