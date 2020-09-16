@@ -349,7 +349,7 @@ const Kai = (function() {
       } else {
         try {
           return JSON.parse(n);
-        } catch {
+        } catch(e) {
           if ((n.charAt(0) === "'" && n.charAt(n.length - 1) === "'") || (n.charAt(0) === '"' && n.charAt(n.length - 1) === '"')) {
             const n2 = n.split('');
             n2.splice(0,1);
