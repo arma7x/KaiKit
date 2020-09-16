@@ -491,10 +491,11 @@ button.kui-btn:focus {
     overflow-x: hidden;
     overflow-y: hidden;
     white-space: nowrap;
+    background-color: #e6e6e6;
 }
 
 .kui-tab li {
-    background-color: #fff;
+    background-color: #e6e6e6;
     height: 30px;
     line-height: 30px;
     display: inline;
