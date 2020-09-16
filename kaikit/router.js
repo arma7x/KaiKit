@@ -189,10 +189,10 @@ const KaiRouter = (function() {
           }
         }
         const component = this.stack[this.stack.length - 1];
-        component.mount('__kai_router__');
         this.setLeftText(component.softKeyListener.left.text);
         this.setCenterText(component.softKeyListener.center.text);
         this.setRightText(component.softKeyListener.right.text);
+        component.mount('__kai_router__');
         DOM.scrollTop = this.stack[this.stack.length - 1].scrollThreshold;
         r = true;
       }

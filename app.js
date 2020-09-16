@@ -234,6 +234,81 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
+  const eighthTab = new Kai({
+    name: '_eighthTab_',
+    data: {
+      title: '_eighthTab_',
+      counter: -1,
+    },
+    state,
+    listNavClass: '.eighthTabNav',
+    templateUrl: document.location.origin + '/templates/tabs/eighthTab.html',
+    mounted: function() {
+      // console.log('mounted:', this.name);
+      this.$state.addStateListener('counter', this.methods.listenState);
+      // console.log('STATE', this.name, this.$state.getState('counter'));
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+      this.$state.removeStateListener('counter', this.methods.listenState);
+    },
+    methods: {
+      listenState: function(data) {
+        // console.log('LISTEN', this.name, data);
+        this.render()
+      },
+      minus: function() {
+        this.setData({ counter: this.data.counter - 1 });
+        this.$state.setState('counter', this.$state.getState('counter') - 1);
+      },
+      reset: function() {
+        this.setData({ counter: 0 });
+        this.$state.setState('counter', 0);
+      },
+      plus: function() {
+        this.setData({ counter: this.data.counter + 1 });
+        this.$state.setState('counter', this.$state.getState('counter') + 1);
+      },
+    },
+    softKeyListener: {
+      left: {
+        text: 'Push',
+        func: function() {
+          this.$router.push('404');
+        }
+      },
+      center: {
+        text: 'SELECT',
+        func: function() {
+          if (this.listNavIndex > -1) {
+            const nav = document.querySelectorAll(this.listNavClass);
+            nav[this.listNavIndex].click();
+          }
+        }
+      },
+      right: {
+        text: 'Pop',
+        func: function() {
+          this.$router.pop();
+        }
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowRight: function() {
+        this.navigateTabNav(-1);
+      },
+      arrowDown: function() {
+        this.navigateListNav(1);
+      },
+      arrowLeft: function() {
+        this.navigateTabNav(1);
+      },
+    }
+  });
+
   const lastChild = new Kai({
     name: '_LASTCHILD_',
     data: {
@@ -417,7 +492,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     {name: 'fifthTab', component: fifthTab},
     {name: 'sixthTab', component: sixthTab},
     {name: 'seventhTab', component: seventhTab},
-    {name: 'lastChild', component: lastChild}
+    {name: 'eighthTab', component: eighthTab}
   ]);
 
   const thirdChild = new Kai({
