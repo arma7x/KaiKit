@@ -278,7 +278,7 @@ const KaiRouter = (function() {
   }
 
   // data[{text, data}]
-  KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb) {
+  KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb, listNavIndex = -1) {
     const _this = this;
     const d = new Kai({
       name: 'dialog',
@@ -287,6 +287,7 @@ const KaiRouter = (function() {
         options: options
       },
       listNavClass: '.optMenuNav',
+      listNavIndex: listNavIndex,
       template: '\
       <div class="kui-option-menu">\
         <div class="kui-option-title">{{ title }}</div>\

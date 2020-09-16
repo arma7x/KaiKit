@@ -328,9 +328,12 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
           { "name": "Flutter" },
           { "name": "React Native" }
         ];
+        const idx = opts.findIndex((person) => {
+          return person.name === this.data.selected;
+        });
         this.$router.showOptionMenu('Option', opts, 'Select', (selected) => {
           this.setData({ selected: selected.name });
-        });
+        }, idx);
       }
     },
     softKeyListener: {

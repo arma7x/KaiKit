@@ -55,7 +55,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'tabNavClass', 'components'];
+      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'listNavIndex', 'tabNavClass', 'tabNavIndex', 'components'];
       for (var i in options) {
         if (accesssible.indexOf(i) !== -1) { // allow override
           if (i === 'methods') {
@@ -195,6 +195,8 @@ const Kai = (function() {
 
     this.isMounted = true;
 
+    const sk = document.getElementById('__kai_soft_key__');
+
     const listNav = document.querySelectorAll(this.listNavClass);
     if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
       if (this.listNavIndex === -1) {
@@ -202,6 +204,7 @@ const Kai = (function() {
       }
       listNav[this.listNavIndex].focus();
       listNav[this.listNavIndex].classList.add('focus');
+      listNav[this.listNavIndex].parentElement.scrollTop = listNav[this.listNavIndex].offsetTop - (listNav[this.listNavIndex].offsetHeight + (sk ? 30 : 0));
     }
 
     const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
@@ -231,6 +234,7 @@ const Kai = (function() {
       }
       tabNav[this.tabNavIndex].focus();
       tabNav[this.tabNavIndex].classList.add('focus');
+      tabNav[this.tabNavIndex].parentElement.scrollLeft = tabNav[this.tabNavIndex].offsetLeft - (tabNav[this.tabNavIndex].offsetWidth + (sk ? 30 : 0));
       if (this.components[this.tabNavIndex].component instanceof Kai) {
         this.components[this.tabNavIndex].component.mount('__kai_tab__');
         this.$router.setLeftText(this.components[this.tabNavIndex].component.softKeyListener.left.text);
@@ -252,7 +256,6 @@ const Kai = (function() {
         if (header) {
           padding += 28;
         }
-        const sk = document.getElementById('__kai_soft_key__');
         if (sk) {
           padding += 30;
         }
