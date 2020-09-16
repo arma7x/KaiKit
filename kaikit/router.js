@@ -277,6 +277,84 @@ const KaiRouter = (function() {
     vdom.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
   }
 
+  // data[{text, data}]
+  KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb) {
+    const _this = this;
+    const d = new Kai({
+      name: 'dialog',
+      data: {
+        title: title,
+        options: options
+      },
+      listNavClass: '.optMenuNav',
+      template: '\
+      <div class="kui-option-menu">\
+        <div class="kui-option-title">{{ title }}</div>\
+        <div class="kui-option-body" style="margin:0;padding:0;">\
+          <ul id="kui-options" class="kui-options">\
+            {{#options}}\
+            <li class="optMenuNav" click="selectOption(\'{{name}}\')">{{name}}</li>\
+            {{/options}}\
+          </ul>\
+        </div>\
+      </div>',
+      methods: {
+        selectOption: function(data) {
+          if (typeof selectCb === 'function') {
+            selectCb(data);
+            _this.hideOptionMenu();
+          }
+        }
+      },
+      softKeyListener: {
+        left: {
+          text: '',
+          func: function() {}
+        },
+        center: {
+          text: selectText || 'SELECT',
+          func: function() {
+            const listNav = document.querySelectorAll(this.listNavClass);
+            if (this.listNavIndex > -1) {
+              listNav[this.listNavIndex].click();
+            }
+          }
+        },
+        right: {
+          text: '',
+          func: function() {}
+        }
+      },
+      dPadNavListener: {
+        arrowUp: function() {
+          this.navigateListNav(-1);
+        },
+        arrowRight: function() {},
+        arrowDown: function() {
+          this.navigateListNav(1);
+        },
+        arrowLeft: function() {},
+      }
+    });
+    d.mount('__kai_dialog__');
+    this.setLeftText(d.softKeyListener.left.text);
+    this.setCenterText(d.softKeyListener.center.text);
+    this.setRightText(d.softKeyListener.right.text);
+    this.dialog = true;
+    this.stack.push(d);
+    const vdom = document.getElementById('__kai_dialog__');
+    vdom.classList.add('kui-overlay');
+    vdom.style.height = 'calc(100% - 30px)';
+    vdom.style.zIndex = '1';
+    vdom.style.visibility =  'visible';
+    vdom.style.transition = 'opacity 0.1s linear';
+  }
+
+  KaiRouter.prototype.hideOptionMenu = function() {
+    this.hideDialog();
+  }
+
+
   KaiRouter.prototype.calcBodyHeight = function() {
     var padding = 0;
     const body = document.getElementById('__kai_router__');

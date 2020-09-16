@@ -26,7 +26,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans';
 }
 
 h1, h2, h3, h4, h5, ul, p {
@@ -161,6 +161,7 @@ h1, h2, h3, h4, h5, ul, p {
     top: 0;
     margin-bottom: 28px;
     font-weight: bold;
+    z-index: 9;
 }
 
 /* ============== Separator ============== */
@@ -184,6 +185,7 @@ h1, h2, h3, h4, h5, ul, p {
     position: fixed;
     width:  100%;
     bottom: 0;
+    z-index: 9;
 }
 
 .kui-software-key h5 {
@@ -295,6 +297,12 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .kui-options li:focus {
+    outline: 0;
+    color: #fff;
+    background-color: #873eff;
+}
+
+.kui-options li.focus {
     outline: 0;
     color: #fff;
     background-color: #873eff;

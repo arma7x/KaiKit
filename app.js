@@ -280,6 +280,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     data: {
       title: '_CHILD_ 1',
       counter: -1,
+      selected: 'None'
     },
     listNavClass: '.child1Nav',
     templateUrl: document.location.origin + '/templates/child_1.html',
@@ -314,6 +315,23 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.setData({ counter: this.data.counter + 1 });
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
+      showOptMenu: function() {
+        var opts = [
+          { "name": "PHP" },
+          { "name": "JavaScript" },
+          { "name": "Dart" },
+          { "name": "Golang" },
+          { "name": "SQL" },
+          { "name": "Java" },
+          { "name": "CSS" },
+          { "name": "HTML" },
+          { "name": "Flutter" },
+          { "name": "React Native" }
+        ];
+        this.$router.showOptionMenu('Option', opts, 'Select', (selected) => {
+          this.setData({ selected: selected });
+        });
+      }
     },
     softKeyListener: {
       left: {

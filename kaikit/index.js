@@ -419,16 +419,9 @@ const Kai = (function() {
       nav[currentIndex].classList.remove('focus');
     }
     if (navClass === 'tabNavClass') {
-      const ul = document.getElementById(this[navClass].replace('.', ''));
-      var threshold = targetElement.offsetWidth;
-      for(var i=0;i<this[navIndex];i++) {
-        threshold += nav[i].offsetWidth;
-      }
-      if (threshold < window.innerWidth) {
-        ul.scrollLeft = 0;
-      } else {
-        ul.scrollLeft = (ul.scrollLeft + targetElement.offsetWidth);
-      }
+      targetElement.parentElement.scrollLeft = targetElement.offsetLeft - (targetElement.offsetWidth + 30);
+    } else if (navClass === 'listNavClass') {
+      targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + 30);
     }
   }
 
