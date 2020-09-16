@@ -130,8 +130,8 @@ const KaiRouter = (function() {
     if (this.dialog) {
       return;
     }
-    const vdom = document.getElementById('__kai_router__');
-    vdom.scrollTop = 0;
+    const DOM = document.getElementById('__kai_router__');
+    DOM.scrollTop = 0;
     var name = path;
     if (typeof path === 'string' && this.routes[path]) {
       const clone = this.routes[path].component.reset();
@@ -180,12 +180,12 @@ const KaiRouter = (function() {
       if ((this.stack.length - 1) > 0) {
         paths.pop();
         this.stack.pop();
-        const vdom = document.getElementById('__kai_router__');
-        if (vdom) {
-          if (vdom.__kaikit__ != undefined && vdom.__kaikit__ instanceof Kai && vdom.__kaikit__.id === '__kai_router__') {
-            console.log('unmount previous:', vdom.__kaikit__.name);
-            vdom.__kaikit__.unmount();
-            vdom.removeEventListener('click', vdom.__kaikit__.handleClick);
+        const DOM = document.getElementById('__kai_router__');
+        if (DOM) {
+          if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_router__') {
+            console.log('unmount previous:', DOM.__kaikit__.name);
+            DOM.__kaikit__.unmount();
+            DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
           }
         }
         const component = this.stack[this.stack.length - 1];
@@ -193,7 +193,7 @@ const KaiRouter = (function() {
         this.setLeftText(component.softKeyListener.left.text);
         this.setCenterText(component.softKeyListener.center.text);
         this.setRightText(component.softKeyListener.right.text);
-        vdom.scrollTop = this.stack[this.stack.length - 1].scrollThreshold;
+        DOM.scrollTop = this.stack[this.stack.length - 1].scrollThreshold;
         r = true;
       }
       window.history.pushState("/", "", pathname + createPageURLParam(paths));
@@ -246,12 +246,12 @@ const KaiRouter = (function() {
     this.setRightText(d.softKeyListener.right.text);
     this.dialog = true;
     this.stack.push(d);
-    const vdom = document.getElementById('__kai_dialog__');
-    vdom.classList.add('kui-overlay');
-    vdom.style.height = 'calc(100% - 30px)';
-    vdom.style.zIndex = '1';
-    vdom.style.visibility =  'visible';
-    vdom.style.transition = 'opacity 0.1s linear';
+    const DOM = document.getElementById('__kai_dialog__');
+    DOM.classList.add('kui-overlay');
+    DOM.style.height = 'calc(100% - 30px)';
+    DOM.style.zIndex = '1';
+    DOM.style.visibility =  'visible';
+    DOM.style.transition = 'opacity 0.1s linear';
   }
 
   KaiRouter.prototype.hideDialog = function() {
@@ -263,21 +263,20 @@ const KaiRouter = (function() {
     this.setLeftText(this.stack[this.stack.length -1].softKeyListener.left.text);
     this.setCenterText(this.stack[this.stack.length -1].softKeyListener.center.text);
     this.setRightText(this.stack[this.stack.length -1].softKeyListener.right.text);
-    const vdom = document.getElementById('__kai_dialog__');
-    if (vdom) {
-      if (vdom.__kaikit__ != undefined && vdom.__kaikit__ instanceof Kai && vdom.__kaikit__.id === '__kai_dialog__') {
-        console.log('unmount previous:', vdom.__kaikit__.name);
-        vdom.__kaikit__.unmount();
-        vdom.removeEventListener('click', vdom.__kaikit__.handleClick);
+    const DOM = document.getElementById('__kai_dialog__');
+    if (DOM) {
+      if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_dialog__') {
+        console.log('unmount previous:', DOM.__kaikit__.name);
+        DOM.__kaikit__.unmount();
+        DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
       }
     }
-    vdom.style.height = '0';
-    vdom.style.zIndex = '-1';
-    vdom.style.visibility =  'hidden';
-    vdom.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
+    DOM.style.height = '0';
+    DOM.style.zIndex = '-1';
+    DOM.style.visibility =  'hidden';
+    DOM.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
   }
 
-  // data[{text, data}]
   KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb, listNavIndex = -1) {
     const _this = this;
     const d = new Kai({
@@ -294,7 +293,7 @@ const KaiRouter = (function() {
         <div class="kui-option-body" style="margin:0;padding:0;">\
           <ul id="kui-options" class="kui-options">\
             {{#options}}\
-            <li class="optMenuNav" click="selectOption(\{{__stringify__}}\)">{{name}}</li>\
+            <li class="optMenuNav" click="selectOption(\{{__stringify__}}\)">{{text}}</li>\
             {{/options}}\
           </ul>\
         </div>\
@@ -343,12 +342,12 @@ const KaiRouter = (function() {
     this.setRightText(d.softKeyListener.right.text);
     this.dialog = true;
     this.stack.push(d);
-    const vdom = document.getElementById('__kai_dialog__');
-    vdom.classList.add('kui-overlay');
-    vdom.style.height = 'calc(100% - 30px)';
-    vdom.style.zIndex = '1';
-    vdom.style.visibility =  'visible';
-    vdom.style.transition = 'opacity 0.1s linear';
+    const DOM = document.getElementById('__kai_dialog__');
+    DOM.classList.add('kui-overlay');
+    DOM.style.height = 'calc(100% - 30px)';
+    DOM.style.zIndex = '1';
+    DOM.style.visibility =  'visible';
+    DOM.style.transition = 'opacity 0.1s linear';
   }
 
   KaiRouter.prototype.hideOptionMenu = function() {

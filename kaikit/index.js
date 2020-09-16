@@ -25,26 +25,22 @@ const Kai = (function() {
     this.components = [];
     this.dPadNavListener = {
       arrowUp: function() {
-        // console.log('stock arrowUp');
-        const vdom = document.getElementById(_this.id);
-        vdom.scrollTop -= 20;
-        _this.scrollThreshold = vdom.scrollTop;
+        const DOM = document.getElementById(_this.id);
+        DOM.scrollTop -= 20;
+        _this.scrollThreshold = DOM.scrollTop;
       },
       arrowRight: function() {
-        // console.log('stock arrowRight');
-        const vdom = document.getElementById(_this.id);
-        vdom.scrollLeft = +20;
+        const DOM = document.getElementById(_this.id);
+        DOM.scrollLeft = +20;
       },
       arrowDown: function() {
-        // console.log('stock arrowDown');
-        const vdom = document.getElementById(_this.id);
-        vdom.scrollTop += 20;
-        _this.scrollThreshold = vdom.scrollTop;
+        const DOM = document.getElementById(_this.id);
+        DOM.scrollTop += 20;
+        _this.scrollThreshold = DOM.scrollTop;
       },
       arrowLeft: function() {
-        // console.log('stock arrowLeft');
-        const vdom = document.getElementById(_this.id);
-        vdom.scrollLeft = -20;
+        const DOM = document.getElementById(_this.id);
+        DOM.scrollLeft = -20;
       },
     };
     this._router;
@@ -57,7 +53,7 @@ const Kai = (function() {
       this._data = JSON.stringify(options.data);
       const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'listNavIndex', 'tabNavClass', 'tabNavIndex', 'components'];
       for (var i in options) {
-        if (accesssible.indexOf(i) !== -1) { // allow override
+        if (accesssible.indexOf(i) !== -1) {
           if (i === 'methods') {
             for (f in options[i]) {
               if (typeof options[i][f] === 'function') {
@@ -102,36 +98,29 @@ const Kai = (function() {
     this._Kai(options);
   }
 
-  Kai.prototype.mounted = function() {
-    // console.log('execute mounted:', this.name);
-  }
+  Kai.prototype.mounted = function() {}
 
-  Kai.prototype.unmounted = function(name) {
-    // console.log('execute unmounted:', this.name);
-  }
+  Kai.prototype.unmounted = function(name) {}
 
   Kai.prototype.mount = function(id) {
     this.id = id;
-    // console.log('MOUNT', this.name, this.isMounted, this.id);
-    const vdom = document.getElementById(id);
-    if (!vdom) {
+    const DOM = document.getElementById(id);
+    if (!DOM) {
       return;
     }
-    if ((vdom.__kaikit__ !== undefined || vdom.__kaikit__ !== null) && vdom.__kaikit__ instanceof Kai && this.id !== '__kai_router__' && this.id !== '__kai_tab__') {
-      console.log('unmount previous:', vdom.__kaikit__.name);
-      vdom.__kaikit__.unmount();
-      vdom.removeEventListener('click', this.handleClick);
+    if ((DOM.__kaikit__ !== undefined || DOM.__kaikit__ !== null) && DOM.__kaikit__ instanceof Kai && this.id !== '__kai_router__' && this.id !== '__kai_tab__') {
+      // console.log('unmount previous:', DOM.__kaikit__.name);
+      DOM.__kaikit__.unmount();
+      DOM.removeEventListener('click', this.handleClick);
     }
-    vdom.__kaikit__ = this;
-    vdom.addEventListener('click', this.handleClick);
+    DOM.__kaikit__ = this;
+    DOM.addEventListener('click', this.handleClick);
     this.addKeydownListener();
 
     if (this.isMounted) {
       this.render();
-      // console.log('RE-RENDER', this.name, this.isMounted);
       return;
     }
-    // console.log('mounting:', this.name);
     if (!this.templateUrl) {
       this.exec();
       this.mounted();
@@ -144,7 +133,6 @@ const Kai = (function() {
           this.mounted();
         }
       };
-      // console.log(this.templateUrl);
       xhttp.open('GET', this.templateUrl, true);
       xhttp.send();
     }
@@ -167,18 +155,15 @@ const Kai = (function() {
   Kai.prototype.exec = function() {
     this.render();
     if (this._router) {
-      // console.log(this.name, 'exec routing', this.isMounted);
       this._router.run();
     }
   }
 
   Kai.prototype.render = function() {
-    // console.log('RENDER', this.name, this.isMounted, this.id);
-    const vdom = document.getElementById(this.id);
-    if (!vdom) {
+    const DOM = document.getElementById(this.id);
+    if (!DOM) {
       return;
     }
-    var output;
     if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       data['__stringify__'] = function () {
@@ -187,11 +172,10 @@ const Kai = (function() {
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      output = window.Mustache.render(this.template, data);
+      DOM.innerHTML = window.Mustache.render(this.template, data);
     } else {
-      output = this.template;
+      DOM.innerHTML = this.template;
     }
-    vdom.innerHTML = output;
 
     this.isMounted = true;
 
@@ -202,9 +186,10 @@ const Kai = (function() {
       if (this.listNavIndex === -1) {
         this.listNavIndex = 0;
       }
-      listNav[this.listNavIndex].focus();
-      listNav[this.listNavIndex].classList.add('focus');
-      listNav[this.listNavIndex].parentElement.scrollTop = listNav[this.listNavIndex].offsetTop - (listNav[this.listNavIndex].offsetHeight + (sk ? 30 : 0));
+      const cur = listNav[this.listNavIndex];
+      cur.focus();
+      cur.classList.add('focus');
+      cur.parentElement.scrollTop = cur.offsetTop - (cur.offsetHeight + (sk ? 30 : 0));
     }
 
     const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
@@ -232,17 +217,19 @@ const Kai = (function() {
       if (this.tabNavIndex === -1) {
         this.tabNavIndex = 0;
       }
-      tabNav[this.tabNavIndex].focus();
-      tabNav[this.tabNavIndex].classList.add('focus');
-      tabNav[this.tabNavIndex].parentElement.scrollLeft = tabNav[this.tabNavIndex].offsetLeft - (tabNav[this.tabNavIndex].offsetWidth + (sk ? 30 : 0));
-      if (this.components[this.tabNavIndex].component instanceof Kai) {
-        this.components[this.tabNavIndex].component.mount('__kai_tab__');
-        this.$router.setLeftText(this.components[this.tabNavIndex].component.softKeyListener.left.text);
-        this.$router.setCenterText(this.components[this.tabNavIndex].component.softKeyListener.center.text);
-        this.$router.setRightText(this.components[this.tabNavIndex].component.softKeyListener.right.text);
+      const cur = tabNav[this.tabNavIndex];
+      cur.focus();
+      cur.classList.add('focus');
+      cur.parentElement.scrollLeft = cur.offsetLeft - (cur.offsetWidth + (sk ? 30 : 0));
+      const component = this.components[this.tabNavIndex].component;
+      if (component instanceof Kai) {
+        component.mount('__kai_tab__');
+        this.$router.setLeftText(component.softKeyListener.left.text);
+        this.$router.setCenterText(component.softKeyListener.center.text);
+        this.$router.setRightText(component.softKeyListener.right.text);
       } else {
         const __kai_tab__ = document.getElementById('__kai_tab__');
-        __kai_tab__.innerHTML = this.components[this.tabNavIndex].component;
+        __kai_tab__.innerHTML = component;
         __kai_tab__.scrollTop = this.scrollThreshold;
         this.$router.setLeftText(this.softKeyListener.left.text);
         this.$router.setCenterText(this.softKeyListener.center.text);
@@ -270,37 +257,31 @@ const Kai = (function() {
   }
 
   Kai.prototype.setData = function(data) {
-    this.data = Object.assign(JSON.parse(JSON.stringify(this.data)), data); // immutability
+    this.data = Object.assign(JSON.parse(JSON.stringify(this.data)), data);
     this.exec();
   }
 
   Kai.prototype.addKeydownListener = function() {
     if (this._router) {
-      // console.log('addKeydownListener', this.id);
       document.addEventListener('keydown', this.handleRouterKeydown.bind(this));
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
-      // console.log('addKeydownListener', this.id);
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
       document.addEventListener('keydown', this.handleLocalKeydown.bind(this), true);
     }
   }
 
   Kai.prototype.removeKeydownListener = function() {
     if (this._router) {
-      // console.log('removeKeydownListener', this.id);
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_option_menu__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
-      // console.log('removeKeydownListener', this.id);
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
     }
   }
 
   Kai.prototype.handleRouterKeydown = function(evt) {
-    // console.log('handleRouterKeydown', this.id);
     this._router.handleKeydown(evt, this._router);
   }
 
   Kai.prototype.handleLocalKeydown = function(evt) {
-    // console.log('handleLocalKeydown', this.id);
     switch(evt.key) {
       case "BrowserBack":
       case 'Backspace':
@@ -448,20 +429,17 @@ Kai.createTabNav = function(name, tabNavClass, components) {
     components: components,
     template: '<div><ul id="' + tabNavClass.replace('.', '') + '" class="kui-tab"></ul><div id="__kai_tab__"></div></div>',
     mounted: function() {
-      // console.log('mounted:', this.name);
       if (this.$state) {
         this.$state.addGlobalListener(this.methods.globalState);
       }
     },
     unmounted: function() {
-      // console.log('unmounted:', this.name);
       if (this.$state) {
         this.$state.removeGlobalListener(this.methods.globalState);
       }
     },
     methods: {
       globalState: function(data) {
-        console.log('LISTEN GLOBAL', this.name, data);
         if (this.$router) {
           if (this.$router.stack[this.$router.stack.length - 1]) {
             if (this.$router.stack[this.$router.stack.length - 1].name === this.name) {
@@ -474,42 +452,38 @@ Kai.createTabNav = function(name, tabNavClass, components) {
     },
     softKeyListener: {
       left: {
-        text: 'Push',
+        text: '',
         func: function() {
-          if (this.components[this.tabNavIndex].component instanceof Kai) {
-            this.components[this.tabNavIndex].component.softKeyListener.left.func();
-          } else {
-            this.$router.push('third');
-            // DEFAULT ACTION
+          const component = this.components[this.tabNavIndex].component;
+          if (component instanceof Kai) {
+            component.softKeyListener.left.func();
           }
         }
       },
       center: {
         text: '',
         func: function() {
-          if (this.components[this.tabNavIndex].component instanceof Kai) {
-            this.components[this.tabNavIndex].component.softKeyListener.center.func();
-          } else {
-            // DEFAULT ACTION
+          const component = this.components[this.tabNavIndex].component;
+          if (component instanceof Kai) {
+            component.softKeyListener.center.func();
           }
         }
       },
       right: {
-        text: 'Pop',
+        text: '',
         func: function() {
-          if (this.components[this.tabNavIndex].component instanceof Kai) {
-            this.components[this.tabNavIndex].component.softKeyListener.right.func();
-          } else {
-            this.$router.pop();
-            // DEFAULT ACTION
+          const component = this.components[this.tabNavIndex].component;
+          if (component instanceof Kai) {
+            component.softKeyListener.right.func();
           }
         }
       }
     },
     dPadNavListener: {
       arrowUp: function() {
-        if (this.components[this.tabNavIndex].component instanceof Kai) {
-          this.components[this.tabNavIndex].component.dPadNavListener.arrowUp();
+        const component = this.components[this.tabNavIndex].component;
+        if (component instanceof Kai) {
+          component.dPadNavListener.arrowUp();
         } else {
           const __kai_tab__ = document.getElementById('__kai_tab__');
           __kai_tab__.scrollTop -= 20;
@@ -519,14 +493,16 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       },
       arrowRight: function() {
         this.navigateTabNav(+1);
-        if (this.components[this.tabNavIndex].component instanceof Kai) {
-          this.components[this.tabNavIndex].component.mount('__kai_tab__');
-          this.$router.setLeftText(this.components[this.tabNavIndex].component.softKeyListener.left.text);
-          this.$router.setCenterText(this.components[this.tabNavIndex].component.softKeyListener.center.text);
-          this.$router.setRightText(this.components[this.tabNavIndex].component.softKeyListener.right.text);
+        const __kai_tab__ = document.getElementById('__kai_tab__');
+        const component = this.components[this.tabNavIndex].component;
+        if (component instanceof Kai) {
+          component.mount('__kai_tab__');
+          __kai_tab__.scrollTop = component.scrollThreshold;
+          this.$router.setLeftText(component.softKeyListener.left.text);
+          this.$router.setCenterText(component.softKeyListener.center.text);
+          this.$router.setRightText(component.softKeyListener.right.text);
         } else {
-          const __kai_tab__ = document.getElementById('__kai_tab__');
-          __kai_tab__.innerHTML = this.components[this.tabNavIndex].component;
+          __kai_tab__.innerHTML = component;
           __kai_tab__.scrollTop = this.scrollThreshold;
           this.$router.setLeftText(this.softKeyListener.left.text);
           this.$router.setCenterText(this.softKeyListener.center.text);
@@ -534,8 +510,9 @@ Kai.createTabNav = function(name, tabNavClass, components) {
         }
       },
       arrowDown: function() {
-        if (this.components[this.tabNavIndex].component instanceof Kai) {
-          this.components[this.tabNavIndex].component.dPadNavListener.arrowDown();
+        const component = this.components[this.tabNavIndex].component;
+        if (component instanceof Kai) {
+          component.dPadNavListener.arrowDown();
         } else {
           const __kai_tab__ = document.getElementById('__kai_tab__');
           __kai_tab__.scrollTop += 20;
@@ -544,14 +521,16 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       },
       arrowLeft: function() {
         this.navigateTabNav(-1);
-        if (this.components[this.tabNavIndex].component instanceof Kai) {
-          this.components[this.tabNavIndex].component.mount('__kai_tab__');
-          this.$router.setLeftText(this.components[this.tabNavIndex].component.softKeyListener.left.text);
-          this.$router.setCenterText(this.components[this.tabNavIndex].component.softKeyListener.center.text);
-          this.$router.setRightText(this.components[this.tabNavIndex].component.softKeyListener.right.text);
+        const __kai_tab__ = document.getElementById('__kai_tab__');
+        const component = this.components[this.tabNavIndex].component;
+        if (component instanceof Kai) {
+          component.mount('__kai_tab__');
+          __kai_tab__.scrollTop = component.scrollThreshold;
+          this.$router.setLeftText(component.softKeyListener.left.text);
+          this.$router.setCenterText(component.softKeyListener.center.text);
+          this.$router.setRightText(component.softKeyListener.right.text);
         } else {
-          const __kai_tab__ = document.getElementById('__kai_tab__');
-          __kai_tab__.innerHTML = this.components[this.tabNavIndex].component;
+          __kai_tab__.innerHTML = component;
           __kai_tab__.scrollTop = this.scrollThreshold;
           this.$router.setLeftText(this.softKeyListener.left.text);
           this.$router.setCenterText(this.softKeyListener.center.text);

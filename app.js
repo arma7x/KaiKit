@@ -1,8 +1,5 @@
 window.addEventListener("load", function() {
 
-  const sixthTab = `KaiOS is a web-based mobile operating system that enables a new category of smart feature phones. It is forked from B2G (Boot to Gecko), a successor of the discontinued Firefox OS.
-KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and longer battery life, to non-touch devices. It has an optimized user interface for smart feature phones, needs little memory, and consumes less energy than other operating systems. It also comes with the KaiStore, which enables users to download applications in categories like social media, games, navigation, and streaming entertainment.`;
-
   const state = new KaiState({'counter': -1});
 
   const firstTab = new Kai({
@@ -200,6 +197,43 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
+  const sixthTab = `KaiOS is a web-based mobile operating system that enables a new category of smart feature phones. It is forked from B2G (Boot to Gecko), a successor of the discontinued Firefox OS.
+KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and longer battery life, to non-touch devices. It has an optimized user interface for smart feature phones, needs little memory, and consumes less energy than other operating systems. It also comes with the KaiStore, which enables users to download applications in categories like social media, games, navigation, and streaming entertainment.`;
+
+  const seventhTab = new Kai({
+    name: '_seventhTab_',
+    data: {
+      title: '_seventhTab_'
+    },
+    state,
+    template: sixthTab,
+    mounted: function() {
+    },
+    unmounted: function() {
+      // console.log('unmounted:', this.name);
+    },
+    methods: {
+    },
+    softKeyListener: {
+      left: {
+        text: 'Push',
+        func: function() {
+          this.$router.push('third');
+        }
+      },
+      center: {
+        text: '',
+        func: function() {}
+      },
+      right: {
+        text: 'Pop',
+        func: function() {
+          this.$router.pop();
+        }
+      }
+    }
+  });
+
   const lastChild = new Kai({
     name: '_LASTCHILD_',
     data: {
@@ -220,7 +254,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       minus: function() {
@@ -295,7 +329,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       push: function() {
@@ -317,22 +351,22 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       },
       showOptMenu: function() {
         var opts = [
-          { "name": "PHP" },
-          { "name": "JavaScript" },
-          { "name": "Dart" },
-          { "name": "Golang" },
-          { "name": "SQL" },
-          { "name": "Java" },
-          { "name": "CSS" },
-          { "name": "HTML" },
-          { "name": "Flutter" },
-          { "name": "React Native" }
+          { "text": "PHP" },
+          { "text": "JavaScript" },
+          { "text": "Dart" },
+          { "text": "Golang" },
+          { "text": "SQL" },
+          { "text": "Java" },
+          { "text": "CSS" },
+          { "text": "HTML" },
+          { "text": "Flutter" },
+          { "text": "React Native" }
         ];
-        const idx = opts.findIndex((person) => {
-          return person.name === this.data.selected;
+        const idx = opts.findIndex((opt) => {
+          return opt.text === this.data.selected;
         });
         this.$router.showOptionMenu('Option', opts, 'Select', (selected) => {
-          this.setData({ selected: selected.name });
+          this.setData({ selected: selected.text });
         }, idx);
       }
     },
@@ -382,6 +416,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     {name: 'fourthTab', component: fourthTab},
     {name: 'fifthTab', component: fifthTab},
     {name: 'sixthTab', component: sixthTab},
+    {name: 'seventhTab', component: seventhTab},
     {name: 'lastChild', component: lastChild}
   ]);
 
@@ -404,7 +439,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     },
     methods: {
       listenState: function(data) {
-        console.log('LISTEN', this.name, data);
+        // console.log('LISTEN', this.name, data);
         this.render()
       },
       selectNav: function(name) {
