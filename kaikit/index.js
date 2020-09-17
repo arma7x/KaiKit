@@ -6,7 +6,6 @@ const Kai = (function() {
 
   Kai.prototype.init = function(options) {
 
-    const _this = this;
     this.id;
     this.name = 'Kai';
     this.data = {};
@@ -16,30 +15,31 @@ const Kai = (function() {
     this.isMounted = false;
     this.$router;
     this.$state;
-    this.softKeyListener = { left: {}, center: {}, right: {} };
     this.scrollThreshold = 0;
     this.verticalNavClass = '.kai-list-nav';
     this.verticalNavIndex = -1;
     this.horizontalNavClass = '.kai-tab-nav';
     this.horizontalNavIndex = -1;
     this.components = [];
+    this.softKeyListener = { left: {}, center: {}, right: {} };
+    this.backKeyListener = function(evt) {};
     this.dPadNavListener = {
-      arrowUp: function() {
-        const DOM = document.getElementById(_this.id);
+      arrowUp: () => {
+        const DOM = document.getElementById(this.id);
         DOM.scrollTop -= 20;
-        _this.scrollThreshold = DOM.scrollTop;
+        this.scrollThreshold = DOM.scrollTop;
       },
-      arrowRight: function() {
-        const DOM = document.getElementById(_this.id);
+      arrowRight: () => {
+        const DOM = document.getElementById(this.id);
         DOM.scrollLeft = +20;
       },
-      arrowDown: function() {
-        const DOM = document.getElementById(_this.id);
+      arrowDown: () => {
+        const DOM = document.getElementById(this.id);
         DOM.scrollTop += 20;
-        _this.scrollThreshold = DOM.scrollTop;
+        this.scrollThreshold = DOM.scrollTop;
       },
-      arrowLeft: function() {
-        const DOM = document.getElementById(_this.id);
+      arrowLeft: () => {
+        const DOM = document.getElementById(this.id);
         DOM.scrollLeft = -20;
       },
     };
@@ -51,7 +51,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components'];
+      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener'];
       for (var i in options) {
         if (accesssible.indexOf(i) !== -1) {
           if (i === 'methods') {
@@ -75,6 +75,8 @@ const Kai = (function() {
                 this[i][f] = options[i][f].bind(this);
               }
             }
+          } else if (i === 'backKeyListener' && typeof options[i] === 'function') {
+            this[i] = options[i].bind(this);
           } else if (i === 'router' && options[i] instanceof KaiRouter) {
             this._router = options[i];
             this.$router = this._router;
@@ -100,7 +102,7 @@ const Kai = (function() {
 
   Kai.prototype.mounted = function() {}
 
-  Kai.prototype.unmounted = function(name) {}
+  Kai.prototype.unmounted = function() {}
 
   Kai.prototype.mount = function(id) {
     this.id = id;
@@ -286,8 +288,15 @@ const Kai = (function() {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
           }
-          e.preventDefault();
-          e.stopPropagation();
+          return
+        }
+        if (typeof this.backKeyListener === 'function') {
+          const isStop = this.backKeyListener();
+          if (isStop === true) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
         }
         break
       case 'SoftLeft':
@@ -297,18 +306,27 @@ const Kai = (function() {
         this.softKeyListener.right.func();
         break
       case 'Enter':
+        if (document.activeElement.tagName === 'INPUT') {
+          return
+        }
         this.softKeyListener.center.func();
         break
       case 'ArrowUp':
         this.dPadNavListener.arrowUp();
         break
       case 'ArrowRight':
+        if (document.activeElement.tagName === 'INPUT') {
+          return
+        }
         this.dPadNavListener.arrowRight();
         break
       case 'ArrowDown':
         this.dPadNavListener.arrowDown();
         break
       case 'ArrowLeft':
+        if (document.activeElement.tagName === 'INPUT') {
+          return
+        }
         this.dPadNavListener.arrowLeft();
         break
       default:

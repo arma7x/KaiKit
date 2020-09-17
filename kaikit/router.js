@@ -171,7 +171,7 @@ const KaiRouter = (function() {
         const DOM = document.getElementById('__kai_router__');
         if (DOM) {
           if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_router__') {
-            console.log('unmount previous:', DOM.__kaikit__.name);
+            // console.log('unmount previous:', DOM.__kaikit__.name);
             DOM.__kaikit__.unmount();
             DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
           }
@@ -190,7 +190,10 @@ const KaiRouter = (function() {
     return false;
   }
 
-  KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb) {
+  KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb) {
+    if (document.activeElement.tagName === 'INPUT') {
+      document.activeElement.blur();
+    }
     const _this = this;
     const d = new Kai({
       name: 'dialog',
@@ -203,7 +206,6 @@ const KaiRouter = (function() {
         left: {
           text: negativeText || 'Cancel',
           func: function() {
-            console.log(negativeText);
             if (typeof negativeCb === 'function') {
               negativeCb(dataCb);
             }
@@ -211,13 +213,17 @@ const KaiRouter = (function() {
           }
         },
         center: {
-          text: '',
-          func: function() {}
+          text: neutralText || '',
+          func: function() {
+            if (typeof neutralCb === 'function') {
+              neutralCb(dataCb);
+            }
+            _this.hideDialog();
+          }
         },
         right: {
           text: positiveText || 'Yes',
           func: function() {
-            console.log(positiveText);
             if (typeof positiveCb === 'function') {
               positiveCb(dataCb);
             }
@@ -249,7 +255,7 @@ const KaiRouter = (function() {
     const DOM = document.getElementById('__kai_dialog__');
     if (DOM) {
       if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_dialog__') {
-        console.log('unmount previous:', DOM.__kaikit__.name);
+        // console.log('unmount previous:', DOM.__kaikit__.name);
         DOM.__kaikit__.unmount();
         DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
       }
@@ -261,6 +267,9 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb, verticalNavIndex = -1) {
+    if (document.activeElement.tagName === 'INPUT') {
+      document.activeElement.blur();
+    }
     const _this = this;
     const d = new Kai({
       name: 'dialog',
@@ -473,6 +482,46 @@ const KaiRouter = (function() {
     }
   }
 
+  KaiRouter.prototype.arrowUp = function() {
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].dPadNavListener.arrowUp === 'function') {
+        this.stack[this.stack.length - 1].dPadNavListener.arrowUp();
+      }
+    }
+  }
+
+  KaiRouter.prototype.arrowRight = function() {
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].dPadNavListener.arrowRight === 'function') {
+        this.stack[this.stack.length - 1].dPadNavListener.arrowRight();
+      }
+    }
+  }
+
+  KaiRouter.prototype.arrowDown = function() {
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].dPadNavListener.arrowDown === 'function') {
+        this.stack[this.stack.length - 1].dPadNavListener.arrowDown();
+      }
+    }
+  }
+
+  KaiRouter.prototype.arrowLeft = function() {
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].dPadNavListener.arrowLeft === 'function') {
+        this.stack[this.stack.length - 1].dPadNavListener.arrowLeft();
+      }
+    }
+  }
+
+  KaiRouter.prototype.backKey = function() {
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].backKeyListener === 'function') {
+        this.stack[this.stack.length - 1].backKeyListener();
+      }
+    }
+  }
+
   KaiRouter.prototype.handleKeydown = function(e, _router) {
     switch(e.key) {
       case "BrowserBack":
@@ -482,20 +531,19 @@ const KaiRouter = (function() {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
           }
-          e.preventDefault();
-          e.stopPropagation();
-        } else if (_router.dialog) {
+          return;
+        }
+        if (_router) {
+          const isStop = _router.backKey();
+          if (isStop === true) {
+            return;
+          }
+        }
+        if (_router.dialog) {
           _router.hideDialog();
-          e.preventDefault();
-          e.stopPropagation();
         } else {
           if (_router) {
-            if (_router.pop()) {
-              e.preventDefault();
-              e.stopPropagation();
-            } else {
-              // console.log('ROOT');
-            }
+            _router.pop();
           }
         }
         break
@@ -510,21 +558,38 @@ const KaiRouter = (function() {
         }
         break
       case 'Enter':
+        if (document.activeElement.tagName === 'INPUT') {
+          return;
+        }
         if (_router) {
           _router.clickCenter();
         }
         break
       case 'ArrowUp':
-        _router.stack[_router.stack.length - 1].dPadNavListener.arrowUp();
+        if (_router) {
+          _router.arrowUp();
+        }
         break
       case 'ArrowRight':
-        _router.stack[_router.stack.length - 1].dPadNavListener.arrowRight();
+        if (document.activeElement.tagName === 'INPUT') {
+          return;
+        }
+        if (_router) {
+          _router.arrowRight();
+        }
         break
       case 'ArrowDown':
-        _router.stack[_router.stack.length - 1].dPadNavListener.arrowDown();
+        if (_router) {
+          _router.arrowDown();
+        }
         break
       case 'ArrowLeft':
-        _router.stack[_router.stack.length - 1].dPadNavListener.arrowLeft();
+        if (document.activeElement.tagName === 'INPUT') {
+          return;
+        }
+        if (_router) {
+          _router.arrowLeft();
+        }
         break
       default:
         // console.log(e.key);

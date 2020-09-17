@@ -7,16 +7,11 @@ window.addEventListener("load", function() {
     data: {
       title: '_firstTab_'
     },
-    state,
     verticalNavClass: '.firstTabNav',
     templateUrl: document.location.origin + '/templates/tabs/firstTab.html',
-    mounted: function() {
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
-    methods: {
-    },
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {},
     softKeyListener: {
       left: {
         text: 'L1',
@@ -46,16 +41,11 @@ window.addEventListener("load", function() {
     data: {
       title: '_secondTab_'
     },
-    state,
     verticalNavClass: '.secondTabNav',
     templateUrl: document.location.origin + '/templates/tabs/secondTab.html',
-    mounted: function() {
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
-    methods: {
-    },
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {},
     softKeyListener: {
       left: {
         text: 'L2',
@@ -85,16 +75,11 @@ window.addEventListener("load", function() {
     data: {
       title: '_thirdTab_'
     },
-    state,
     verticalNavClass: '.thirdTabNav',
     templateUrl: document.location.origin + '/templates/tabs/thirdTab.html',
-    mounted: function() {
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
-    methods: {
-    },
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {},
     softKeyListener: {
       left: {
         text: 'L3',
@@ -124,16 +109,11 @@ window.addEventListener("load", function() {
     data: {
       title: '_fourthTab_'
     },
-    state,
     verticalNavClass: '.fourthTabNav',
     templateUrl: document.location.origin + '/templates/tabs/fourthTab.html',
-    mounted: function() {
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
-    methods: {
-    },
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {},
     softKeyListener: {
       left: {
         text: 'L4',
@@ -163,16 +143,11 @@ window.addEventListener("load", function() {
     data: {
       title: '_fifthTab_'
     },
-    state,
     verticalNavClass: '.fifthTabNav',
     templateUrl: document.location.origin + '/templates/tabs/fifthTab.html',
-    mounted: function() {
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
-    methods: {
-    },
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {},
     softKeyListener: {
       left: {
         text: 'L5',
@@ -205,15 +180,10 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     data: {
       title: '_seventhTab_'
     },
-    state,
     template: sixthTab,
-    mounted: function() {
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
-    methods: {
-    },
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {},
     softKeyListener: {
       left: {
         text: 'Push',
@@ -240,21 +210,16 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       title: '_eighthTab_',
       counter: -1,
     },
-    state,
     verticalNavClass: '.eighthTabNav',
     templateUrl: document.location.origin + '/templates/tabs/eighthTab.html',
     mounted: function() {
-      // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
-      // console.log('unmounted:', this.name);
       this.$state.removeStateListener('counter', this.methods.listenState);
     },
     methods: {
       listenState: function(data) {
-        // console.log('LISTEN', this.name, data);
         this.render()
       },
       minus: function() {
@@ -319,17 +284,13 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     verticalNavClass: '.lastChildNav',
     templateUrl: document.location.origin + '/templates/lastchild.html',
     mounted: function() {
-      // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
-      // console.log('unmounted:', this.name);
       this.$state.removeStateListener('counter', this.methods.listenState);
     },
     methods: {
       listenState: function(data) {
-        // console.log('LISTEN', this.name, data);
         this.render()
       },
       minus: function() {
@@ -394,17 +355,13 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     verticalNavClass: '.child1Nav',
     templateUrl: document.location.origin + '/templates/child_1.html',
     mounted: function() {
-      // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
-      // console.log('unmounted:', this.name);
       this.$state.removeStateListener('counter', this.methods.listenState);
     },
     methods: {
       listenState: function(data) {
-        // console.log('LISTEN', this.name, data);
         this.render()
       },
       push: function() {
@@ -481,6 +438,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       arrowLeft: function() {
         this.navigateTabNav(1);
       },
+    },
+    backKeyListener: function() {
+      console.log(this.name, 'backKeyListener');
     }
   });
 
@@ -504,21 +464,14 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     verticalNavClass: '.child2Nav',
     templateUrl: document.location.origin + '/templates/child_3.html',
     mounted: function() {
-      // console.log('mounted:', this.name);
       this.$state.addStateListener('counter', this.methods.listenState);
-      // console.log('STATE', this.name, this.$state.getState('counter'));
     },
     unmounted: function() {
-      // console.log('unmounted:', this.name);
       this.$state.removeStateListener('counter', this.methods.listenState);
     },
     methods: {
       listenState: function(data) {
-        // console.log('LISTEN', this.name, data);
         this.render()
-      },
-      selectNav: function(name) {
-        console.log(name);
       },
       minus: function() {
         this.setData({ counter: this.data.counter - 1 });
@@ -592,16 +545,10 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
 
   const app = new Kai({
     name: '_APP_',
-    data: {
-      counter: -1,
-    },
+    data: {},
     templateUrl: document.location.origin + '/template.html',
-    mounted: function() {
-      // console.log('mounted:', this.name);
-    },
-    unmounted: function() {
-      // console.log('unmounted:', this.name);
-    },
+    mounted: function() {},
+    unmounted: function() {},
     methods: {
       test: function() {
         this.setData({ counter: this.data.counter + 1 });
@@ -610,6 +557,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     router,
     state
   });
+
   try {
     app.mount('app');
     //setTimeout(function() {
