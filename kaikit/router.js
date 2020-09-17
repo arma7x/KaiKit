@@ -277,7 +277,7 @@ const KaiRouter = (function() {
     DOM.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
   }
 
-  KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb, listNavIndex = -1) {
+  KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb, verticalNavIndex = -1) {
     const _this = this;
     const d = new Kai({
       name: 'dialog',
@@ -285,8 +285,8 @@ const KaiRouter = (function() {
         title: title,
         options: options
       },
-      listNavClass: '.optMenuNav',
-      listNavIndex: listNavIndex,
+      verticalNavClass: '.optMenuNav',
+      verticalNavIndex: verticalNavIndex,
       template: '\
       <div class="kui-option-menu">\
         <div class="kui-option-title">{{ title }}</div>\
@@ -314,9 +314,9 @@ const KaiRouter = (function() {
         center: {
           text: selectText || 'SELECT',
           func: function() {
-            const listNav = document.querySelectorAll(this.listNavClass);
-            if (this.listNavIndex > -1) {
-              listNav[this.listNavIndex].click();
+            const listNav = document.querySelectorAll(this.verticalNavClass);
+            if (this.verticalNavIndex > -1) {
+              listNav[this.verticalNavIndex].click();
             }
           }
         },

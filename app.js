@@ -8,7 +8,7 @@ window.addEventListener("load", function() {
       title: '_firstTab_'
     },
     state,
-    listNavClass: '.firstTabNav',
+    verticalNavClass: '.firstTabNav',
     templateUrl: document.location.origin + '/templates/tabs/firstTab.html',
     mounted: function() {
     },
@@ -47,7 +47,7 @@ window.addEventListener("load", function() {
       title: '_secondTab_'
     },
     state,
-    listNavClass: '.secondTabNav',
+    verticalNavClass: '.secondTabNav',
     templateUrl: document.location.origin + '/templates/tabs/secondTab.html',
     mounted: function() {
     },
@@ -86,7 +86,7 @@ window.addEventListener("load", function() {
       title: '_thirdTab_'
     },
     state,
-    listNavClass: '.thirdTabNav',
+    verticalNavClass: '.thirdTabNav',
     templateUrl: document.location.origin + '/templates/tabs/thirdTab.html',
     mounted: function() {
     },
@@ -125,7 +125,7 @@ window.addEventListener("load", function() {
       title: '_fourthTab_'
     },
     state,
-    listNavClass: '.fourthTabNav',
+    verticalNavClass: '.fourthTabNav',
     templateUrl: document.location.origin + '/templates/tabs/fourthTab.html',
     mounted: function() {
     },
@@ -164,7 +164,7 @@ window.addEventListener("load", function() {
       title: '_fifthTab_'
     },
     state,
-    listNavClass: '.fifthTabNav',
+    verticalNavClass: '.fifthTabNav',
     templateUrl: document.location.origin + '/templates/tabs/fifthTab.html',
     mounted: function() {
     },
@@ -241,7 +241,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       counter: -1,
     },
     state,
-    listNavClass: '.eighthTabNav',
+    verticalNavClass: '.eighthTabNav',
     templateUrl: document.location.origin + '/templates/tabs/eighthTab.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -280,9 +280,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       center: {
         text: 'SELECT',
         func: function() {
-          if (this.listNavIndex > -1) {
-            const nav = document.querySelectorAll(this.listNavClass);
-            nav[this.listNavIndex].click();
+          if (this.verticalNavIndex > -1) {
+            const nav = document.querySelectorAll(this.verticalNavClass);
+            nav[this.verticalNavIndex].click();
           }
         }
       },
@@ -316,7 +316,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       counter: -1,
     },
     state,
-    listNavClass: '.lastChildNav',
+    verticalNavClass: '.lastChildNav',
     templateUrl: document.location.origin + '/templates/lastchild.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -355,9 +355,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       center: {
         text: 'SELECT',
         func: function() {
-          if (this.listNavIndex > -1) {
-            const nav = document.querySelectorAll(this.listNavClass);
-            nav[this.listNavIndex].click();
+          if (this.verticalNavIndex > -1) {
+            const nav = document.querySelectorAll(this.verticalNavClass);
+            nav[this.verticalNavIndex].click();
           }
         }
       },
@@ -391,7 +391,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       counter: -1,
       selected: 'None'
     },
-    listNavClass: '.child1Nav',
+    verticalNavClass: '.child1Nav',
     templateUrl: document.location.origin + '/templates/child_1.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -455,9 +455,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       center: {
         text: 'SELECT',
         func: function() {
-          const listNav = document.querySelectorAll(this.listNavClass);
-          if (this.listNavIndex > -1) {
-            listNav[this.listNavIndex].click();
+          const listNav = document.querySelectorAll(this.verticalNavClass);
+          if (this.verticalNavIndex > -1) {
+            listNav[this.verticalNavIndex].click();
           }
         }
       },
@@ -501,7 +501,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       title: '_CHILD_ 3',
       counter: -1,
     },
-    listNavClass: '.child2Nav',
+    verticalNavClass: '.child2Nav',
     templateUrl: document.location.origin + '/templates/child_3.html',
     mounted: function() {
       // console.log('mounted:', this.name);
@@ -543,9 +543,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       center: {
         text: 'SELECT',
         func: function() {
-          if (this.listNavIndex > -1) {
-            const nav = document.querySelectorAll(this.listNavClass);
-            nav[this.listNavIndex].click();
+          if (this.verticalNavIndex > -1) {
+            const nav = document.querySelectorAll(this.verticalNavClass);
+            nav[this.verticalNavIndex].click();
           }
         }
       },
@@ -573,7 +573,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
   });
 
   const router = new KaiRouter({
-    title: 'Kai',
+    title: 'KaiKit',
     routes: {
       'index' : {
         name: 'firstChild',

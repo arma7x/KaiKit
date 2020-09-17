@@ -18,10 +18,10 @@ const Kai = (function() {
     this.$state;
     this.softKeyListener = { left: {}, center: {}, right: {} };
     this.scrollThreshold = 0;
-    this.listNavClass = '.kai-list-nav';
-    this.listNavIndex = -1;
-    this.tabNavClass = '.kai-tab-nav';
-    this.tabNavIndex = -1;
+    this.verticalNavClass = '.kai-list-nav';
+    this.verticalNavIndex = -1;
+    this.horizontalNavClass = '.kai-tab-nav';
+    this.horizontalNavIndex = -1;
     this.components = [];
     this.dPadNavListener = {
       arrowUp: function() {
@@ -51,7 +51,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'listNavClass', 'listNavIndex', 'tabNavClass', 'tabNavIndex', 'components'];
+      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components'];
       for (var i in options) {
         if (accesssible.indexOf(i) !== -1) {
           if (i === 'methods') {
@@ -146,8 +146,8 @@ const Kai = (function() {
       }
     });
     this.scrollThreshold = 0;
-    this.listNavIndex = -1;
-    this.tabNavIndex = -1;
+    this.verticalNavIndex = -1;
+    this.horizontalNavIndex = -1;
     this.removeKeydownListener();
     this.unmounted();
   }
@@ -181,18 +181,18 @@ const Kai = (function() {
 
     const sk = document.getElementById('__kai_soft_key__');
 
-    const listNav = document.querySelectorAll(this.listNavClass);
+    const listNav = document.querySelectorAll(this.verticalNavClass);
     if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
-      if (this.listNavIndex === -1) {
-        this.listNavIndex = 0;
+      if (this.verticalNavIndex === -1) {
+        this.verticalNavIndex = 0;
       }
-      const cur = listNav[this.listNavIndex];
+      const cur = listNav[this.verticalNavIndex];
       cur.focus();
       cur.classList.add('focus');
       cur.parentElement.scrollTop = cur.offsetTop - (cur.offsetHeight + (sk ? 30 : 0));
     }
 
-    const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
+    const tabHeader = document.getElementById(this.horizontalNavClass.replace('.', ''));
     if (tabHeader) {
       this.components.forEach((v, i) => {
         if (v.component instanceof Kai) {
@@ -206,22 +206,22 @@ const Kai = (function() {
         }
         const li = document.createElement("LI");
         li.innerText = v.name;
-        li.setAttribute("class", this.tabNavClass.replace('.', ''));
+        li.setAttribute("class", this.horizontalNavClass.replace('.', ''));
         li.setAttribute("tabIndex", i);
         tabHeader.appendChild(li);
       });
     }
 
-    const tabNav = document.querySelectorAll(this.tabNavClass);
+    const tabNav = document.querySelectorAll(this.horizontalNavClass);
     if (tabNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
-      if (this.tabNavIndex === -1) {
-        this.tabNavIndex = 0;
+      if (this.horizontalNavIndex === -1) {
+        this.horizontalNavIndex = 0;
       }
-      const cur = tabNav[this.tabNavIndex];
+      const cur = tabNav[this.horizontalNavIndex];
       cur.focus();
       cur.classList.add('focus');
       cur.parentElement.scrollLeft = cur.offsetLeft - (cur.offsetWidth + (sk ? 30 : 0));
-      const component = this.components[this.tabNavIndex].component;
+      const component = this.components[this.horizontalNavIndex].component;
       if (component instanceof Kai) {
         component.mount('__kai_tab__');
         this.$router.setLeftText(component.softKeyListener.left.text);
@@ -246,7 +246,7 @@ const Kai = (function() {
         if (sk) {
           padding += 30;
         }
-        const tabHeader = document.getElementById(this.tabNavClass.replace('.', ''));
+        const tabHeader = document.getElementById(this.horizontalNavClass.replace('.', ''));
         if (tabHeader) {
           padding += 30;
         }
@@ -377,11 +377,11 @@ const Kai = (function() {
   }
 
   Kai.prototype.navigateListNav = function(next) {
-    this.nav(next, 'listNavIndex', 'listNavClass');
+    this.nav(next, 'verticalNavIndex', 'verticalNavClass');
   }
 
   Kai.prototype.navigateTabNav = function(next) {
-    this.nav(next, 'tabNavIndex', 'tabNavClass');
+    this.nav(next, 'horizontalNavIndex', 'horizontalNavClass');
   }
 
   Kai.prototype.nav = function(next, navIndex, navClass) {
@@ -410,9 +410,9 @@ const Kai = (function() {
       nav[currentIndex].classList.remove('focus');
     }
     const sk = document.getElementById('__kai_soft_key__');
-    if (navClass === 'tabNavClass') {
+    if (navClass === 'horizontalNavClass') {
       targetElement.parentElement.scrollLeft = targetElement.offsetLeft - (targetElement.offsetWidth + (sk ? 30 : 0));
-    } else if (navClass === 'listNavClass') {
+    } else if (navClass === 'verticalNavClass') {
       targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
     }
   }
@@ -421,13 +421,13 @@ const Kai = (function() {
 
 })()
 
-Kai.createTabNav = function(name, tabNavClass, components) {
+Kai.createTabNav = function(name, horizontalNavClass, components) {
   return new Kai({
     name: name,
     data: {},
-    tabNavClass: tabNavClass,
+    horizontalNavClass: horizontalNavClass,
     components: components,
-    template: '<div><ul id="' + tabNavClass.replace('.', '') + '" class="kui-tab"></ul><div id="__kai_tab__"></div></div>',
+    template: '<div><ul id="' + horizontalNavClass.replace('.', '') + '" class="kui-tab"></ul><div id="__kai_tab__"></div></div>',
     mounted: function() {
       if (this.$state) {
         this.$state.addGlobalListener(this.methods.globalState);
@@ -454,7 +454,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       left: {
         text: '',
         func: function() {
-          const component = this.components[this.tabNavIndex].component;
+          const component = this.components[this.horizontalNavIndex].component;
           if (component instanceof Kai) {
             component.softKeyListener.left.func();
           }
@@ -463,7 +463,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       center: {
         text: '',
         func: function() {
-          const component = this.components[this.tabNavIndex].component;
+          const component = this.components[this.horizontalNavIndex].component;
           if (component instanceof Kai) {
             component.softKeyListener.center.func();
           }
@@ -472,7 +472,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       right: {
         text: '',
         func: function() {
-          const component = this.components[this.tabNavIndex].component;
+          const component = this.components[this.horizontalNavIndex].component;
           if (component instanceof Kai) {
             component.softKeyListener.right.func();
           }
@@ -481,7 +481,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
     },
     dPadNavListener: {
       arrowUp: function() {
-        const component = this.components[this.tabNavIndex].component;
+        const component = this.components[this.horizontalNavIndex].component;
         if (component instanceof Kai) {
           component.dPadNavListener.arrowUp();
         } else {
@@ -494,7 +494,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       arrowRight: function() {
         this.navigateTabNav(+1);
         const __kai_tab__ = document.getElementById('__kai_tab__');
-        const component = this.components[this.tabNavIndex].component;
+        const component = this.components[this.horizontalNavIndex].component;
         if (component instanceof Kai) {
           component.mount('__kai_tab__');
           __kai_tab__.scrollTop = component.scrollThreshold;
@@ -510,7 +510,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
         }
       },
       arrowDown: function() {
-        const component = this.components[this.tabNavIndex].component;
+        const component = this.components[this.horizontalNavIndex].component;
         if (component instanceof Kai) {
           component.dPadNavListener.arrowDown();
         } else {
@@ -522,7 +522,7 @@ Kai.createTabNav = function(name, tabNavClass, components) {
       arrowLeft: function() {
         this.navigateTabNav(-1);
         const __kai_tab__ = document.getElementById('__kai_tab__');
-        const component = this.components[this.tabNavIndex].component;
+        const component = this.components[this.horizontalNavIndex].component;
         if (component instanceof Kai) {
           component.mount('__kai_tab__');
           __kai_tab__.scrollTop = component.scrollThreshold;
