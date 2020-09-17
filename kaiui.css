@@ -492,20 +492,25 @@ button.kui-btn:focus {
     overflow-y: hidden;
     white-space: nowrap;
     background-color: #e6e6e6;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
 }
 
 .kui-tab li {
     background-color: #e6e6e6;
-    height: 30px;
-    line-height: 30px;
+    height: 17px;
+    line-height: 17px;
     display: inline;
-    align-items: center;
-    margin: 0px 0px 0px 2px;
-    padding: 3px 3px;
+    margin: 2px 0px 2px 2px;
+    padding: 0px 3px;
     font-size: 14px;
     text-align: center;
     color: #8A8A8A;
     font-weight: bold;
+    border-bottom: 3px solid transparent;
 }
 
 .kui-tab li.focus {

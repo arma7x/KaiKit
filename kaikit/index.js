@@ -250,7 +250,7 @@ const Kai = (function() {
         if (tabHeader) {
           padding += 30;
         }
-        tabBody.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
+        tabBody.style.setProperty('height', 'calc(' + window.innerHeight + 'px - ' +  padding.toString() + 'px)', 'important');
         tabBody.style.overflowY = 'hidden';
       }
     }

@@ -361,15 +361,15 @@ const KaiRouter = (function() {
     const header = document.getElementById('__kai_header__');
     if (header) {
       padding += 28;
-      body.style.paddingTop = '28px';
+      body.style.marginTop = '28px';
     }
     const sk = document.getElementById('__kai_soft_key__');
     if (sk) {
       padding += 30;
-      body.style.paddingBottom = '30px';
+      body.style.marginBottom = '30px';
     }
     if (padding > 0) {
-      body.style.setProperty('height', 'calc(100vh - ' +  padding.toString() + 'px)', 'important');
+      body.style.setProperty('height', 'calc(' + window.innerHeight + 'px - ' +  padding.toString() + 'px)', 'important');
     }
     body.style.width = '100%';
   }
