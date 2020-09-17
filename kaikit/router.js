@@ -541,9 +541,14 @@ const KaiRouter = (function() {
         }
         if (_router.dialog) {
           _router.hideDialog();
+          e.preventDefault();
+          e.stopPropagation();
         } else {
           if (_router) {
-            _router.pop();
+            if (_router.pop()) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
           }
         }
         break
