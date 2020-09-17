@@ -93,16 +93,16 @@ const KaiRouter = (function() {
             this.stack.push(component);
           }
           // component.$router = this;
-          this.setLeftText(component.softKeyListener.left.text);
-          this.setCenterText(component.softKeyListener.center.text);
-          this.setRightText(component.softKeyListener.right.text);
+          this.setSoftKeyLeftText(component.softKeyListener.left.text);
+          this.setSoftKeyCenterText(component.softKeyListener.center.text);
+          this.setSoftKeyRightText(component.softKeyListener.right.text);
           component.mount('__kai_router__');
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
-          this.setLeftText(this._404.softKeyListener.left.text);
-          this.setCenterText(this._404.softKeyListener.center.text);
-          this.setRightText(this._404.softKeyListener.right.text);
+          this.setSoftKeyLeftText(this._404.softKeyListener.left.text);
+          this.setSoftKeyCenterText(this._404.softKeyListener.center.text);
+          this.setSoftKeyRightText(this._404.softKeyListener.right.text);
           this.stack.push(this._404);
         }
       } else {
@@ -113,9 +113,9 @@ const KaiRouter = (function() {
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
-          this.setLeftText(this._404.softKeyListener.left.text);
-          this.setCenterText(this._404.softKeyListener.center.text);
-          this.setRightText(this._404.softKeyListener.right.text);
+          this.setSoftKeyLeftText(this._404.softKeyListener.left.text);
+          this.setSoftKeyCenterText(this._404.softKeyListener.center.text);
+          this.setSoftKeyRightText(this._404.softKeyListener.right.text);
           this.stack.push(this._404);
         }
         if (paths.length === this.stack.length) {
@@ -135,26 +135,26 @@ const KaiRouter = (function() {
     var name = path;
     if (typeof path === 'string' && this.routes[path]) {
       const clone = this.routes[path].component.reset();
-      this.setLeftText(clone.softKeyListener.left.text);
-      this.setCenterText(clone.softKeyListener.center.text);
-      this.setRightText(clone.softKeyListener.right.text);
+      this.setSoftKeyLeftText(clone.softKeyListener.left.text);
+      this.setSoftKeyCenterText(clone.softKeyListener.center.text);
+      this.setSoftKeyRightText(clone.softKeyListener.right.text);
       clone.mount('__kai_router__');
       this.stack.push(clone);
     } else if (path instanceof Kai) {
       const clone = path.reset();
       clone.$router = this;
       clone.mount('__kai_router__');
-      this.setLeftText(clone.softKeyListener.left.text);
-      this.setCenterText(clone.softKeyListener.center.text);
-      this.setRightText(clone.softKeyListener.right.text);
+      this.setSoftKeyLeftText(clone.softKeyListener.left.text);
+      this.setSoftKeyCenterText(clone.softKeyListener.center.text);
+      this.setSoftKeyRightText(clone.softKeyListener.right.text);
       this.stack.push(clone);
       name = clone.name;
     } else {
       this._404.mount('__kai_router__');
       this._404.$router = this;
-      this.setLeftText(this._404.softKeyListener.left.text);
-      this.setCenterText(this._404.softKeyListener.center.text);
-      this.setRightText(this._404.softKeyListener.right.text);
+      this.setSoftKeyLeftText(this._404.softKeyListener.left.text);
+      this.setSoftKeyCenterText(this._404.softKeyListener.center.text);
+      this.setSoftKeyRightText(this._404.softKeyListener.right.text);
       this.stack.push(this._404);
     }
     const paths = getURLParam('page[]');
@@ -189,9 +189,9 @@ const KaiRouter = (function() {
           }
         }
         const component = this.stack[this.stack.length - 1];
-        this.setLeftText(component.softKeyListener.left.text);
-        this.setCenterText(component.softKeyListener.center.text);
-        this.setRightText(component.softKeyListener.right.text);
+        this.setSoftKeyLeftText(component.softKeyListener.left.text);
+        this.setSoftKeyCenterText(component.softKeyListener.center.text);
+        this.setSoftKeyRightText(component.softKeyListener.right.text);
         component.mount('__kai_router__');
         DOM.scrollTop = this.stack[this.stack.length - 1].scrollThreshold;
         r = true;
@@ -241,9 +241,9 @@ const KaiRouter = (function() {
       }
     });
     d.mount('__kai_dialog__');
-    this.setLeftText(d.softKeyListener.left.text);
-    this.setCenterText(d.softKeyListener.center.text);
-    this.setRightText(d.softKeyListener.right.text);
+    this.setSoftKeyLeftText(d.softKeyListener.left.text);
+    this.setSoftKeyCenterText(d.softKeyListener.center.text);
+    this.setSoftKeyRightText(d.softKeyListener.right.text);
     this.dialog = true;
     this.stack.push(d);
     const DOM = document.getElementById('__kai_dialog__');
@@ -260,9 +260,9 @@ const KaiRouter = (function() {
     }
     this.dialog = false;
     this.stack.pop();
-    this.setLeftText(this.stack[this.stack.length -1].softKeyListener.left.text);
-    this.setCenterText(this.stack[this.stack.length -1].softKeyListener.center.text);
-    this.setRightText(this.stack[this.stack.length -1].softKeyListener.right.text);
+    this.setSoftKeyLeftText(this.stack[this.stack.length -1].softKeyListener.left.text);
+    this.setSoftKeyCenterText(this.stack[this.stack.length -1].softKeyListener.center.text);
+    this.setSoftKeyRightText(this.stack[this.stack.length -1].softKeyListener.right.text);
     const DOM = document.getElementById('__kai_dialog__');
     if (DOM) {
       if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_dialog__') {
@@ -337,9 +337,9 @@ const KaiRouter = (function() {
       }
     });
     d.mount('__kai_dialog__');
-    this.setLeftText(d.softKeyListener.left.text);
-    this.setCenterText(d.softKeyListener.center.text);
-    this.setRightText(d.softKeyListener.right.text);
+    this.setSoftKeyLeftText(d.softKeyListener.left.text);
+    this.setSoftKeyCenterText(d.softKeyListener.center.text);
+    this.setSoftKeyRightText(d.softKeyListener.right.text);
     this.dialog = true;
     this.stack.push(d);
     const DOM = document.getElementById('__kai_dialog__');
@@ -444,15 +444,15 @@ const KaiRouter = (function() {
     }
   }
 
-  KaiRouter.prototype.setLeftText = function(txt) {
+  KaiRouter.prototype.setSoftKeyLeftText = function(txt) {
     this.softwareKey.methods.setLeftText(txt);
   }
 
-  KaiRouter.prototype.setCenterText = function(txt) {
+  KaiRouter.prototype.setSoftKeyCenterText = function(txt) {
     this.softwareKey.methods.setCenterText(txt);
   }
 
-  KaiRouter.prototype.setRightText = function(txt) {
+  KaiRouter.prototype.setSoftKeyRightText = function(txt) {
     this.softwareKey.methods.setRightText(txt);
   }
 

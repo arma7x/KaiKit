@@ -224,16 +224,16 @@ const Kai = (function() {
       const component = this.components[this.horizontalNavIndex].component;
       if (component instanceof Kai) {
         component.mount('__kai_tab__');
-        this.$router.setLeftText(component.softKeyListener.left.text);
-        this.$router.setCenterText(component.softKeyListener.center.text);
-        this.$router.setRightText(component.softKeyListener.right.text);
+        this.$router.setSoftKeyLeftText(component.softKeyListener.left.text);
+        this.$router.setSoftKeyCenterText(component.softKeyListener.center.text);
+        this.$router.setSoftKeyRightText(component.softKeyListener.right.text);
       } else {
         const __kai_tab__ = document.getElementById('__kai_tab__');
         __kai_tab__.innerHTML = component;
         __kai_tab__.scrollTop = this.scrollThreshold;
-        this.$router.setLeftText(this.softKeyListener.left.text);
-        this.$router.setCenterText(this.softKeyListener.center.text);
-        this.$router.setRightText(this.softKeyListener.right.text);
+        this.$router.setSoftKeyLeftText(this.softKeyListener.left.text);
+        this.$router.setSoftKeyCenterText(this.softKeyListener.center.text);
+        this.$router.setSoftKeyRightText(this.softKeyListener.right.text);
       }
 
       const tabBody = document.getElementById('__kai_tab__');
@@ -498,15 +498,15 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
         if (component instanceof Kai) {
           component.mount('__kai_tab__');
           __kai_tab__.scrollTop = component.scrollThreshold;
-          this.$router.setLeftText(component.softKeyListener.left.text);
-          this.$router.setCenterText(component.softKeyListener.center.text);
-          this.$router.setRightText(component.softKeyListener.right.text);
+          this.$router.setSoftKeyLeftText(component.softKeyListener.left.text);
+          this.$router.setSoftKeyCenterText(component.softKeyListener.center.text);
+          this.$router.setSoftKeyRightText(component.softKeyListener.right.text);
         } else {
           __kai_tab__.innerHTML = component;
           __kai_tab__.scrollTop = this.scrollThreshold;
-          this.$router.setLeftText(this.softKeyListener.left.text);
-          this.$router.setCenterText(this.softKeyListener.center.text);
-          this.$router.setRightText(this.softKeyListener.right.text);
+          this.$router.setSoftKeyLeftText(this.softKeyListener.left.text);
+          this.$router.setSoftKeyCenterText(this.softKeyListener.center.text);
+          this.$router.setSoftKeyRightText(this.softKeyListener.right.text);
         }
       },
       arrowDown: function() {
@@ -526,15 +526,15 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
         if (component instanceof Kai) {
           component.mount('__kai_tab__');
           __kai_tab__.scrollTop = component.scrollThreshold;
-          this.$router.setLeftText(component.softKeyListener.left.text);
-          this.$router.setCenterText(component.softKeyListener.center.text);
-          this.$router.setRightText(component.softKeyListener.right.text);
+          this.$router.setSoftKeyLeftText(component.softKeyListener.left.text);
+          this.$router.setSoftKeyCenterText(component.softKeyListener.center.text);
+          this.$router.setSoftKeyRightText(component.softKeyListener.right.text);
         } else {
           __kai_tab__.innerHTML = component;
           __kai_tab__.scrollTop = this.scrollThreshold;
-          this.$router.setLeftText(this.softKeyListener.left.text);
-          this.$router.setCenterText(this.softKeyListener.center.text);
-          this.$router.setRightText(this.softKeyListener.right.text);
+          this.$router.setSoftKeyLeftText(this.softKeyListener.left.text);
+          this.$router.setSoftKeyCenterText(this.softKeyListener.center.text);
+          this.$router.setSoftKeyRightText(this.softKeyListener.right.text);
         }
       },
     }
