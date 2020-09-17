@@ -244,7 +244,7 @@ const KaiRouter = (function() {
     }
     this.dialog = false;
     this.stack.pop();
-    const component = component;
+    const component = this.stack[this.stack.length -1];
     this.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
     const DOM = document.getElementById('__kai_dialog__');
     if (DOM) {
