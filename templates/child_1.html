@@ -1,10 +1,13 @@
-<div style="padding:5px;">
-  <h5 style="text-align:center;">{{ title }}</h5>
-  <h5 style="text-align:center;">Local: {{ counter }} & State: {{ $state.counter }} & {{ selected }}</h5>
-  <input class="child1Nav kui-input" tabIndex="0"/>
-  <ul class="kui-list">
-    <li class="child1Nav" tabIndex="1" click="push()">Push</li>
-    <li class="child1Nav" tabIndex="2" click="reset()">Reset 0</li>
-    <li class="child1Nav" tabIndex="3" click="showOptMenu()">Show Option Menu</li>
+<div style="padding:5px;height:100%;">
+  <h5 style="text-align:center;height:5%;">{{ title }}</h5>
+  <h5 style="text-align:center;height:5%;">Local: {{ counter }} & State: {{ $state.counter }} & {{ selected }}</h5>
+  <ul class="kui-list" style="height:90%;">
+    <input class="child1Nav kui-input"/>
+    <li class="child1Nav" click="push()">Push</li>
+    <li class="child1Nav" click="reset()">Reset 0</li>
+    <li class="child1Nav" click="showOptMenu()">Show Option Menu</li>
+    <li class="child1Nav">Test 1</li>
+    <li class="child1Nav">Test 2</li>
+    <li class="child1Nav">Test 3</li>
   </ul>
 </div>

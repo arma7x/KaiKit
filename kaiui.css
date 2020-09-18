@@ -213,6 +213,10 @@ h1, h2, h3, h4, h5, ul, p {
 /* ============== List ============== */
 .kui-list {
     list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
 }
 
 .kui-list li {
@@ -287,6 +291,7 @@ h1, h2, h3, h4, h5, ul, p {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    height: 100%;
 }
 
 .kui-options li {

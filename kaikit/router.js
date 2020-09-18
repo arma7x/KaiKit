@@ -571,6 +571,9 @@ const KaiRouter = (function() {
         }
         break
       case 'ArrowUp':
+        if (document.activeElement.tagName === 'INPUT') {
+          document.activeElement.blur();
+        }
         if (_router) {
           _router.arrowUp();
         }
@@ -584,6 +587,9 @@ const KaiRouter = (function() {
         }
         break
       case 'ArrowDown':
+        if (document.activeElement.tagName === 'INPUT') {
+          document.activeElement.blur();
+        }
         if (_router) {
           _router.arrowDown();
         }

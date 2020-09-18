@@ -312,6 +312,9 @@ const Kai = (function() {
         this.softKeyListener.center.func();
         break
       case 'ArrowUp':
+        if (document.activeElement.tagName === 'INPUT') {
+          document.activeElement.blur();
+        }
         this.dPadNavListener.arrowUp();
         break
       case 'ArrowRight':
@@ -321,6 +324,9 @@ const Kai = (function() {
         this.dPadNavListener.arrowRight();
         break
       case 'ArrowDown':
+        if (document.activeElement.tagName === 'INPUT') {
+          document.activeElement.blur();
+        }
         this.dPadNavListener.arrowDown();
         break
       case 'ArrowLeft':
@@ -423,11 +429,16 @@ const Kai = (function() {
     if (currentIndex > -1) {
       nav[currentIndex].classList.remove('focus');
     }
+    const header = document.getElementById('__kai_header__');
     const sk = document.getElementById('__kai_soft_key__');
     if (navClass === 'horizontalNavClass') {
-      targetElement.parentElement.scrollLeft = targetElement.offsetLeft - (targetElement.offsetWidth + (sk ? 30 : 0));
+      targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
-      targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
+      if (((this[navIndex] + 1) * targetElement.clientHeight - (header ? 28 : 0)) > targetElement.parentElement.clientHeight) {
+        targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
+      } else {
+        targetElement.parentElement.scrollTop = 0;
+      }
     }
   }
 
