@@ -616,7 +616,7 @@ Kai.createSoftKey = function(EL, $router) {
 
 Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNavIndex = -1, $router) {
   return new Kai({
-    name: 'dialog',
+    name: 'option_menu',
     data: {
       title: title,
       options: options
