@@ -343,7 +343,6 @@ const Kai = (function() {
   Kai.prototype.handleClick = function(evt) {
 
     function dataType(n, scope) {
-      console.log(n);
       if (!isNaN(parseFloat(n)) && isFinite(n)) {
         return parseFloat(n);
       } else if (scope[n]) {
