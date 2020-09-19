@@ -166,15 +166,18 @@ const Kai = (function() {
     if (!DOM) {
       return;
     }
-    if (window.Sqrl) {
+    if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       data['__stringify__'] = function () {
-        return JSON.stringify(this);
+        if (typeof this === 'object') {
+          return JSON.stringify(this);
+        }
+        return this;
       }
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      DOM.innerHTML = window.Sqrl.render(this.template, data);
+      DOM.innerHTML = window.Mustache.render(this.template, data);
     } else {
       DOM.innerHTML = this.template;
     }
@@ -371,16 +374,9 @@ const Kai = (function() {
         const params = target.nodeValue.split(';');
         params.forEach(function(v) {
           var fName = v.substring(0, v.indexOf('('));
-          var fParams = [];
-          if (v.search(extractFuncRegex) !== -1) {
-            var _fParams = v.substring((v.indexOf('(') +1), v.indexOf(')')).split(',');
-            fParams = _fParams.length === 1 && _fParams[0] === '' ? [] : _fParams;
-          }
-          fParams.forEach(function(v, k) {
-            fParams[k] = dataType(v, _this);
-          });
+          var fParams = v.substring((v.indexOf('(') +1), v.indexOf(')'));
           if (_this.methods[fName]) {
-            _this.methods[fName].apply(null, fParams);
+            _this.methods[fName].apply(null, [dataType(fParams, _this)]);
           }
         });
       }
@@ -564,7 +560,7 @@ Kai.createHeader = function(EL, $router) {
     data: {
       title: ''
     },
-    template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ it.title }}</span>',
+    template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ title }}</span>',
     mounted: function() {
       EL.classList.add('kui-header');
     },
@@ -584,7 +580,7 @@ Kai.createSoftKey = function(EL, $router) {
       center: '',
       right: ''
     },
-    template: '<div @click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ it.left }}</div><div @click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ it.center }}</div><div @click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ it.right }}</div>',
+    template: '<div @click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div @click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ center }}</div><div @click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
     mounted: function() {
       EL.classList.add('kui-software-key');
     },
@@ -625,12 +621,12 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNa
     verticalNavIndex: verticalNavIndex,
     template: '\
     <div class="kui-option-menu">\
-      <div class="kui-option-title">{{ it.title }}</div>\
+      <div class="kui-option-title">{{ title }}</div>\
       <div class="kui-option-body" style="margin:0;padding:0;">\
         <ul id="kui-options" class="kui-options">\
-          {{@each(it.options) => option}}\
-            <li class="optMenuNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>{{option.text}}</li>\
-          {{/each}}\
+          {{#options}}\
+            <li class="optMenuNav" @click=\'selectOption({{__stringify__}})\'>{{text}}</li>\
+          {{/options}}\
         </ul>\
       </div>\
     </div>',
@@ -638,9 +634,9 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNa
       selectOption: function(data) {
         if (typeof selectCb === 'function') {
           selectCb(data);
-          if ($router) {
-            $router.hideOptionMenu();
-          }
+        }
+        if ($router) {
+          $router.hideOptionMenu();
         }
       }
     },
@@ -676,8 +672,6 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNa
   });
 }
 
-Kai.createValueSelector = function() {}
-
 Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb, $router) {
   return new Kai({
     name: 'dialog',
@@ -685,7 +679,7 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
       title: title,
       body: body
     },
-    template: '<div class="kui-option-menu"><div class="kui-option-title">{{ it.title }}</div><div class="kui-option-body">{{ it.body }}</div></div>',
+    template: '<div class="kui-option-menu"><div class="kui-option-title">{{ title }}</div><div class="kui-option-body">{{ body }}</div></div>',
     softKeyListener: {
       left: {
         text: negativeText || 'Cancel',
@@ -723,3 +717,207 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
     }
   });
 }
+
+Kai.createSingleSelector = function(title, options, selectText, selectCb, cancelText, cancelCb, verticalNavIndex = -1, $router) {
+  return new Kai({
+    name: 'single_selector',
+    data: {
+      title: title,
+      options: options
+    },
+    verticalNavClass: '.optSSNav',
+    verticalNavIndex: verticalNavIndex,
+    template: '\
+    <div class="kui-option-menu">\
+      <div class="kui-option-title">{{ title }}</div>\
+      <div class="kui-option-body" style="margin:0;padding:0;">\
+        <ul id="kui-options" class="kui-options">\
+          {{@each(options) => option, idx}}\
+            <li class="optSSNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>\
+              <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding-right: 10px;">\
+                {{option.text}}\
+                {{@if(idx === ' + verticalNavIndex + ')}}\
+                <input type="radio" checked>\
+                {{#else}}\
+                <input type="radio">\
+                {{/if}}\
+              </div>\
+            </li>\
+          {{/each}}\
+        </ul>\
+      </div>\
+    </div>',
+    methods: {
+      selectOption: function(data) {
+        if (typeof selectCb === 'function') {
+          selectCb(data);
+        }
+        if ($router) {
+          $router.hideSingleSelector();
+        }
+      }
+    },
+    softKeyListener: {
+      left: {
+        text: cancelText || 'Cancel',
+        func: function() {
+          if (typeof cancelCb === 'function') {
+            cancelCb(data);
+          }
+          if ($router) {
+            $router.hideSingleSelector();
+          }
+        }
+      },
+      center: {
+        text: selectText || 'SELECT',
+        func: function() {
+          const listNav = document.querySelectorAll(this.verticalNavClass);
+          if (this.verticalNavIndex > -1) {
+            listNav[this.verticalNavIndex].click();
+          }
+        }
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowRight: function() {},
+      arrowDown: function() {
+        this.navigateListNav(1);
+      },
+      arrowLeft: function() {},
+    }
+  });
+}
+
+Kai.createMultiSelector = function(title, options, selectText, selectCb, saveText, saveCb, cancelText, cancelCb, verticalNavIndex = -1, $router) {
+
+  const focus = options[verticalNavIndex === -1 ? 0 : verticalNavIndex];
+  if (focus) {
+    if (focus.checked) {
+      selectText = 'DESELECT';
+    } else {
+      selectText = 'SELECT';
+    }
+  }
+
+  const multi_selector = new Kai({
+    name: 'multi_selector',
+    data: {
+      title: title,
+      options: options
+    },
+    verticalNavClass: '.optMSNav',
+    verticalNavIndex: verticalNavIndex,
+    template: '\
+    <div class="kui-option-menu">\
+      <div class="kui-option-title">{{ title }}</div>\
+      <div class="kui-option-body" style="margin:0;padding:0;">\
+        <ul id="kui-options" class="kui-options">\
+          {{@each(options) => option, idx}}\
+            <li class="optMSNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>\
+              <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding-right: 10px;">\
+                {{option.text}}\
+                {{@if(option.checked)}}\
+                <input type="checkbox" checked>\
+                {{#else}}\
+                <input type="checkbox">\
+                {{/if}}\
+              </div>\
+            </li>\
+          {{/each}}\
+        </ul>\
+      </div>\
+    </div>',
+    methods: {
+      selectOption: function(data) {
+        data['checked'] = !data['checked'];
+        const idx = this.data.options.findIndex((opt) => {
+          return opt.text === data.text;
+        });
+        if (idx > -1) {
+          this.data.options[idx] = data;
+          if (data.checked) {
+            $router.setSoftKeyCenterText('DESELECT');
+          } else {
+            $router.setSoftKeyCenterText('SELECT');
+          }
+          this.setData({ options: this.data.options });
+        }
+        if (typeof selectCb === 'function') {
+          selectCb(data);
+        }
+      }
+    },
+    softKeyListener: {
+      left: {
+        text: cancelText || 'Cancel',
+        func: function() {
+          if (typeof cancelCb === 'function') {
+            cancelCb(data);
+          }
+          if ($router) {
+            $router.hideSingleSelector();
+          }
+        }
+      },
+      center: {
+        text: selectText || 'SELECT',
+        func: function() {
+          const listNav = document.querySelectorAll(this.verticalNavClass);
+          if (this.verticalNavIndex > -1) {
+            listNav[this.verticalNavIndex].click();
+          }
+        }
+      },
+      right: {
+        text: saveText || 'Save',
+        func: function() {
+          if (typeof saveCb === 'function') {
+            saveCb(this.data.options);
+          }
+          if ($router) {
+            $router.hideSingleSelector();
+          }
+        }
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+        const focus = this.data.options[this.verticalNavIndex];
+        if (focus) {
+          if (focus.checked) {
+            $router.setSoftKeyCenterText('DESELECT');
+          } else {
+            $router.setSoftKeyCenterText('SELECT');
+          }
+        }
+      },
+      arrowRight: function() {},
+      arrowDown: function() {
+        this.navigateListNav(1);
+        const focus = this.data.options[this.verticalNavIndex];
+        if (focus) {
+          if (focus.checked) {
+            $router.setSoftKeyCenterText('DESELECT');
+          } else {
+            $router.setSoftKeyCenterText('SELECT');
+          }
+        }
+      },
+      arrowLeft: function() {},
+    }
+  });
+  return multi_selector.reset();
+}
+
+Kai.createDatePicker = function() {}
+
+Kai.createTimePicker = function() {}

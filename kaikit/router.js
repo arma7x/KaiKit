@@ -249,6 +249,30 @@ const KaiRouter = (function() {
     this.hideBottomSheet();
   }
 
+  KaiRouter.prototype.showSingleSelector = function(title, options, selectText, selectCb, cancelText, cancelCb, verticalNavIndex = -1) {
+    if (document.activeElement.tagName === 'INPUT') {
+      document.activeElement.blur();
+    }
+    const single_selector = Kai.createSingleSelector(title, options, selectText, selectCb, cancelText, cancelCb, verticalNavIndex, this);
+    this.showBottomSheet(single_selector);
+  }
+
+  KaiRouter.prototype.hideSingleSelector = function() {
+    this.hideBottomSheet();
+  }
+
+  KaiRouter.prototype.showMultiSelector = function(title, options, selectText, selectCb, saveText, saveCb, cancelText, cancelCb, verticalNavIndex = -1) {
+    if (document.activeElement.tagName === 'INPUT') {
+      document.activeElement.blur();
+    }
+    const multi_selector = Kai.createMultiSelector(title, options, selectText, selectCb, saveText, saveCb, cancelText, cancelCb, verticalNavIndex, this);
+    this.showBottomSheet(multi_selector);
+  }
+
+  KaiRouter.prototype.hideMultiSelector = function() {
+    this.hideBottomSheet();
+  }
+
   KaiRouter.prototype.calcRouterHeight = function() {
     var padding = 0;
     const body = document.getElementById('__kai_router__');

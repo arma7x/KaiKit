@@ -352,16 +352,16 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       counter: -1,
       selected: 'None',
       opts: [
-        { "text": "PHP" },
-        { "text": "JavaScript" },
-        { "text": "Dart" },
-        { "text": "Golang" },
-        { "text": "SQL" },
-        { "text": "Java" },
-        { "text": "CSS" },
-        { "text": "HTML" },
-        { "text": "Flutter" },
-        { "text": "React Native" }
+        { "text": "PHP", "checked": true },
+        { "text": "JavaScript", "checked": false },
+        { "text": "Dart", "checked": false },
+        { "text": "Golang", "checked": false },
+        { "text": "SQL", "checked": false },
+        { "text": "Java", "checked": false },
+        { "text": "CSS", "checked": false },
+        { "text": "HTML", "checked": false },
+        { "text": "Flutter", "checked": false },
+        { "text": "React Native", "checked": false }
       ]
     },
     verticalNavClass: '.child1Nav',
@@ -403,6 +403,22 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$router.showOptionMenu('Option', this.data.opts, 'Select', (selected) => {
           this.setData({ selected: selected.text });
         }, idx);
+      },
+      showSingleSelector: function() {
+        const idx = this.data.opts.findIndex((opt) => {
+          return opt.text === this.data.selected;
+        });
+        this.$router.showSingleSelector('Select', this.data.opts, 'Select', (selected) => {
+          this.setData({ selected: selected.text });
+        }, 'Cancel', null, idx);
+      },
+      showMultiSelector: function() {
+        const idx = this.data.opts.findIndex((opt) => {
+          return opt.text === this.data.selected;
+        });
+        this.$router.showMultiSelector('Select', this.data.opts, 'Select', null, 'Save', (options) => {
+          this.setData({ opts: options });
+        }, 'Cancel', null, idx);
       }
     },
     softKeyListener: {

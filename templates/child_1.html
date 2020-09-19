@@ -1,13 +1,15 @@
 <div style="padding:5px;height:100%;">
-  <h5 style="text-align:center;height:5%;">{{ it.title }}</h5>
-  <h5 style="text-align:center;height:5%;">Local: {{ it.counter }} & State: {{ it.$state.counter }} & {{ it.selected }}</h5>
-  <ul class="kui-list" style="height:90%;">
+  <h5 style="text-align:center;height:6%;">{{ title }}</h5>
+  <h5 style="text-align:center;height:6%;">Local: {{ counter }} & State: {{ $state.counter }} & {{ selected }}</h5>
+  <ul class="kui-list" style="height:88%;">
     <input class="child1Nav kui-input"/>
     <li class="child1Nav" @click="push()">Push</li>
     <li class="child1Nav" @click="reset()">Reset 0</li>
     <li class="child1Nav" @click="showOptMenu()">Show Option Menu</li>
-    {{@each(it.opts) => option}}
-      <li class="child1Nav" @click='selected({{ JSON.stringify(option) | safe }})'>{{option.text}}</li>
-    {{/each}}
+    <li class="child1Nav" @click="showSingleSelector()">Show Single Selector</li>
+    <li class="child1Nav" @click="showMultiSelector()">Show Multi Selector</li>
+    {{#opts}}
+      <li class="child1Nav" @click='selected({{__stringify__}})'>{{text}}</li>
+    {{/opts}}
   </ul>
 </div>
