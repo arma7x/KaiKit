@@ -262,7 +262,7 @@ const Kai = (function() {
   Kai.prototype.addKeydownListener = function() {
     if (this._router) {
       document.addEventListener('keydown', this.handleRouterKeydown.bind(this));
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_bottom_sheet__', '__kai_tab__'].indexOf(this.id) === -1) {
       document.addEventListener('keydown', this.handleLocalKeydown.bind(this), true);
     }
   }
@@ -270,7 +270,7 @@ const Kai = (function() {
   Kai.prototype.removeKeydownListener = function() {
     if (this._router) {
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_dialog__', '__kai_tab__'].indexOf(this.id) === -1) {
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_bottom_sheet__', '__kai_tab__'].indexOf(this.id) === -1) {
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
     }
   }
@@ -554,6 +554,172 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
           this.$router.setSoftKeyText(this.softKeyListener.left.text, this.softKeyListener.center.text, this.softKeyListener.right.text);
         }
       },
+    }
+  });
+}
+
+Kai.createHeader = function(EL, $router) {
+  return new Kai({
+    name: '_header_',
+    data: {
+      title: ''
+    },
+    template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ it.title }}</span>',
+    mounted: function() {
+      EL.classList.add('kui-header');
+    },
+    methods: {
+      setHeaderTitle: function(txt) {
+        this.setData({ title: txt });
+      }
+    }
+  });
+}
+
+Kai.createSoftKey = function(EL, $router) {
+  return new Kai({
+    name: '_software_key_',
+    data: {
+      left: '',
+      center: '',
+      right: ''
+    },
+    template: '<div @click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ it.left }}</div><div @click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ it.center }}</div><div @click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ it.right }}</div>',
+    mounted: function() {
+      EL.classList.add('kui-software-key');
+    },
+    methods: {
+      setText: function(l, c, r) {
+        this.setData({ left: l, center: c, right: r });
+      },
+      setLeftText: function(txt) {
+        this.setData({ left: txt });
+      },
+      clickLeft: function() {
+        $router.clickLeft();
+      },
+      setCenterText: function(txt) {
+        this.setData({ center: txt });
+      },
+      clickCenter: function() {
+        $router.clickCenter();
+      },
+      setRightText: function(txt) {
+        this.setData({ right: txt });
+      },
+      clickRight: function() {
+        $router.clickRight();
+      },
+    }
+  });
+}
+
+Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNavIndex = -1, $router) {
+  return new Kai({
+    name: 'dialog',
+    data: {
+      title: title,
+      options: options
+    },
+    verticalNavClass: '.optMenuNav',
+    verticalNavIndex: verticalNavIndex,
+    template: '\
+    <div class="kui-option-menu">\
+      <div class="kui-option-title">{{ it.title }}</div>\
+      <div class="kui-option-body" style="margin:0;padding:0;">\
+        <ul id="kui-options" class="kui-options">\
+          {{@each(it.options) => option}}\
+            <li class="optMenuNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>{{option.text}}</li>\
+          {{/each}}\
+        </ul>\
+      </div>\
+    </div>',
+    methods: {
+      selectOption: function(data) {
+        if (typeof selectCb === 'function') {
+          selectCb(data);
+          if ($router) {
+            $router.hideOptionMenu();
+          }
+        }
+      }
+    },
+    softKeyListener: {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: selectText || 'SELECT',
+        func: function() {
+          const listNav = document.querySelectorAll(this.verticalNavClass);
+          if (this.verticalNavIndex > -1) {
+            listNav[this.verticalNavIndex].click();
+          }
+        }
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.navigateListNav(-1);
+      },
+      arrowRight: function() {},
+      arrowDown: function() {
+        this.navigateListNav(1);
+      },
+      arrowLeft: function() {},
+    }
+  });
+}
+
+Kai.createValueSelector = function() {}
+
+Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb, $router) {
+  return new Kai({
+    name: 'dialog',
+    data: {
+      title: title,
+      body: body
+    },
+    template: '<div class="kui-option-menu"><div class="kui-option-title">{{ it.title }}</div><div class="kui-option-body">{{ it.body }}</div></div>',
+    softKeyListener: {
+      left: {
+        text: negativeText || 'Cancel',
+        func: function() {
+          if (typeof negativeCb === 'function') {
+            negativeCb(dataCb);
+          }
+          if ($router) {
+            $router.hideDialog();
+          }
+        }
+      },
+      center: {
+        text: neutralText || '',
+        func: function() {
+          if (typeof neutralCb === 'function') {
+            neutralCb(dataCb);
+          }
+          if ($router) {
+            $router.hideDialog();
+          }
+        }
+      },
+      right: {
+        text: positiveText || 'Yes',
+        func: function() {
+          if (typeof positiveCb === 'function') {
+            positiveCb(dataCb);
+          }
+          if ($router) {
+            $router.hideDialog();
+          }
+        }
+      }
     }
   });
 }

@@ -12,7 +12,7 @@ const KaiRouter = (function() {
     this.stack = [];
     this.header;
     this.softwareKey;
-    this.dialog = false;
+    this.bottomSheet = false;
 
     this._KaiRouter = function (options) {
       const accesssible = ['routes', 'title'];
@@ -73,8 +73,8 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.run = function() {
-    this.renderHeader();
-    this.renderSoftKey();
+    this.mountHeader();
+    this.mountSoftKey();
     this.calcBodyHeight();
     const paths = getURLParam('page[]');
     if (paths.length === 0) {
@@ -121,7 +121,7 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.push = function(path) {
-    if (this.dialog) {
+    if (this.bottomSheet) {
       return;
     }
     const DOM = document.getElementById('__kai_router__');
@@ -155,7 +155,7 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.pop = function() {
-    if (this.dialog) {
+    if (this.bottomSheet) {
       return;
     }
     const paths = getURLParam('page[]');
@@ -190,71 +190,30 @@ const KaiRouter = (function() {
     return false;
   }
 
-  KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb) {
-    if (document.activeElement.tagName === 'INPUT') {
-      document.activeElement.blur();
-    }
-    const _this = this;
-    const d = new Kai({
-      name: 'dialog',
-      data: {
-        title: title,
-        body: body
-      },
-      template: '<div class="kui-option-menu"><div class="kui-option-title">{{ it.title }}</div><div class="kui-option-body">{{ it.body }}</div></div>',
-      softKeyListener: {
-        left: {
-          text: negativeText || 'Cancel',
-          func: function() {
-            if (typeof negativeCb === 'function') {
-              negativeCb(dataCb);
-            }
-            _this.hideDialog();
-          }
-        },
-        center: {
-          text: neutralText || '',
-          func: function() {
-            if (typeof neutralCb === 'function') {
-              neutralCb(dataCb);
-            }
-            _this.hideDialog();
-          }
-        },
-        right: {
-          text: positiveText || 'Yes',
-          func: function() {
-            if (typeof positiveCb === 'function') {
-              positiveCb(dataCb);
-            }
-            _this.hideDialog();
-          }
-        }
-      }
-    });
-    d.mount('__kai_dialog__');
-    this.setSoftKeyText(d.softKeyListener.left.text, d.softKeyListener.center.text, d.softKeyListener.right.text);
-    this.dialog = true;
-    this.stack.push(d);
-    const DOM = document.getElementById('__kai_dialog__');
+  KaiRouter.prototype.showBottomSheet = function(component) {
+    component.mount('__kai_bottom_sheet__');
+    this.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
+    this.bottomSheet = true;
+    this.stack.push(component);
+    const DOM = document.getElementById('__kai_bottom_sheet__');
     DOM.classList.add('kui-overlay');
-    DOM.style.height = 'calc(100% - 30px)';
+    DOM.style.height = document.getElementById('__kai_soft_key__') ? 'calc(100% - 30px)' : 'calc(100%)';
     DOM.style.zIndex = '1';
     DOM.style.visibility =  'visible';
     DOM.style.transition = 'opacity 0.1s linear';
   }
 
-  KaiRouter.prototype.hideDialog = function() {
-    if (!this.dialog) {
+  KaiRouter.prototype.hideBottomSheet = function() {
+    if (!this.bottomSheet) {
       return;
     }
-    this.dialog = false;
+    this.bottomSheet = false;
     this.stack.pop();
     const component = this.stack[this.stack.length -1];
     this.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
-    const DOM = document.getElementById('__kai_dialog__');
+    const DOM = document.getElementById('__kai_bottom_sheet__');
     if (DOM) {
-      if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_dialog__') {
+      if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_bottom_sheet__') {
         // console.log('unmount previous:', DOM.__kaikit__.name);
         DOM.__kaikit__.unmount();
         DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
@@ -266,82 +225,28 @@ const KaiRouter = (function() {
     DOM.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
   }
 
+  KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb) {
+    if (document.activeElement.tagName === 'INPUT') {
+      document.activeElement.blur();
+    }
+    const dialog = Kai.createDialog(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb, this);
+    this.showBottomSheet(dialog);
+  }
+
+  KaiRouter.prototype.hideDialog = function() {
+    this.hideBottomSheet();
+  }
+
   KaiRouter.prototype.showOptionMenu = function(title, options, selectText, selectCb, verticalNavIndex = -1) {
     if (document.activeElement.tagName === 'INPUT') {
       document.activeElement.blur();
     }
-    const _this = this;
-    const d = new Kai({
-      name: 'dialog',
-      data: {
-        title: title,
-        options: options
-      },
-      verticalNavClass: '.optMenuNav',
-      verticalNavIndex: verticalNavIndex,
-      template: '\
-      <div class="kui-option-menu">\
-        <div class="kui-option-title">{{ it.title }}</div>\
-        <div class="kui-option-body" style="margin:0;padding:0;">\
-          <ul id="kui-options" class="kui-options">\
-            {{@each(it.options) => option}}\
-              <li class="optMenuNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>{{option.text}}</li>\
-            {{/each}}\
-          </ul>\
-        </div>\
-      </div>',
-      methods: {
-        selectOption: function(data) {
-          if (typeof selectCb === 'function') {
-            selectCb(data);
-            _this.hideOptionMenu();
-          }
-        }
-      },
-      softKeyListener: {
-        left: {
-          text: '',
-          func: function() {}
-        },
-        center: {
-          text: selectText || 'SELECT',
-          func: function() {
-            const listNav = document.querySelectorAll(this.verticalNavClass);
-            if (this.verticalNavIndex > -1) {
-              listNav[this.verticalNavIndex].click();
-            }
-          }
-        },
-        right: {
-          text: '',
-          func: function() {}
-        }
-      },
-      dPadNavListener: {
-        arrowUp: function() {
-          this.navigateListNav(-1);
-        },
-        arrowRight: function() {},
-        arrowDown: function() {
-          this.navigateListNav(1);
-        },
-        arrowLeft: function() {},
-      }
-    });
-    d.mount('__kai_dialog__');
-    this.setSoftKeyText(d.softKeyListener.left.text, d.softKeyListener.center.text, d.softKeyListener.right.text);
-    this.dialog = true;
-    this.stack.push(d);
-    const DOM = document.getElementById('__kai_dialog__');
-    DOM.classList.add('kui-overlay');
-    DOM.style.height = 'calc(100% - 30px)';
-    DOM.style.zIndex = '1';
-    DOM.style.visibility =  'visible';
-    DOM.style.transition = 'opacity 0.1s linear';
+    const option_menu = Kai.createOptionMenu(title, options, selectText, selectCb, verticalNavIndex, this);
+    this.showBottomSheet(option_menu);
   }
 
   KaiRouter.prototype.hideOptionMenu = function() {
-    this.hideDialog();
+    this.hideBottomSheet();
   }
 
   KaiRouter.prototype.calcBodyHeight = function() {
@@ -363,24 +268,10 @@ const KaiRouter = (function() {
     body.style.width = '100%';
   }
 
-  KaiRouter.prototype.renderHeader = function() {
+  KaiRouter.prototype.mountHeader = function() {
     const EL = document.getElementById('__kai_header__');
     if (EL) {
-      this.header = new Kai({
-        name: '_header_',
-        data: {
-          title: ''
-        },
-        template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ it.title }}</span>',
-        mounted: function() {
-          EL.classList.add('kui-header');
-        },
-        methods: {
-          setHeaderTitle: function(txt) {
-            this.setData({ title: txt });
-          }
-        }
-      });
+      this.header = Kai.createHeader(EL, this);
       this.header.mount('__kai_header__');
       this.header.methods.setHeaderTitle(this.title);
     }
@@ -390,45 +281,10 @@ const KaiRouter = (function() {
     this.header.methods.setHeaderTitle(txt);
   }
 
-  KaiRouter.prototype.renderSoftKey = function() {
-    const _this = this;
+  KaiRouter.prototype.mountSoftKey = function() {
     const EL = document.getElementById('__kai_soft_key__');
     if (EL) {
-      this.softwareKey = new Kai({
-        name: '_software_key_',
-        data: {
-          left: '',
-          center: '',
-          right: ''
-        },
-        template: '<div @click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ it.left }}</div><div @click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ it.center }}</div><div @click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ it.right }}</div>',
-        mounted: function() {
-          EL.classList.add('kui-software-key');
-        },
-        methods: {
-          setText: function(l, c, r) {
-            this.setData({ left: l, center: c, right: r });
-          },
-          setLeftText: function(txt) {
-            this.setData({ left: txt });
-          },
-          clickLeft: function() {
-            _this.clickLeft();
-          },
-          setCenterText: function(txt) {
-            this.setData({ center: txt });
-          },
-          clickCenter: function() {
-            _this.clickCenter();
-          },
-          setRightText: function(txt) {
-            this.setData({ right: txt });
-          },
-          clickRight: function() {
-            _this.clickRight();
-          },
-        }
-      });
+      this.softwareKey = Kai.createSoftKey(EL, this);
       this.softwareKey.mount('__kai_soft_key__');
       this.softwareKey.methods.setLeftText('');
       this.softwareKey.methods.setCenterText('');
@@ -539,8 +395,8 @@ const KaiRouter = (function() {
             return;
           }
         }
-        if (_router.dialog) {
-          _router.hideDialog();
+        if (_router.bottomSheet) {
+          _router.hideBottomSheet();
           e.preventDefault();
           e.stopPropagation();
         } else {
