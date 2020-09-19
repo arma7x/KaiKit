@@ -75,7 +75,7 @@ const KaiRouter = (function() {
   KaiRouter.prototype.run = function() {
     this.mountHeader();
     this.mountSoftKey();
-    this.calcBodyHeight();
+    this.calcRouterHeight();
     const paths = getURLParam('page[]');
     if (paths.length === 0) {
       paths.push('index');
@@ -249,7 +249,7 @@ const KaiRouter = (function() {
     this.hideBottomSheet();
   }
 
-  KaiRouter.prototype.calcBodyHeight = function() {
+  KaiRouter.prototype.calcRouterHeight = function() {
     var padding = 0;
     const body = document.getElementById('__kai_router__');
     const header = document.getElementById('__kai_header__');
