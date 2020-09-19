@@ -201,7 +201,7 @@ const KaiRouter = (function() {
         title: title,
         body: body
       },
-      template: '<div class="kui-option-menu"><div class="kui-option-title">{{ title }}</div><div class="kui-option-body">{{ body }}</div></div>',
+      template: '<div class="kui-option-menu"><div class="kui-option-title">{{ it.title }}</div><div class="kui-option-body">{{ it.body }}</div></div>',
       softKeyListener: {
         left: {
           text: negativeText || 'Cancel',
@@ -281,12 +281,12 @@ const KaiRouter = (function() {
       verticalNavIndex: verticalNavIndex,
       template: '\
       <div class="kui-option-menu">\
-        <div class="kui-option-title">{{ title }}</div>\
+        <div class="kui-option-title">{{ it.title }}</div>\
         <div class="kui-option-body" style="margin:0;padding:0;">\
           <ul id="kui-options" class="kui-options">\
-            {{#options}}\
-            <li class="optMenuNav" click="selectOption(\{{__stringify__}}\)">{{text}}</li>\
-            {{/options}}\
+            {{@each(it.options) => option}}\
+              <li class="optMenuNav" click=\'selectOption({{ JSON.stringify(option) | safe }})\'>{{option.text}}</li>\
+            {{/each}}\
           </ul>\
         </div>\
       </div>',
@@ -371,7 +371,7 @@ const KaiRouter = (function() {
         data: {
           title: ''
         },
-        template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ title }}</span>',
+        template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ it.title }}</span>',
         mounted: function() {
           EL.classList.add('kui-header');
         },
@@ -401,7 +401,7 @@ const KaiRouter = (function() {
           center: '',
           right: ''
         },
-        template: '<div click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ center }}</div><div click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
+        template: '<div click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ it.left }}</div><div click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ it.center }}</div><div click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ it.right }}</div>',
         mounted: function() {
           EL.classList.add('kui-software-key');
         },

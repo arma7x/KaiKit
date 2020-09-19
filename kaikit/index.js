@@ -166,7 +166,7 @@ const Kai = (function() {
     if (!DOM) {
       return;
     }
-    if (window.Mustache) {
+    if (window.Sqrl) {
       const data = JSON.parse(JSON.stringify(this.data));
       data['__stringify__'] = function () {
         return JSON.stringify(this);
@@ -174,7 +174,7 @@ const Kai = (function() {
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      DOM.innerHTML = window.Mustache.render(this.template, data);
+      DOM.innerHTML = window.Sqrl.render(this.template, data);
     } else {
       DOM.innerHTML = this.template;
     }
@@ -343,6 +343,7 @@ const Kai = (function() {
   Kai.prototype.handleClick = function(evt) {
 
     function dataType(n, scope) {
+      console.log(n);
       if (!isNaN(parseFloat(n)) && isFinite(n)) {
         return parseFloat(n);
       } else if (scope[n]) {
