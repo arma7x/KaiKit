@@ -350,7 +350,19 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     data: {
       title: '_CHILD_ 1',
       counter: -1,
-      selected: 'None'
+      selected: 'None',
+      opts: [
+        { "text": "PHP" },
+        { "text": "JavaScript" },
+        { "text": "Dart" },
+        { "text": "Golang" },
+        { "text": "SQL" },
+        { "text": "Java" },
+        { "text": "CSS" },
+        { "text": "HTML" },
+        { "text": "Flutter" },
+        { "text": "React Native" }
+      ]
     },
     verticalNavClass: '.child1Nav',
     templateUrl: document.location.origin + '/templates/child_1.html',
@@ -363,6 +375,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     methods: {
       listenState: function(data) {
         this.render()
+      },
+      selected: function(val) {
+        this.setData({ selected: val.text });
       },
       push: function() {
         this.$router.push('second');
@@ -382,22 +397,10 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
       showOptMenu: function() {
-        var opts = [
-          { "text": "PHP" },
-          { "text": "JavaScript" },
-          { "text": "Dart" },
-          { "text": "Golang" },
-          { "text": "SQL" },
-          { "text": "Java" },
-          { "text": "CSS" },
-          { "text": "HTML" },
-          { "text": "Flutter" },
-          { "text": "React Native" }
-        ];
-        const idx = opts.findIndex((opt) => {
+        const idx = this.data.opts.findIndex((opt) => {
           return opt.text === this.data.selected;
         });
-        this.$router.showOptionMenu('Option', opts, 'Select', (selected) => {
+        this.$router.showOptionMenu('Option', this.data.opts, 'Select', (selected) => {
           this.setData({ selected: selected.text });
         }, idx);
       }

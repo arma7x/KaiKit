@@ -6,8 +6,8 @@
     <li class="child1Nav" click="push()">Push</li>
     <li class="child1Nav" click="reset()">Reset 0</li>
     <li class="child1Nav" click="showOptMenu()">Show Option Menu</li>
-    <li class="child1Nav">Test 1</li>
-    <li class="child1Nav">Test 2</li>
-    <li class="child1Nav">Test 3</li>
+    {{@each(it.opts) => option}}
+      <li class="child1Nav" click='selected({{ JSON.stringify(option) | safe }})'>{{option.text}}</li>
+    {{/each}}
   </ul>
 </div>
