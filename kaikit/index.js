@@ -719,6 +719,14 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
 }
 
 Kai.createSingleSelector = function(title, options, selectText, selectCb, cancelText, cancelCb, verticalNavIndex = -1, $router) {
+  options.forEach(function(v,k) {
+    if (k === verticalNavIndex) {
+      options[k]['checked'] = true;
+    } else {
+      options[k]['checked'] = false;
+    }
+  });
+
   return new Kai({
     name: 'single_selector',
     data: {
@@ -732,18 +740,20 @@ Kai.createSingleSelector = function(title, options, selectText, selectCb, cancel
       <div class="kui-option-title">{{ title }}</div>\
       <div class="kui-option-body" style="margin:0;padding:0;">\
         <ul id="kui-options" class="kui-options">\
-          {{@each(options) => option, idx}}\
-            <li class="optSSNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>\
+          {{#options}}\
+            <li class="optSSNav" @click=\'selectOption({{__stringify__}})\'>\
               <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding-right: 10px;">\
-                {{option.text}}\
-                {{@if(idx === ' + verticalNavIndex + ')}}\
-                <input type="radio" checked>\
-                {{#else}}\
-                <input type="radio">\
-                {{/if}}\
+                {{text}}\
+                {{#checked}}\
+                  <input type="radio" checked>\
+                {{/checked}}\
+                {{^checked}}\
+                  <input type="radio">\
+                {{/checked}}\
+                \
               </div>\
             </li>\
-          {{/each}}\
+          {{/options}}\
         </ul>\
       </div>\
     </div>',
