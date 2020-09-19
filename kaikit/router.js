@@ -401,7 +401,7 @@ const KaiRouter = (function() {
           center: '',
           right: ''
         },
-        template: '<div click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ it.left }}</div><div click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ it.center }}</div><div click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ it.right }}</div>',
+        template: '<div @click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ it.left }}</div><div @click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ it.center }}</div><div @click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ it.right }}</div>',
         mounted: function() {
           EL.classList.add('kui-software-key');
         },

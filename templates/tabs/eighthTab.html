@@ -6,9 +6,9 @@
         Local: {{ it.counter }} & State: {{ it.$state.counter }}</h5>
       </div>
     </li>
-    <li class="eighthTabNav" click="plus()">Plus +1</li>
-    <li class="eighthTabNav" click="reset()">Reset 0</li>
-    <li class="eighthTabNav" click="minus()">Minus -1</li>
+    <li class="eighthTabNav" @click="plus()">Plus +1</li>
+    <li class="eighthTabNav" @click="reset()">Reset 0</li>
+    <li class="eighthTabNav" @click="minus()">Minus -1</li>
     <li class="eighthTabNav">First Tab 4</li>
     <li class="eighthTabNav">First Tab 5</li>
   </ul>

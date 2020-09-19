@@ -3,11 +3,11 @@
   <h5 style="text-align:center;height:5%;">Local: {{ it.counter }} & State: {{ it.$state.counter }} & {{ it.selected }}</h5>
   <ul class="kui-list" style="height:90%;">
     <input class="child1Nav kui-input"/>
-    <li class="child1Nav" click="push()">Push</li>
-    <li class="child1Nav" click="reset()">Reset 0</li>
-    <li class="child1Nav" click="showOptMenu()">Show Option Menu</li>
+    <li class="child1Nav" @click="push()">Push</li>
+    <li class="child1Nav" @click="reset()">Reset 0</li>
+    <li class="child1Nav" @click="showOptMenu()">Show Option Menu</li>
     {{@each(it.opts) => option}}
-      <li class="child1Nav" click='selected({{ JSON.stringify(option) | safe }})'>{{option.text}}</li>
+      <li class="child1Nav" @click='selected({{ JSON.stringify(option) | safe }})'>{{option.text}}</li>
     {{/each}}
   </ul>
 </div>

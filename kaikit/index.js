@@ -365,7 +365,7 @@ const Kai = (function() {
     evt.stopImmediatePropagation();
     var _this = this.__kaikit__;
     var extractFuncRegex = /\b[^()]+\((.*)\)$/;
-    const target = evt.target.attributes.getNamedItem('click');
+    const target = evt.target.attributes.getNamedItem('@click');
     if (evt.target.attributes.length > 0 && target) {
       if (target.nodeValue !== '') {
         const params = target.nodeValue.split(';');
