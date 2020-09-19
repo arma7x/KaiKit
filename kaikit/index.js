@@ -830,18 +830,19 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
       <div class="kui-option-title">{{ title }}</div>\
       <div class="kui-option-body" style="margin:0;padding:0;">\
         <ul id="kui-options" class="kui-options">\
-          {{@each(options) => option, idx}}\
-            <li class="optMSNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>\
+          {{#options}}\
+            <li class="optMSNav" @click=\'selectOption({{__stringify__}})\'>\
               <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding-right: 10px;">\
-                {{option.text}}\
-                {{@if(option.checked)}}\
-                <input type="checkbox" checked>\
-                {{#else}}\
-                <input type="checkbox">\
-                {{/if}}\
+                {{text}}\
+                {{#checked}}\
+                  <input type="checkbox" checked>\
+                {{/checked}}\
+                {{^checked}}\
+                  <input type="checkbox">\
+                {{/checked}}\
               </div>\
             </li>\
-          {{/each}}\
+          {{/options}}\
         </ul>\
       </div>\
     </div>',
