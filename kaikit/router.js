@@ -285,7 +285,7 @@ const KaiRouter = (function() {
         <div class="kui-option-body" style="margin:0;padding:0;">\
           <ul id="kui-options" class="kui-options">\
             {{@each(it.options) => option}}\
-              <li class="optMenuNav" click=\'selectOption({{ JSON.stringify(option) | safe }})\'>{{option.text}}</li>\
+              <li class="optMenuNav" @click=\'selectOption({{ JSON.stringify(option) | safe }})\'>{{option.text}}</li>\
             {{/each}}\
           </ul>\
         </div>\
