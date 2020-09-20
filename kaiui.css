@@ -225,7 +225,8 @@ h1, h2, h3, h4, h5, ul, p {
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     height: 100%;
 }
 
@@ -300,7 +301,8 @@ h1, h2, h3, h4, h5, ul, p {
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     height: 100%;
 }
 
@@ -504,7 +506,7 @@ button.kui-btn:focus {
 .kui-tab {
     list-style: none;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: scroll;
     white-space: nowrap;
     background-color: #e6e6e6;
     height: 30px;
