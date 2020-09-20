@@ -719,6 +719,8 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
 }
 
 Kai.createSingleSelector = function(title, options, selectText, selectCb, cancelText, cancelCb, verticalNavIndex = -1, $router) {
+
+  options = JSON.parse(JSON.stringify(options));
   options.forEach(function(v,k) {
     if (k === verticalNavIndex) {
       options[k]['checked'] = true;
@@ -809,7 +811,6 @@ Kai.createSingleSelector = function(title, options, selectText, selectCb, cancel
 Kai.createMultiSelector = function(title, options, selectText, selectCb, saveText, saveCb, cancelText, cancelCb, verticalNavIndex = -1, $router) {
 
   options = JSON.parse(JSON.stringify(options));
-
   const focus = options[verticalNavIndex === -1 ? 0 : verticalNavIndex];
   if (focus) {
     if (focus.checked) {
