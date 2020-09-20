@@ -277,30 +277,6 @@ const KaiRouter = (function() {
     this.hideBottomSheet();
   }
 
-  KaiRouter.prototype.showDatePicker = function(year, month, day = 1, selectCb) {
-    if (document.activeElement.tagName === 'INPUT') {
-      document.activeElement.blur();
-    }
-    const date_picker = Kai.createDatePicker(year, month, day, selectCb, this);
-    this.showBottomSheet(date_picker);
-  }
-
-  KaiRouter.prototype.hideDatePicker = function() {
-    this.hideBottomSheet();
-  }
-
-  KaiRouter.prototype.showTimePicker = function(hour, minute, is24h = true, selectCb) {
-    if (document.activeElement.tagName === 'INPUT') {
-      document.activeElement.blur();
-    }
-    const time_picker = Kai.createTimePicker(hour, minute, is24h, selectCb, this);
-    this.showBottomSheet(time_picker);
-  }
-
-  KaiRouter.prototype.hideTimePicker = function() {
-    // this.hideBottomSheet();
-  }
-
   KaiRouter.prototype.calcRouterHeight = function() {
     var padding = 0;
     const body = document.getElementById('__kai_router__');
