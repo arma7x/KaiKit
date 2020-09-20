@@ -431,7 +431,8 @@ const Kai = (function() {
       targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
       if (((this[navIndex] + 1) * targetElement.clientHeight - (header ? 28 : 0)) > targetElement.parentElement.clientHeight) {
-        targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
+        // targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
+        targetElement.parentElement.scrollTop = targetElement.offsetTop - targetElement.parentElement.clientHeight + (sk ? 22 : 0);
       } else {
         targetElement.parentElement.scrollTop = 0;
       }
