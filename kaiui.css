@@ -188,8 +188,18 @@ h1, h2, h3, h4, h5, ul, p {
     z-index: 9;
 }
 
-.kui-software-key h5 {
-    width: 33.3333333333%;
+.kui-software-key-dark {
+    height: 30px;
+    line-height: 30px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    color: #fff;
+    position: fixed;
+    width:  100%;
+    bottom: 0;
+    z-index: 9;
 }
 
 /* ============== Toast ============== */

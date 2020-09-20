@@ -201,6 +201,8 @@ const KaiRouter = (function() {
     DOM.style.zIndex = '1';
     DOM.style.visibility =  'visible';
     DOM.style.transition = 'opacity 0.1s linear';
+    const EL = document.getElementById('__kai_soft_key__');
+    EL.classList.add('kui-software-key-dark');
   }
 
   KaiRouter.prototype.hideBottomSheet = function() {
@@ -223,6 +225,8 @@ const KaiRouter = (function() {
     DOM.style.zIndex = '-1';
     DOM.style.visibility =  'hidden';
     DOM.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
+    const EL = document.getElementById('__kai_soft_key__');
+    EL.classList.remove('kui-software-key-dark');
   }
 
   KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb) {
