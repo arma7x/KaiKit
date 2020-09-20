@@ -529,3 +529,8 @@ button.kui-btn:focus {
     color: #000;
     border-bottom: 3px solid #873eff;
 }
+
+.kai-focus {
+  background-color: #873eff;
+  color: #fff!important;
+}

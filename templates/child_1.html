@@ -5,9 +5,10 @@
     <input class="child1Nav kui-input"/>
     <li class="child1Nav" @click="push()">Push</li>
     <li class="child1Nav" @click="reset()">Reset 0</li>
-    <li class="child1Nav" @click="showOptMenu()">Show Option Menu</li>
-    <li class="child1Nav" @click="showSingleSelector()">Show Single Selector</li>
-    <li class="child1Nav" @click="showMultiSelector()">Show Multi Selector</li>
+    <li class="child1Nav" @click="testOptMenu()">Test Option Menu</li>
+    <li class="child1Nav" @click="testSingleSelector()">Test Single Selector</li>
+    <li class="child1Nav" @click="testMultiSelector()">Test Multi Selector</li>
+    <li class="child1Nav" @click="testDatePicker()">Test Date Picker</li>
     {{#opts}}
       <li class="child1Nav" @click='selected({{__stringify__}})'>{{text}}</li>
     {{/opts}}
