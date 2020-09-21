@@ -309,17 +309,21 @@ const KaiRouter = (function() {
     const header = document.getElementById('__kai_header__');
     if (header) {
       padding += 28;
-      body.style.marginTop = '28px';
+      body.classList.add('kui-router-m-top');
     }
     const sk = document.getElementById('__kai_soft_key__');
     if (sk) {
       padding += 30;
-      body.style.marginBottom = '30px';
+      body.classList.add('kui-router-m-bottom');
+      
     }
-    if (padding > 0) {
-      body.style.setProperty('height', 'calc(' + window.innerHeight + 'px - ' +  padding.toString() + 'px)', 'important');
+    if (padding === 28) {
+      body.classList.add('kui-router-h-hdr');
+    } else if (padding === 30) {
+      body.classList.add('kui-router-h-sk');
+    } else if (padding === 58) {
+      body.classList.add('kui-router-h-hdr-sk');
     }
-    body.style.width = '100%';
   }
 
   KaiRouter.prototype.mountHeader = function() {

@@ -251,8 +251,17 @@ const Kai = (function() {
         if (tabHeader) {
           padding += 30;
         }
-        tabBody.style.setProperty('height', 'calc(' + window.innerHeight + 'px - ' +  padding.toString() + 'px)', 'important');
-        tabBody.style.overflowY = 'hidden';
+        if (padding === 28) {
+          tabBody.classList.add('kui-tab-h-28');
+        } else if (padding === 30) {
+          tabBody.classList.add('kui-tab-h-30');
+        } else if (padding === 60) {
+          tabBody.classList.add('kui-tab-h-60');
+        } else if (padding === 58) {
+          tabBody.classList.add('kui-tab-h-58');
+        } else if (padding === 88) {
+          tabBody.classList.add('kui-tab-h-88');
+        }
       }
     }
   }
@@ -1090,4 +1099,8 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
   });
 }
 
-Kai.createTimePicker = function() {}
+Kai.createTimePicker = function(hour, minute, is24h, selectCb, $router) {
+  if (hour > 12) {
+    is24h = true;
+  }
+}

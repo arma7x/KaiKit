@@ -45,6 +45,51 @@ h1, h2, h3, h4, h5, ul, p {
     font-family: 'Open Sans';
 }
 
+.kui-router-m-top {
+    margin-top: 28px;
+}
+
+.kui-router-m-bottom {
+    margin-bottom: 30px;
+}
+
+.kui-router-h-hdr {
+  height: calc(100vh - 28px) !important;
+}
+
+.kui-router-h-sk {
+  height: calc(100vh - 30px) !important;
+}
+
+.kui-router-h-hdr-sk {
+  height: calc(100vh - 58px) !important;
+}
+
+.kui-tab-h-28 {
+  height: calc(100vh - 28px) !important;
+  overflow-y: hidden;
+}
+
+.kui-tab-h-30 {
+  height: calc(100vh - 30px) !important;
+  overflow-y: hidden;
+}
+
+.kui-tab-h-58 {
+  height: calc(100vh - 58px) !important;
+  overflow-y: hidden;
+}
+
+.kui-tab-h-60 {
+  height: calc(100vh - 60px) !important;
+  overflow-y: hidden;
+}
+
+.kui-tab-h-88 {
+  height: calc(100vh - 88px) !important;
+  overflow-y: hidden;
+}
+
 .kui-content-area {
     overflow: hidden;
     position: relative;
