@@ -932,3 +932,162 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
   });
   return multi_selector.reset();
 }
+
+Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
+
+  const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  const today = new Date();
+  day = day == undefined ? today.getDate() : day;
+  month = month || today.getMonth() + 1;
+  year = year || today.getFullYear();
+  var MAX_DAY = new Date(year, month, 0).getDate();
+  day = day <= MAX_DAY ? day : 1;
+
+  return new Kai({
+    name: 'date_picker',
+    data: {
+      title: 'Select Date',
+      yearT: year - 1,
+      yearM: year,
+      yearB: year + 1,
+      monthT: MONTHS[(month - 1) - 1] ? MONTHS[(month - 1) - 1] : '-',
+      monthM: MONTHS[month - 1],
+      monthB: MONTHS[(month - 1) + 1] ? MONTHS[(month - 1) + 1] : '-',
+      dayT: day - 1 < 1 ? '-' : (day - 1),
+      dayM: day,
+      dayB: day + 1 > MAX_DAY ? '-' : (day + 1),
+      selector: 0
+    },
+    template: '\
+    <div class="kui-option-menu">\
+      <div class="kui-option-title">{{ title }}</div>\
+      <div class="kui-option-body">\
+        <div class="kui-row-center">\
+          <div class="kai-day-col">\
+            <div class="kai-dmy-top">{{ dayT }}</div>\
+            <div id="__kai_dp_day__" class="kai-dmy-mid">{{ dayM }}</div>\
+            <div class="kai-dmy-bottom">{{ dayB }}</div>\
+          </div>\
+          <div class="kai-month-col">\
+            <div class="kai-dmy-top">{{ monthT }}</div>\
+            <div id="__kai_dp_month__" class="kai-dmy-mid">{{ monthM }}</div>\
+            <div class="kai-dmy-bottom">{{ monthB }}</div>\
+          </div>\
+          <div class="kai-year-col">\
+            <div class="kai-dmy-top">{{ yearT }}</div>\
+            <div id="__kai_dp_year__" class="kai-dmy-mid">{{ yearM }}</div>\
+            <div class="kai-dmy-bottom">{{ yearB }}</div>\
+          </div>\
+        </div>\
+      </div>\
+    </div>',
+    mounted: function() {
+      this.methods.focus();
+    },
+    unmounted: function() {},
+    methods: {
+      focus: function() {
+        if (this.data.selector === 0) {
+          document.getElementById('__kai_dp_day__').classList.add('kai-focus');
+          document.getElementById('__kai_dp_month__').classList.remove('kai-focus');
+          document.getElementById('__kai_dp_year__').classList.remove('kai-focus');
+        } else if (this.data.selector === 1) {
+          document.getElementById('__kai_dp_day__').classList.remove('kai-focus');
+          document.getElementById('__kai_dp_month__').classList.add('kai-focus');
+          document.getElementById('__kai_dp_year__').classList.remove('kai-focus');
+        } else {
+          document.getElementById('__kai_dp_day__').classList.remove('kai-focus');
+          document.getElementById('__kai_dp_month__').classList.remove('kai-focus');
+          document.getElementById('__kai_dp_year__').classList.add('kai-focus');
+        }
+      },
+      setValue: function (val) {
+        if (this.data.selector === 0) {
+          const dayM = this.data.dayM + val;
+          if (dayM > MAX_DAY || dayM < 1) {
+            return;
+          }
+          const dayT = dayM - 1 < 1 ? '-' : (dayM - 1);
+          const dayB = dayM + 1 > MAX_DAY ? '-' : (dayM + 1);
+          this.setData({ dayT, dayM, dayB });
+        } else if (this.data.selector === 1) {
+          const oldMD = MAX_DAY;
+          var idx = MONTHS.indexOf(this.data.monthM);
+          idx += val;
+          if (idx > 11 || idx < 0) {
+            return
+          }
+          const monthT = MONTHS[idx - 1] ? MONTHS[idx - 1] : '-';
+          const monthM = MONTHS[idx];
+          const monthB = MONTHS[idx + 1] ? MONTHS[idx + 1] : '-';
+          this.setData({ monthT, monthM, monthB });
+          MAX_DAY = new Date(this.data.yearM, idx + 1, 0).getDate();
+          if (this.data.dayM > MAX_DAY) {
+            this.setData({ dayT: this.data.dayT - 1, dayM: this.data.dayM - 1, dayB: '-' });
+          } else if (MAX_DAY > this.data.dayM && oldMD === this.data.dayM) {
+            this.setData({ dayB: this.data.dayM + 1 });
+          } else if (MAX_DAY === this.data.dayM && MAX_DAY < oldMD) {
+            this.setData({ dayB: '-' });
+          }
+        } else {
+          const yearM = this.data.yearM + val;
+          const yearT = yearM - 1;
+          const yearB = yearM + 1;
+          this.setData({ yearT, yearM, yearB });
+        }
+        this.methods.focus();
+      }
+    },
+    softKeyListener: {
+      left: {
+        text: 'Cancel',
+        func: function() {
+          if ($router) {
+            $router.hideSingleSelector();
+          }
+        }
+      },
+      center: {
+        text: 'Save',
+        func: function() {
+          if (typeof selectCb === 'function') {
+            selectCb(new Date(this.data.yearM, MONTHS.indexOf(this.data.monthM), this.data.dayM));
+          }
+          if ($router) {
+            $router.hideSingleSelector();
+          }
+        }
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.methods.setValue(-1);
+      },
+      arrowDown: function() {
+        this.methods.setValue(1);
+      },
+      arrowRight: function() {
+        if (this.data.selector === 2) {
+          this.setData({ selector: 0 });
+        } else {
+          this.setData({ selector: this.data.selector + 1 });
+        }
+        this.methods.focus();
+      },
+      arrowLeft: function() {
+        if (this.data.selector === 0) {
+          this.setData({ selector: 2 });
+        } else {
+          this.setData({ selector: this.data.selector - 1 });
+        }
+        this.methods.focus();
+      }
+    }
+  });
+}
+
+Kai.createTimePicker = function() {}

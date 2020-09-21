@@ -564,6 +564,10 @@ button.kui-btn:focus {
     border-bottom: 3px solid #873eff;
 }
 
+.kui-date-hidden {
+    opacity: 0;
+}
+
 .kai-focus {
     background-color: #873eff;
     color: #fff!important;
@@ -628,4 +632,28 @@ button.kui-btn:focus {
 
 .kai-h-100 {
     height: 100%;
+}
+
+.kai-day-col {
+  width:32%;text-align:center;
+}
+
+.kai-month-col {
+  width:36%;text-align:center;border-style:solid;border-width:1px;border-color:#fff #e6e6e6 #fff #e6e6e6;
+}
+
+.kai-year-col {
+  width:32%;text-align:center;
+}
+
+.kai-dmy-top {
+  color:#323232;padding:15px 0;
+}
+
+.kai-dmy-mid {
+  color:#873eff;font-size:20px;padding:15px 0;
+}
+
+.kai-dmy-bottom {
+  color:#323232;padding:15px 0;
 }
