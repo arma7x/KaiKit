@@ -291,11 +291,11 @@ const KaiRouter = (function() {
     this.hideBottomSheet();
   }
 
-  KaiRouter.prototype.showTimePicker = function(hour, minute, is24h = true, selectCb) {
+  KaiRouter.prototype.showTimePicker = function(hour, minute, is12H = true, selectCb) {
     if (document.activeElement.tagName === 'INPUT') {
       document.activeElement.blur();
     }
-    const time_picker = Kai.createTimePicker(hour, minute, is24h, selectCb, this);
+    const time_picker = Kai.createTimePicker(hour, minute, is12H, selectCb, this);
     this.showBottomSheet(time_picker);
   }
 

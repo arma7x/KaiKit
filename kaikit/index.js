@@ -971,21 +971,21 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
     <div class="kui-option-menu">\
       <div class="kui-option-title">{{ title }}</div>\
       <div class="kui-option-body">\
-        <div class="kui-row-center">\
-          <div class="kai-day-col">\
-            <div class="kai-dmy-top">{{ dayT }}</div>\
-            <div id="__kai_dp_day__" class="kai-dmy-mid">{{ dayM }}</div>\
-            <div class="kai-dmy-bottom">{{ dayB }}</div>\
+        <div class="kui-lcr-container">\
+          <div class="kai-left-col">\
+            <div class="kai-lcr-top">{{ dayT }}</div>\
+            <div id="__kai_dp_day__" class="kai-lcr-mid">{{ dayM }}</div>\
+            <div class="kai-lcr-bottom">{{ dayB }}</div>\
           </div>\
-          <div class="kai-month-col">\
-            <div class="kai-dmy-top">{{ monthT }}</div>\
-            <div id="__kai_dp_month__" class="kai-dmy-mid">{{ monthM }}</div>\
-            <div class="kai-dmy-bottom">{{ monthB }}</div>\
+          <div class="kai-center-col">\
+            <div class="kai-lcr-top">{{ monthT }}</div>\
+            <div id="__kai_dp_month__" class="kai-lcr-mid">{{ monthM }}</div>\
+            <div class="kai-lcr-bottom">{{ monthB }}</div>\
           </div>\
-          <div class="kai-year-col">\
-            <div class="kai-dmy-top">{{ yearT }}</div>\
-            <div id="__kai_dp_year__" class="kai-dmy-mid">{{ yearM }}</div>\
-            <div class="kai-dmy-bottom">{{ yearB }}</div>\
+          <div class="kai-right-col">\
+            <div class="kai-lcr-top">{{ yearT }}</div>\
+            <div id="__kai_dp_year__" class="kai-lcr-mid">{{ yearM }}</div>\
+            <div class="kai-lcr-bottom">{{ yearB }}</div>\
           </div>\
         </div>\
       </div>\
@@ -1052,7 +1052,7 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
         text: 'Cancel',
         func: function() {
           if ($router) {
-            $router.hideSingleSelector();
+            $router.hideDatePicker();
           }
         }
       },
@@ -1063,7 +1063,7 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
             selectCb(new Date(this.data.yearM, MONTHS.indexOf(this.data.monthM), this.data.dayM));
           }
           if ($router) {
-            $router.hideSingleSelector();
+            $router.hideDatePicker();
           }
         }
       },
@@ -1099,8 +1099,193 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
   });
 }
 
-Kai.createTimePicker = function(hour, minute, is24h, selectCb, $router) {
-  if (hour > 12) {
-    is24h = true;
+Kai.createTimePicker = function(hour, minute, is12H, selectCb, $router) {
+
+  function twoChar(n) {
+    return n < 10 ? '0' + n.toString() : n;
   }
+  
+  if (hour > 23) {
+    hour = 0;
+  }
+  if (minute > 59) {
+    minute = 0;
+  }
+
+  var  periodT = '-';
+  var  periodM = '-';
+  var  periodB = '-';
+
+  if (is12H) {
+    if (hour >= 12) {
+      hour = hour > 12 ? hour - 12 : hour;
+      periodT = 'AM';
+      periodM = 'PM';
+      periodB = '-';
+    } else {
+      periodT = '-';
+      periodM = 'AM';
+      periodB = 'PM';
+    }
+  } else {
+    periodT = '-';
+    periodM = '-';
+    periodB = '-';
+  }
+
+  return new Kai({
+    name: 'time_picker',
+    data: {
+      title: 'Select Time',
+      hourT: is12H ? (hour - 1 > 0 ? twoChar(hour - 1) : '-') : (hour - 1 > 1 ? twoChar(hour) - 1 : '-'),
+      hourM: twoChar(hour),
+      hourB: is12H ? (hour + 1 < 13 ? twoChar(hour + 1) : '-') : (hour + 1 < 24 ? twoChar(hour + 1) : '-'),
+      minuteT: minute - 1 < 0 ? '-' : twoChar(minute - 1),
+      minuteM: twoChar(minute),
+      minuteB: minute + 1 > 59 ? '-' : twoChar(minute + 1),
+      periodT: periodT,
+      periodM: periodM,
+      periodB: periodB,
+      is12H: is12H,
+      selector: 0
+    },
+    template: '\
+    <div class="kui-option-menu">\
+      <div class="kui-option-title">{{ title }}</div>\
+      <div class="kui-option-body">\
+        <div class="kui-lcr-container">\
+          <div class="kai-left-col">\
+            <div class="kai-lcr-top">{{ hourT }}</div>\
+            <div id="__kai_dp_hour__" class="kai-lcr-mid">{{ hourM }}</div>\
+            <div class="kai-lcr-bottom">{{ hourB }}</div>\
+          </div>\
+          <div class="kai-center-col">\
+            <div class="kai-lcr-top">{{ minuteT }}</div>\
+            <div id="__kai_dp_minute__" class="kai-lcr-mid">{{ minuteM }}</div>\
+            <div class="kai-lcr-bottom">{{ minuteB }}</div>\
+          </div>\
+          {{#is12H}}\
+          <div class="kai-right-col">\
+            <div class="kai-lcr-top">{{ periodT }}</div>\
+            <div id="__kai_dp_period__" class="kai-lcr-mid">{{ periodM }}</div>\
+            <div class="kai-lcr-bottom">{{ periodB }}</div>\
+          </div>\
+          {{/is12H}}\
+        </div>\
+      </div>\
+    </div>',
+    mounted: function() {
+      this.methods.focus();
+    },
+    unmounted: function() {},
+    methods: {
+      focus: function() {
+        if (this.data.selector === 0) {
+          document.getElementById('__kai_dp_hour__').classList.add('kai-focus');
+          document.getElementById('__kai_dp_minute__').classList.remove('kai-focus');
+          if (this.data.is12H) {
+            document.getElementById('__kai_dp_period__').classList.remove('kai-focus');
+          }
+        } else if (this.data.selector === 1) {
+          document.getElementById('__kai_dp_hour__').classList.remove('kai-focus');
+          document.getElementById('__kai_dp_minute__').classList.add('kai-focus');
+          if (this.data.is12H) {
+            document.getElementById('__kai_dp_period__').classList.remove('kai-focus');
+          }
+        } else {
+          document.getElementById('__kai_dp_hour__').classList.remove('kai-focus');
+          document.getElementById('__kai_dp_minute__').classList.remove('kai-focus');
+          if (this.data.is12H) {
+            document.getElementById('__kai_dp_period__').classList.add('kai-focus');
+          }
+        }
+      },
+      setValue: function (val) {
+        if (this.data.selector === 0) {
+          var hourM = parseInt(this.data.hourM) + val;
+          if (hourM < (this.data.is12H ? 1 : 0) || hourM > (this.data.is12H ? 12 : 23)) {
+            return;
+          }
+          var hourT = !this.data.is12H ? (hourM - 1 > -1 ? twoChar(hourM - 1) : '-') : (hourM - 1 > 0 ? twoChar(hourM - 1) : '-');
+          var hourB = !this.data.is12H ? (hourM + 1 < 24 ? twoChar(hourM + 1) : '-') : (hourM + 1 < 13 ? twoChar(hourM + 1) : '-');
+          hourM = twoChar(hourM);
+          this.setData({ hourT, hourM, hourB });
+        } else if (this.data.selector === 1) {
+          var minuteM = parseInt(this.data.minuteM) + val;
+          if (minuteM < 0 || minuteM > 59) {
+            return;
+          }
+          var minuteT = minuteM - 1 < 0 ? '-' : twoChar(minuteM - 1);
+          var minuteB = minuteM + 1 > 59 ? '-' : twoChar(minuteM + 1);
+          minuteM = twoChar(minuteM);
+          this.setData({ minuteT, minuteM, minuteB });
+        } else {
+          if (this.data.periodM === 'PM' && val === -1) {
+            this.setData({ periodT: '-', periodM: 'AM', periodB: 'PM' });
+          } else if (this.data.periodM === 'AM' && val === 1){
+            this.setData({ periodT: 'AM', periodM: 'PM', periodB: '-' });
+          }
+        }
+        this.methods.focus();
+      }
+    },
+    softKeyListener: {
+      left: {
+        text: 'Cancel',
+        func: function() {
+          if ($router) {
+            $router.hideTimePicker();
+          }
+        }
+      },
+      center: {
+        text: 'Save',
+        func: function() {
+          if (typeof selectCb === 'function') {
+            var h = parseInt(this.data.hourM);
+            var m = parseInt(this.data.minuteM)
+            if (this.data.is12H) {
+              if (parseInt(this.data.hourM) < 12 && this.data.periodM === 'PM') {
+                h = parseInt(this.data.hourM) + 12;
+              }
+            }
+            const dt = new Date();
+            dt.setHours(h, m, 0);
+            selectCb(dt);
+          }
+          if ($router) {
+            $router.hideTimePicker();
+          }
+        }
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    },
+    dPadNavListener: {
+      arrowUp: function() {
+        this.methods.setValue(-1);
+      },
+      arrowDown: function() {
+        this.methods.setValue(1);
+      },
+      arrowRight: function() {
+        if (this.data.selector === 2) {
+          this.setData({ selector: 0 });
+        } else {
+          this.setData({ selector: this.data.selector + 1 });
+        }
+        this.methods.focus();
+      },
+      arrowLeft: function() {
+        if (this.data.selector === 0) {
+          this.setData({ selector: 2 });
+        } else {
+          this.setData({ selector: this.data.selector - 1 });
+        }
+        this.methods.focus();
+      }
+    }
+  });
 }

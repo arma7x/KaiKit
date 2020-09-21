@@ -641,7 +641,6 @@ button.kui-btn:focus {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-right: 10px;
 }
 
 .kai-text-center {
@@ -692,26 +691,34 @@ button.kui-btn:focus {
     height: 100%;
 }
 
-.kai-day-col {
-  width:32%;text-align:center;
+.kui-lcr-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: space-evenly;
 }
 
-.kai-month-col {
-  width:36%;text-align:center;border-style:solid;border-width:1px;border-color:#fff #e6e6e6 #fff #e6e6e6;
+.kai-left-col {
+  width:100%;text-align:center;
 }
 
-.kai-year-col {
-  width:32%;text-align:center;
+.kai-center-col {
+  width:100%;text-align:center;border-style:solid;border-width:0px 0px 0px 1px;border-color:#fff #fff #fff #e6e6e6;
 }
 
-.kai-dmy-top {
+.kai-right-col {
+  width:100%;text-align:center;border-style:solid;border-width:0px 0px 0px 1px;border-color:#fff #fff #fff #e6e6e6;
+}
+
+.kai-lcr-top {
   color:#323232;padding:15px 0;
 }
 
-.kai-dmy-mid {
+.kai-lcr-mid {
   color:#873eff;font-size:20px;padding:15px 0;
 }
 
-.kai-dmy-bottom {
+.kai-lcr-bottom {
   color:#323232;padding:15px 0;
 }
