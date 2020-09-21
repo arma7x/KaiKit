@@ -1,15 +1,19 @@
-<div style="padding:5px;height:100%;">
-  <input class="kui-input" style="height:15%;"/>
-  <ul class="kui-list" style="height:85%;">
-    <li class="eighthTabNav">
-      <div style="text-align:center;">
-        Local: {{ counter }} & State: {{ $state.counter }}</h5>
-      </div>
-    </li>
-    <li class="eighthTabNav" @click="plus()">Plus +1</li>
-    <li class="eighthTabNav" @click="reset()">Reset 0</li>
-    <li class="eighthTabNav" @click="minus()">Minus -1</li>
-    <li class="eighthTabNav">First Tab 4</li>
-    <li class="eighthTabNav">First Tab 5</li>
-  </ul>
+<div class="kai-container kai-h-100">
+  <div class="kai-h-10">
+    <input class="kui-input"/>
+  </div>
+  <div class="kai-h-90">
+    <ul class="kui-list">
+      <li class="eighthTabNav">
+        <div class="kai-text-center">
+          Local: {{ counter }} & State: {{ $state.counter }}</h5>
+        </div>
+      </li>
+      <li class="eighthTabNav" @click="plus()">Plus +1</li>
+      <li class="eighthTabNav" @click="reset()">Reset 0</li>
+      <li class="eighthTabNav" @click="minus()">Minus -1</li>
+      <li class="eighthTabNav">First Tab 4</li>
+      <li class="eighthTabNav">First Tab 5</li>
+    </ul>
+  </div>
 </div>

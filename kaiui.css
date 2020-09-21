@@ -576,3 +576,51 @@ button.kui-btn:focus {
     align-items: center;
     padding-right: 10px;
 }
+
+.kai-text-center {
+    text-align: center;
+}
+
+.kai-container {
+    padding: 5px;
+}
+
+.kai-h-10 {
+    height: 10%;
+}
+
+.kai-h-20 {
+    height: 20%;
+}
+
+.kai-h-30 {
+    height: 30%;
+}
+
+.kai-h-40 {
+    height: 40%;
+}
+
+.kai-h-50 {
+    height: 50%;
+}
+
+.kai-h-60 {
+    height: 60%;
+}
+
+.kai-h-70 {
+    height: 70%;
+}
+
+.kai-h-80 {
+    height: 80%;
+}
+
+.kai-h-90 {
+    height: 90%;
+}
+
+.kai-h-100 {
+    height: 100%;
+}
