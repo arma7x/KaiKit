@@ -449,13 +449,13 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.navigateListNav(-1);
       },
       arrowRight: function() {
-        this.navigateTabNav(-1);
+        // this.navigateTabNav(-1);
       },
       arrowDown: function() {
         this.navigateListNav(1);
       },
       arrowLeft: function() {
-        this.navigateTabNav(1);
+        // this.navigateTabNav(1);
       },
     },
     backKeyListener: function() {
@@ -565,7 +565,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
   const app = new Kai({
     name: '_APP_',
     data: {},
-    templateUrl: document.location.origin + '/template.html',
+    templateUrl: document.location.origin + '/templates/template.html',
     mounted: function() {},
     unmounted: function() {},
     methods: {

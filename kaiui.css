@@ -202,6 +202,29 @@ h1, h2, h3, h4, h5, ul, p {
     z-index: 9;
 }
 
+.kui-software-key-left {
+    width: 32%;
+    text-align: left;
+    padding-left: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.kui-software-key-center {
+    width: 36%;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.kui-software-key-right {
+    width: 32%;
+    text-align: right;
+    padding-right: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
 /* ============== Toast ============== */
 .kui-toast {
     height: 42px;
@@ -292,7 +315,8 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .kui-option-menu .kui-option-body {
-    padding: 5px;
+    margin: 0;
+    padding: 0;
     font-size: 14px;
 }
 
@@ -541,6 +565,14 @@ button.kui-btn:focus {
 }
 
 .kai-focus {
-  background-color: #873eff;
-  color: #fff!important;
+    background-color: #873eff;
+    color: #fff!important;
+}
+
+.kui-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
 }

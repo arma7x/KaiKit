@@ -561,7 +561,7 @@ Kai.createHeader = function(EL, $router) {
     data: {
       title: ''
     },
-    template: '<span id="__kai_header_title__" style="margin-left: 5px;font-weight:300;font-size:17px;">{{ title }}</span>',
+    template: '{{ title }}',
     mounted: function() {
       EL.classList.add('kui-header');
     },
@@ -581,7 +581,7 @@ Kai.createSoftKey = function(EL, $router) {
       center: '',
       right: ''
     },
-    template: '<div @click="clickLeft()" style="width:32%;text-align:left;padding-left:5px;font-weight:600;font-size:14px;">{{ left }}</div><div @click="clickCenter()" style="width:36%;text-align:center;font-weight:600;text-transform:uppercase;">{{ center }}</div><div @click="clickRight()" style="width:32%;text-align:right;padding-right:5px;font-weight:600;font-size:14px;">{{ right }}</div>',
+    template: '<div @click="clickLeft()" class="kui-software-key-left">{{ left }}</div><div @click="clickCenter()" class="kui-software-key-center">{{ center }}</div><div @click="clickRight()" class="kui-software-key-right">{{ right }}</div>',
     mounted: function() {
       EL.classList.add('kui-software-key');
     },
@@ -623,7 +623,7 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNa
     template: '\
     <div class="kui-option-menu">\
       <div class="kui-option-title">{{ title }}</div>\
-      <div class="kui-option-body" style="margin:0;padding:0;">\
+      <div class="kui-option-body">\
         <ul id="kui-options" class="kui-options">\
           {{#options}}\
             <li class="optMenuNav" @click=\'selectOption({{__stringify__}})\'>{{text}}</li>\
@@ -741,11 +741,11 @@ Kai.createSingleSelector = function(title, options, selectText, selectCb, cancel
     template: '\
     <div class="kui-option-menu">\
       <div class="kui-option-title">{{ title }}</div>\
-      <div class="kui-option-body" style="margin:0;padding:0;">\
+      <div class="kui-option-body">\
         <ul id="kui-options" class="kui-options">\
           {{#options}}\
             <li class="optSSNav" @click=\'selectOption({{__stringify__}})\'>\
-              <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding-right: 10px;">\
+              <div class="kui-row-center">\
                 {{text}}\
                 {{#checked}}\
                   <input type="radio" checked>\
@@ -832,11 +832,11 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
     template: '\
     <div class="kui-option-menu">\
       <div class="kui-option-title">{{ title }}</div>\
-      <div class="kui-option-body" style="margin:0;padding:0;">\
+      <div class="kui-option-body">\
         <ul id="kui-options" class="kui-options">\
           {{#options}}\
             <li class="optMSNav" @click=\'selectOption({{__stringify__}})\'>\
-              <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding-right: 10px;">\
+              <div class="kui-row-center">\
                 {{text}}\
                 {{#checked}}\
                   <input type="checkbox" checked>\
