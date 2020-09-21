@@ -196,13 +196,14 @@ const KaiRouter = (function() {
     this.bottomSheet = true;
     this.stack.push(component);
     const DOM = document.getElementById('__kai_bottom_sheet__');
+    const SK = document.getElementById('__kai_soft_key__');
     DOM.classList.add('kui-overlay');
-    DOM.style.height = document.getElementById('__kai_soft_key__') ? 'calc(100% - 30px)' : 'calc(100%)';
-    DOM.style.zIndex = '1';
-    DOM.style.visibility =  'visible';
-    DOM.style.transition = 'opacity 0.1s linear';
-    const EL = document.getElementById('__kai_soft_key__');
-    EL.classList.add('kui-software-key-dark');
+    if (SK) {
+      DOM.classList.add('kui-overlay-visible');
+      SK.classList.add('kui-software-key-dark');
+    } else {
+      DOM.classList.add('kui-overlay-visible-no-sk');
+    }
   }
 
   KaiRouter.prototype.hideBottomSheet = function() {
@@ -214,6 +215,7 @@ const KaiRouter = (function() {
     const component = this.stack[this.stack.length -1];
     this.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
     const DOM = document.getElementById('__kai_bottom_sheet__');
+    const SK = document.getElementById('__kai_soft_key__');
     if (DOM) {
       if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_bottom_sheet__') {
         // console.log('unmount previous:', DOM.__kaikit__.name);
@@ -221,12 +223,12 @@ const KaiRouter = (function() {
         DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
       }
     }
-    DOM.style.height = '0';
-    DOM.style.zIndex = '-1';
-    DOM.style.visibility =  'hidden';
-    DOM.style.transition = 'visibility 0s 0.1s, opacity 0.1s linear';
-    const EL = document.getElementById('__kai_soft_key__');
-    EL.classList.remove('kui-software-key-dark');
+    if (SK) {
+      DOM.classList.remove('kui-overlay-visible');
+      SK.classList.remove('kui-software-key-dark');
+    } else {
+      DOM.classList.remove('kui-overlay-visible-no-sk');
+    }
   }
 
   KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb) {

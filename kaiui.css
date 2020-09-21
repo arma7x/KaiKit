@@ -56,6 +56,19 @@ h1, h2, h3, h4, h5, ul, p {
     background: rgba(0,0,0, .7);
     position: absolute;
     top: 0;
+    visibility: hidden;
+}
+
+.kui-overlay-visible {
+    height: calc(100% - 30px);
+    z-Index: 1;
+    visibility: visible;
+}
+
+.kui-overlay-visible-no-sk {
+    height: calc(100%);
+    z-Index: 1;
+    visibility: visible;
 }
 
 .kui-text-upcase {
