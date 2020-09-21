@@ -569,6 +569,11 @@ button.kui-btn:focus {
     color: #fff!important;
 }
 
+.kai-404 {
+  text-align: center;
+  padding-top: 50%;
+}
+
 .kui-row-center {
     display: flex;
     flex-direction: row;
