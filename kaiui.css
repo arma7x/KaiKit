@@ -45,6 +45,12 @@ h1, h2, h3, h4, h5, ul, p {
     font-family: 'Open Sans';
 }
 
+.kui-flex-wrap {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
 .kui-router-m-top {
     margin-top: 28px;
 }
@@ -307,7 +313,7 @@ h1, h2, h3, h4, h5, ul, p {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    height: 100%;
+    flex: 1;
 }
 
 .kui-list li {
@@ -389,7 +395,7 @@ h1, h2, h3, h4, h5, ul, p {
 .kui-options li {
     height: 50px;
     line-height: 50px;
-    padding-left: 10px;
+    padding: 0 10px;
     background-color: #fff;
 }
 
@@ -648,7 +654,11 @@ button.kui-btn:focus {
 }
 
 .kai-container {
-    padding: 5px;
+    padding: 0 5px;
+}
+
+.kui-flex-grow {
+    flex-grow: 1;
 }
 
 .kai-h-10 {

@@ -444,6 +444,8 @@ const KaiRouter = (function() {
         if (document.activeElement.tagName === 'INPUT') {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
+            e.preventDefault();
+            e.stopPropagation();
           }
           return;
         }

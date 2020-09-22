@@ -299,6 +299,8 @@ const Kai = (function() {
         if (document.activeElement.tagName === 'INPUT') {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
+            e.preventDefault();
+            e.stopPropagation();
           }
           return
         }
@@ -434,14 +436,18 @@ const Kai = (function() {
     if (currentIndex > -1) {
       nav[currentIndex].classList.remove('focus');
     }
-    const header = document.getElementById('__kai_header__');
-    const sk = document.getElementById('__kai_soft_key__');
+    var isKBS = false;
+    const kbs = document.getElementById('__kai_bottom_sheet__');
+    if (kbs) {
+      if (kbs.classList.contains('kui-overlay-visible')) {
+        isKBS = true;
+      }
+    }
     if (navClass === 'horizontalNavClass') {
       targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
-      if (((this[navIndex] + 1) * targetElement.clientHeight - (header ? 28 : 0)) > targetElement.parentElement.clientHeight) {
-        // targetElement.parentElement.scrollTop = targetElement.offsetTop - (targetElement.offsetHeight + (sk ? 30 : 0));
-        targetElement.parentElement.scrollTop = targetElement.offsetTop - targetElement.parentElement.clientHeight + (sk ? 22 : 0);
+      if (((this[navIndex] + 1) * targetElement.clientHeight) > targetElement.parentElement.clientHeight) {
+        targetElement.parentElement.scrollTop = targetElement.offsetTop - targetElement.parentElement.clientHeight + (isKBS ? 22 : 0);
       } else {
         targetElement.parentElement.scrollTop = 0;
       }
