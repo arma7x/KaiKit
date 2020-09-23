@@ -382,23 +382,16 @@ const Kai = (function() {
     if (currentIndex > -1) {
       nav[currentIndex].classList.remove('focus');
     }
-    var isKBS = false;
-    const kbs = document.getElementById('__kai_bottom_sheet__');
-    if (kbs) {
-      if (kbs.classList.contains('kui-overlay-visible')) {
-        isKBS = true;
-      }
-    }
-    const h = document.getElementById('__kai_header__');
-    if (!h) {
-      isKBS = true;
-    }
     if (navClass === 'horizontalNavClass') {
       return targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
-      // console.log(((this[navIndex] + 1) * targetElement.clientHeight), targetElement.offsetTop, targetElement.parentElement.clientHeight);
       if (targetElement.offsetTop > targetElement.parentElement.clientHeight) {
-        return targetElement.parentElement.scrollTop = targetElement.offsetTop - targetElement.parentElement.clientHeight + (isKBS ? 22 : 0);
+        var fill = 0;
+        var scroll = targetElement.offsetTop - targetElement.parentElement.clientHeight;
+        const max = targetElement.clientHeight * this[navIndex];
+        const less = targetElement.offsetTop - max;
+        fill = targetElement.clientHeight - less;
+        return targetElement.parentElement.scrollTop = scroll + fill;
       } else {
         return targetElement.parentElement.scrollTop = 0;
       }
