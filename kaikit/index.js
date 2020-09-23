@@ -149,9 +149,6 @@ const Kai = (function() {
         v.component.unmount();
       }
     });
-    //this.scrollThreshold = 0;
-    //this.verticalNavIndex = -1;
-    //this.horizontalNavIndex = -1;
     this.removeKeydownListener();
     this.unmounted();
   }
@@ -1136,16 +1133,25 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
 
 Kai.createTimePicker = function(hour, minute, is12H, selectCb, $router) {
 
+  const today = new Date();
+
+  function isBrowserLocale12h()  {
+    var dateString = today.toLocaleTimeString();
+    if (dateString.match(/am|pm/i) || today.toString().match(/am|pm/i)) {
+      return true;
+    }
+    return false;
+  }
+
   function twoChar(n) {
     return n < 10 ? '0' + n.toString() : n;
   }
-  
-  if (hour > 23) {
-    hour = 0;
-  }
-  if (minute > 59) {
-    minute = 0;
-  }
+
+  hour = hour == undefined ? today.getHours() : hour;
+  minute = minute == undefined ? today.getMinutes() : minute;
+  is12H = is12H == undefined ? isBrowserLocale12h() : true;
+  hour = hour > 23 ? 0 : hour;
+  minute = minute > 59 ? 0 : minute;
 
   var  periodT = '-';
   var  periodM = '-';

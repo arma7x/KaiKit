@@ -419,7 +419,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         });
       },
       testTimePicker: function() {
-        this.$router.showTimePicker(13, 13, true, (dt) => {
+        this.$router.showTimePicker(null, null, null, (dt) => {
           this.setData({ title: dt.toLocaleTimeString() });
         });
       }
