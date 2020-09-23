@@ -11,6 +11,7 @@ const Kai = (function() {
     this.data = {};
     this.template = '';
     this.templateUrl;
+    this.templateCompiled;
     this.methods = {};
     this.isMounted = false;
     this.$router;
@@ -120,7 +121,8 @@ const Kai = (function() {
     this.addKeydownListener();
 
     if (this.isMounted) {
-      this.render();
+      this.exec();
+      this.mounted();
       return;
     }
     if (!this.templateUrl) {
@@ -147,21 +149,21 @@ const Kai = (function() {
         v.component.unmount();
       }
     });
-    this.scrollThreshold = 0;
-    this.verticalNavIndex = -1;
-    this.horizontalNavIndex = -1;
+    //this.scrollThreshold = 0;
+    //this.verticalNavIndex = -1;
+    //this.horizontalNavIndex = -1;
     this.removeKeydownListener();
     this.unmounted();
   }
 
   Kai.prototype.exec = function() {
-    this.render();
+    this.render('setData');
     if (this._router) {
       this._router.run();
     }
   }
 
-  Kai.prototype.render = function() {
+  Kai.prototype.render = function(trace) {
     const DOM = document.getElementById(this.id);
     if (!DOM) {
       return;
@@ -177,14 +179,13 @@ const Kai = (function() {
       if (this.$state) {
         data.$state = JSON.parse(JSON.stringify(this.$state.getState()));
       }
-      DOM.innerHTML = window.Mustache.render(this.template, data);
+      const render = window.Mustache.render(this.template, data);
+      DOM.innerHTML = render;
     } else {
-      DOM.innerHTML = this.template;
+      const render = this.template;
+      DOM.innerHTML = render;
     }
-
     this.isMounted = true;
-
-    const sk = document.getElementById('__kai_soft_key__');
 
     const listNav = document.querySelectorAll(this.verticalNavClass);
     if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
@@ -194,27 +195,8 @@ const Kai = (function() {
       const cur = listNav[this.verticalNavIndex];
       cur.focus();
       cur.classList.add('focus');
-      cur.parentElement.scrollTop = cur.offsetTop - (cur.offsetHeight + (sk ? 30 : 0));
-    }
-
-    const tabHeader = document.getElementById(this.horizontalNavClass.replace('.', ''));
-    if (tabHeader) {
-      this.components.forEach((v, i) => {
-        if (v.component instanceof Kai) {
-          if (this.$router) {
-            v.component.$router = this.$router;
-          }
-          if (this.$state) {
-            v.component.$state = this.$state;
-          }
-          v.component.id = '__kai_tab__';
-        }
-        const li = document.createElement("LI");
-        li.innerText = v.name;
-        li.setAttribute("class", this.horizontalNavClass.replace('.', ''));
-        li.setAttribute("tabIndex", i);
-        tabHeader.appendChild(li);
-      });
+      this.verticalNavIndex = this.verticalNavIndex - 1;
+      this.scrollThreshold = this.navigateListNav(1);
     }
 
     const tabNav = document.querySelectorAll(this.horizontalNavClass);
@@ -225,45 +207,9 @@ const Kai = (function() {
       const cur = tabNav[this.horizontalNavIndex];
       cur.focus();
       cur.classList.add('focus');
-      cur.parentElement.scrollLeft = cur.offsetLeft - (cur.offsetWidth + (sk ? 30 : 0));
-      const component = this.components[this.horizontalNavIndex].component;
-      if (component instanceof Kai) {
-        component.mount('__kai_tab__');
-        this.$router.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
-      } else {
-        const __kai_tab__ = document.getElementById('__kai_tab__');
-        __kai_tab__.innerHTML = component;
-        __kai_tab__.scrollTop = this.scrollThreshold;
-        this.$router.setSoftKeyText(this.softKeyListener.left.text, this.softKeyListener.center.text, this.softKeyListener.right.text);
-      }
-
-      const tabBody = document.getElementById('__kai_tab__');
-      if (tabBody) {
-        var padding = 0;
-        const header = document.getElementById('__kai_header__');
-        if (header) {
-          padding += 28;
-        }
-        if (sk) {
-          padding += 30;
-        }
-        const tabHeader = document.getElementById(this.horizontalNavClass.replace('.', ''));
-        if (tabHeader) {
-          padding += 30;
-        }
-        if (padding === 28) {
-          tabBody.classList.add('kui-tab-h-28');
-        } else if (padding === 30) {
-          tabBody.classList.add('kui-tab-h-30');
-        } else if (padding === 60) {
-          tabBody.classList.add('kui-tab-h-60');
-        } else if (padding === 58) {
-          tabBody.classList.add('kui-tab-h-58');
-        } else if (padding === 88) {
-          tabBody.classList.add('kui-tab-h-88');
-        }
-      }
+      cur.parentElement.scrollLeft = cur.offsetLeft - cur.offsetWidth;
     }
+    this.templateCompiled = DOM.innerHTML;
   }
 
   Kai.prototype.setData = function(data) {
@@ -404,11 +350,11 @@ const Kai = (function() {
   }
 
   Kai.prototype.navigateListNav = function(next) {
-    this.nav(next, 'verticalNavIndex', 'verticalNavClass');
+    return this.nav(next, 'verticalNavIndex', 'verticalNavClass');
   }
 
   Kai.prototype.navigateTabNav = function(next) {
-    this.nav(next, 'horizontalNavIndex', 'horizontalNavClass');
+    return this.nav(next, 'horizontalNavIndex', 'horizontalNavClass');
   }
 
   Kai.prototype.nav = function(next, navIndex, navClass) {
@@ -443,13 +389,18 @@ const Kai = (function() {
         isKBS = true;
       }
     }
+    const h = document.getElementById('__kai_header__');
+    if (!h) {
+      isKBS = true;
+    }
     if (navClass === 'horizontalNavClass') {
-      targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
+      return targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
-      if (((this[navIndex] + 1) * targetElement.clientHeight) > targetElement.parentElement.clientHeight) {
-        targetElement.parentElement.scrollTop = targetElement.offsetTop - targetElement.parentElement.clientHeight + (isKBS ? 22 : 0);
+      // console.log(((this[navIndex] + 1) * targetElement.clientHeight), targetElement.offsetTop, targetElement.parentElement.clientHeight);
+      if (targetElement.offsetTop > targetElement.parentElement.clientHeight) {
+        return targetElement.parentElement.scrollTop = targetElement.offsetTop - targetElement.parentElement.clientHeight + (isKBS ? 22 : 0);
       } else {
-        targetElement.parentElement.scrollTop = 0;
+        return targetElement.parentElement.scrollTop = 0;
       }
     }
   }
@@ -469,6 +420,76 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
       if (this.$state) {
         this.$state.addGlobalListener(this.methods.globalState);
       }
+
+      const sk = document.getElementById('__kai_soft_key__');
+
+      const tabHeader = document.getElementById(this.horizontalNavClass.replace('.', ''));
+      if (tabHeader) {
+        this.components.forEach((v, i) => {
+          if (v.component instanceof Kai) {
+            if (this.$router) {
+              v.component.$router = this.$router;
+            }
+            if (this.$state) {
+              v.component.$state = this.$state;
+            }
+            v.component.id = '__kai_tab__';
+          }
+          const li = document.createElement("LI");
+          li.innerText = v.name;
+          li.setAttribute("class", this.horizontalNavClass.replace('.', ''));
+          li.setAttribute("tabIndex", i);
+          tabHeader.appendChild(li);
+        });
+
+        const tabNav = document.querySelectorAll(this.horizontalNavClass);
+        if (tabNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
+          if (this.horizontalNavIndex === -1) {
+            this.horizontalNavIndex = 0;
+          }
+          const cur = tabNav[this.horizontalNavIndex];
+          cur.focus();
+          cur.classList.add('focus');
+          cur.parentElement.scrollLeft = cur.offsetLeft - cur.offsetWidth;
+          const component = this.components[this.horizontalNavIndex].component;
+          if (component instanceof Kai) {
+            component.mount('__kai_tab__');
+            this.$router.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
+          } else {
+            const __kai_tab__ = document.getElementById('__kai_tab__');
+            __kai_tab__.innerHTML = component;
+            __kai_tab__.scrollTop = this.scrollThreshold;
+            this.$router.setSoftKeyText(this.softKeyListener.left.text, this.softKeyListener.center.text, this.softKeyListener.right.text);
+          }
+
+          const tabBody = document.getElementById('__kai_tab__');
+          if (tabBody) {
+            var padding = 0;
+            const header = document.getElementById('__kai_header__');
+            if (header) {
+              padding += 28;
+            }
+            if (sk) {
+              padding += 30;
+            }
+            const tabHeader = document.getElementById(this.horizontalNavClass.replace('.', ''));
+            if (tabHeader) {
+              padding += 30;
+            }
+            if (padding === 28) {
+              tabBody.classList.add('kui-tab-h-28');
+            } else if (padding === 30) {
+              tabBody.classList.add('kui-tab-h-30');
+            } else if (padding === 60) {
+              tabBody.classList.add('kui-tab-h-60');
+            } else if (padding === 58) {
+              tabBody.classList.add('kui-tab-h-58');
+            } else if (padding === 88) {
+              tabBody.classList.add('kui-tab-h-88');
+            }
+          }
+        }
+      }
     },
     unmounted: function() {
       if (this.$state) {
@@ -480,11 +501,26 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
         if (this.$router) {
           if (this.$router.stack[this.$router.stack.length - 1]) {
             if (this.$router.stack[this.$router.stack.length - 1].name === this.name) {
-              this.render();
+              const component = this.components[this.horizontalNavIndex].component;
+              component.render('tab globalState');
             }
           }
         }
         
+      }
+    },
+    backKeyListener: function() {
+      if (!this.$router.bottomSheet) {
+        this.scrollThreshold = 0;
+        this.verticalNavIndex = -1;
+        this.horizontalNavIndex = -1;
+        this.components.forEach((v, i) => {
+          if (v.component instanceof Kai) {
+            v.component.scrollThreshold = 0;
+            v.component.verticalNavIndex = -1;
+            v.component.horizontalNavIndex = -1;
+          }
+        });
       }
     },
     softKeyListener: {
@@ -529,7 +565,7 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
         
       },
       arrowRight: function() {
-        this.navigateTabNav(+1);
+        this.navigateTabNav(1);
         const __kai_tab__ = document.getElementById('__kai_tab__');
         const component = this.components[this.horizontalNavIndex].component;
         if (component instanceof Kai) {

@@ -117,7 +117,6 @@ const KaiRouter = (function() {
         }
       }
     });
-    // console.log(this.stack);
   }
 
   KaiRouter.prototype.push = function(path) {
@@ -127,6 +126,9 @@ const KaiRouter = (function() {
     const DOM = document.getElementById('__kai_router__');
     DOM.scrollTop = 0;
     var name = path;
+    if (this.stack.length > 0) {
+      this.stack[this.stack.length - 1].unmount();
+    }
     if (typeof path === 'string' && this.routes[path]) {
       const clone = this.routes[path].component.reset();
       this.setSoftKeyText(clone.softKeyListener.left.text, clone.softKeyListener.center.text, clone.softKeyListener.right.text);
@@ -454,13 +456,11 @@ const KaiRouter = (function() {
           if (isStop === true) {
             return;
           }
-        }
-        if (_router.bottomSheet) {
-          _router.hideBottomSheet();
-          e.preventDefault();
-          e.stopPropagation();
-        } else {
-          if (_router) {
+          if (_router.bottomSheet) {
+            _router.hideBottomSheet();
+            e.preventDefault();
+            e.stopPropagation();
+          } else {
             if (_router.pop()) {
               e.preventDefault();
               e.stopPropagation();
