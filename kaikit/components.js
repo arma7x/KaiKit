@@ -388,10 +388,10 @@ Kai.createSingleSelector = function(title, options, selectText, selectCb, cancel
               <div class="kui-row-center">\
                 {{text}}\
                 {{#checked}}\
-                  <input type="radio" checked>\
+                  <label class="radio"><input type="radio" name="radio" checked><span></span></label>\
                 {{/checked}}\
                 {{^checked}}\
-                  <input type="radio">\
+                  <label class="radio"><input type="radio" name="radio"><span></span></label>\
                 {{/checked}}\
                 \
               </div>\
@@ -479,10 +479,10 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
               <div class="kui-row-center">\
                 {{text}}\
                 {{#checked}}\
-                  <input type="checkbox" checked>\
+                  <label class="checkbox"><input type="checkbox" checked><span></span></label>\
                 {{/checked}}\
                 {{^checked}}\
-                  <input type="checkbox">\
+                  <label class="checkbox"><input type="checkbox"><span></span></label>\
                 {{/checked}}\
               </div>\
             </li>\
