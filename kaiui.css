@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, ul, p {
     height: 26px;
 }
 
-#kui-app {
+#app {
     width: 100%;
     height: 100%;
     font-family: 'Open Sans';
@@ -367,6 +367,7 @@ h1, h2, h3, h4, h5, ul, p {
     position:absolute;
     bottom:0;
     width:100%;
+    overflow: hidden;
 }
 
 .kui-option-menu .kui-option-title {
@@ -656,6 +657,15 @@ button.kui-btn:focus {
 .kai-container {
     padding: 0 5px;
 }
+
+.kai-padding-5 {
+    padding: 5px!important;
+}
+
+.kai-margin-5 {
+    margin: 5px!important;
+}
+
 
 .kui-flex-grow {
     flex-grow: 1;
