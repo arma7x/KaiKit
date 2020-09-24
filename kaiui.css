@@ -370,12 +370,12 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .checkbox input + span::after {
-  content: '\2713';
+  content: '\2714';
   font-size: 17px;
   font-weight: 600;
   color: #873eff;
   margin-top: -1.1em;
-  margin-left: -0.1em;
+  margin-left: -0.2em;
 }
 
 .radio input + span {
