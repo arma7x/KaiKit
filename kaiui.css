@@ -1,90 +1,3 @@
-
-
-.checkbox, .radio {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  cursor: pointer;
-  padding: 0.5em;
-}
-
-.checkbox::-moz-selection, .radio::-moz-selection {
-  background: transparent;
-}
-
-.checkbox::selection, .radio::selection {
-  background: transparent;
-}
-
-.radio input + span, .checkbox input + span {
-  background: white;
-  content: "";
-  display: inline-block;
-  margin: 0 0 0 0;
-  padding: 0;
-  vertical-align: middle;
-  width: 1em;
-  height: 1em;
-  border: 2px solid #ccc;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  -webkit-backface-visibility: hidden;
-}
-
-.checkbox input + span::after, .radio input + span::after {
-  content: "";
-  display: block;
-  -webkit-transform: scale(0);
-  transform: scale(0);
-  -webkit-transition: -webkit-transform .2s;
-  transition: -webkit-transform .2s;
-  transition: transform .2s;
-  transition: transform .2s, -webkit-transform .2s;
-}
-
-.checkbox input:checked + span::after, .radio input:checked + span::after {
-  -webkit-transform: scale(1);
-  transform: scale(1);
-}
-
-.checkbox input, .radio input {
-  position: absolute;
-  cursor: pointer;
-  opacity: 0;
-}
-
-.checkbox input:checked + span, .radio input:checked + span {
-  border: 2px solid #873eff;
-}
-
-.checkbox input + span {
-  border-radius: 5px;
-}
-
-.checkbox input + span::after {
-  content: '\2713';
-  font-size: 17px;
-  font-weight: 600;
-  color: #873eff;
-  margin-top: -1.1em;
-  margin-left: -0.1em;
-}
-
-.radio input + span {
-  border-radius: 100%;
-}
-
-.radio input + span::after {
-  border-radius: 100%;
-  margin: .20em;
-  width: .6em;
-  height: .6em;
-}
-
-.radio input:checked + span::after {
-  background: #873eff;
-}
-
 /**
  * ===========================
  * **************** Agenda ***
@@ -393,6 +306,91 @@ h1, h2, h3, h4, h5, ul, p {
 .kui-toast-shadow {
     height: 6px;
     background-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+}
+
+.checkbox, .radio {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  cursor: pointer;
+  padding: 0.5em;
+}
+
+.checkbox::-moz-selection, .radio::-moz-selection {
+  background: transparent;
+}
+
+.checkbox::selection, .radio::selection {
+  background: transparent;
+}
+
+.radio input + span, .checkbox input + span {
+  background: white;
+  content: "";
+  display: inline-block;
+  margin: 0 0 0 0;
+  padding: 0;
+  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  border: 2px solid #ccc;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+}
+
+.checkbox input + span::after, .radio input + span::after {
+  content: "";
+  display: block;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: -webkit-transform .2s;
+  transition: -webkit-transform .2s;
+  transition: transform .2s;
+  transition: transform .2s, -webkit-transform .2s;
+}
+
+.checkbox input:checked + span::after, .radio input:checked + span::after {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.checkbox input, .radio input {
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.checkbox input:checked + span, .radio input:checked + span {
+  border: 2px solid #873eff;
+}
+
+.checkbox input + span {
+  border-radius: 6.5px;
+}
+
+.checkbox input + span::after {
+  content: '\2713';
+  font-size: 17px;
+  font-weight: 600;
+  color: #873eff;
+  margin-top: -1.1em;
+  margin-left: -0.1em;
+}
+
+.radio input + span {
+  border-radius: 100%;
+}
+
+.radio input + span::after {
+  border-radius: 100%;
+  margin: .20em;
+  width: .6em;
+  height: .6em;
+}
+
+.radio input:checked + span::after {
+  background: #873eff;
 }
 
 /* ============== List ============== */

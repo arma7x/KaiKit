@@ -13,7 +13,7 @@
     "url": "http://example.com"
   },
   "origin": "app://kai.arma7x.com",
-  "type": "privileged",
+  "type": "web",
   "permissions": {
     "systemXHR": {
       "description": "Required to load remote content"
