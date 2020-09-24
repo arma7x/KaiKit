@@ -1,5 +1,7 @@
 # KaiKit
 
+## JS framework for KaiOS
+
 ## TODO DOCUMENTATION
 
 ## Licence

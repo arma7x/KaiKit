@@ -1,6 +1,6 @@
 {
   "name": "KaiKit",
-  "description": "A Hello World app",
+  "description": "JS framework for KaiOS",
   "launch_path": "/index.html",
   "icons": {
     "16": "/icons/icon16x16.png",
@@ -9,14 +9,22 @@
     "128": "/icons/icon128x128.png"
   },
   "developer": {
-    "name": "Your name",
-    "url": "http://example.com"
+    "name": "arma7x",
+    "url": "https://github.com/arma7x"
   },
   "origin": "app://kai.arma7x.com",
   "type": "web",
   "permissions": {
     "systemXHR": {
       "description": "Required to load remote content"
+    },
+    "desktop-notification": {
+      "description": "Required for displaying alerts when app is on background"
     }
-  }
+  },
+  "messages": [
+    {
+      "serviceworker-notification": "/index.html"
+    }
+  ]
 }
