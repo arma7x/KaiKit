@@ -742,3 +742,37 @@ button.kui-btn:focus {
 .kai-lcr-bottom {
   color:#323232;padding:15px 0;
 }
+
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+input[type=checkbox] {
+  width: 14px;
+  height: 14px;
+  font-size: 13px;
+  cursor: pointer;
+  visibility: hidden;
+  margin-right: 5px;
+}
+
+input[type=checkbox]:after {
+  content: " ";
+  background-color: #fff;
+  display: inline-block;
+  color: #873eff;
+  width: 13px;
+  height: 13px;
+  visibility: visible;
+  border: 1px solid #873eff;
+  border-radius: 6px;
+}
+
+input[type=checkbox]:checked:after {
+  content: "\2714";
+  font-weight: bold;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
