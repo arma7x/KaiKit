@@ -65,9 +65,9 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(options.data);
-      const accesssible = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener'];
+      const allow = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener'];
       for (var i in options) {
-        if (accesssible.indexOf(i) !== -1) {
+        if (allow.indexOf(i) !== -1) {
           if (i === 'methods') {
             for (f in options[i]) {
               if (typeof options[i][f] === 'function') {
@@ -76,7 +76,7 @@ const Kai = (function() {
             }
           } else if (i === 'softKeyListener') {
             for (f in options[i]) {
-              this.softKeyListener[f] = options[i][f];
+              this[i][f] = options[i][f];
               for (g in options[i][f]) {
                 if (typeof options[i][f][g] === 'function') {
                   this[i][f][g] = options[i][f][g].bind(this);
