@@ -16,9 +16,9 @@ const KaiRouter = (function() {
     this.bottomSheet = false;
 
     this._KaiRouter = function (options) {
-      const accesssible = ['routes', 'title'];
+      const allow = ['routes', 'title'];
       for (var i in options) {
-        if (accesssible.indexOf(i) !== -1) { // allow override
+        if (allow.indexOf(i) !== -1) {
           if (i === 'routes') {
             if (typeof options[i] === 'object') {
               for (var path in options[i]) {
@@ -94,7 +94,6 @@ const KaiRouter = (function() {
           if (component.isMounted === false) {
             this.stack.push(component);
           }
-          // component.$router = this;
           this.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
           component.mount('__kai_router__');
         } else {
@@ -106,7 +105,6 @@ const KaiRouter = (function() {
       } else {
         if (this.routes[path]) {
           const clone = this.routes[path].component.reset();
-          // clone.$router = this;
           this.stack.push(clone);
         } else {
           this._404.mount('__kai_router__');
