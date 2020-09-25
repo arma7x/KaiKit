@@ -271,40 +271,60 @@ const Kai = (function() {
         }
         break
       case 'SoftLeft':
-        this.softKeyListener.left.func();
+        if (this.softKeyListener.left) {
+          if (typeof this.softKeyListener.left.func === 'function') {
+            this.softKeyListener.left.func();
+          }
+        }
         break
       case 'SoftRight':
-        this.softKeyListener.right.func();
+        if (this.softKeyListener.right) {
+          if (typeof this.softKeyListener.right.func === 'function') {
+            this.softKeyListener.right.func();
+          }
+        }
         break
       case 'Enter':
         if (document.activeElement.tagName === 'INPUT') {
           return
         }
-        this.softKeyListener.center.func();
+        if (this.softKeyListener.center) {
+          if (typeof this.softKeyListener.center.func === 'function') {
+            this.softKeyListener.center.func();
+          }
+        }
         break
       case 'ArrowUp':
         if (document.activeElement.tagName === 'INPUT') {
           document.activeElement.blur();
         }
-        this.dPadNavListener.arrowUp();
+        if (typeof this.dPadNavListener.arrowUp === 'function') {
+          this.dPadNavListener.arrowUp();
+        }
         break
       case 'ArrowRight':
         if (document.activeElement.tagName === 'INPUT') {
           return
         }
-        this.dPadNavListener.arrowRight();
+        if (typeof this.dPadNavListener.arrowRight === 'function') {
+          this.dPadNavListener.arrowRight();
+        }
         break
       case 'ArrowDown':
         if (document.activeElement.tagName === 'INPUT') {
           document.activeElement.blur();
         }
-        this.dPadNavListener.arrowDown();
+        if (typeof this.dPadNavListener.arrowDown === 'function') {
+          this.dPadNavListener.arrowDown();
+        }
         break
       case 'ArrowLeft':
         if (document.activeElement.tagName === 'INPUT') {
           return
         }
-        this.dPadNavListener.arrowLeft();
+        if (typeof this.dPadNavListener.arrowLeft === 'function') {
+          this.dPadNavListener.arrowLeft();
+        }
         break
     }
   }
