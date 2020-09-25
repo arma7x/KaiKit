@@ -22,7 +22,20 @@ const Kai = (function() {
     this.horizontalNavClass = '.kai-tab-nav';
     this.horizontalNavIndex = -1;
     this.components = [];
-    this.softKeyListener = { left: {}, center: {}, right: {} };
+    this.softKeyListener = {
+      left: {
+        text: '',
+        func: function() {}
+      },
+      center: {
+        text: '',
+        func: function() {}
+      },
+      right: {
+        text: '',
+        func: function() {}
+      }
+    };
     this.backKeyListener = function(evt) {};
     this.dPadNavListener = {
       arrowUp: () => {
@@ -106,13 +119,14 @@ const Kai = (function() {
   Kai.prototype.unmounted = function() {}
 
   Kai.prototype.mount = function(id) {
-    this.id = id;
+    if (id) {
+      this.id = id;
+    }
     const DOM = document.getElementById(id);
     if (!DOM) {
       return;
     }
     if ((DOM.__kaikit__ !== undefined || DOM.__kaikit__ !== null) && DOM.__kaikit__ instanceof Kai && this.id !== '__kai_router__' && this.id !== '__kai_tab__') {
-      // console.log('unmount previous:', DOM.__kaikit__.name);
       DOM.__kaikit__.unmount();
       DOM.removeEventListener('click', this.handleClick);
     }
@@ -154,7 +168,7 @@ const Kai = (function() {
   }
 
   Kai.prototype.exec = function() {
-    this.render('setData');
+    this.render();
     if (this._router) {
       this._router.run();
     }
@@ -217,7 +231,7 @@ const Kai = (function() {
   Kai.prototype.addKeydownListener = function() {
     if (this._router) {
       document.addEventListener('keydown', this.handleRouterKeydown.bind(this));
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_bottom_sheet__', '__kai_tab__'].indexOf(this.id) === -1) {
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_bottom_sheet__', '__kai_tab__', '__kai_toast__'].indexOf(this.id) === -1) {
       document.addEventListener('keydown', this.handleLocalKeydown.bind(this), true);
     }
   }
@@ -225,7 +239,7 @@ const Kai = (function() {
   Kai.prototype.removeKeydownListener = function() {
     if (this._router) {
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
-    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_bottom_sheet__', '__kai_tab__'].indexOf(this.id) === -1) {
+    } else if (['__kai_router__', '__kai_header__', '__kai_soft_key__', '__kai_bottom_sheet__', '__kai_tab__', '__kai_toast__'].indexOf(this.id) === -1) {
       document.addEventListener('keydown', function(evt) {evt.stopPropagation();}, true);
     }
   }
@@ -292,8 +306,6 @@ const Kai = (function() {
         }
         this.dPadNavListener.arrowLeft();
         break
-      default:
-        // console.log(evt.key);
     }
   }
 

@@ -91,7 +91,7 @@ Kai.createTabNav = function(name, horizontalNavClass, components) {
           if (this.$router.stack[this.$router.stack.length - 1]) {
             if (this.$router.stack[this.$router.stack.length - 1].name === this.name) {
               const component = this.components[this.horizontalNavIndex].component;
-              component.render('tab globalState');
+              component.render();
             }
           }
         }
@@ -247,6 +247,33 @@ Kai.createSoftKey = function(EL, $router) {
       clickRight: function() {
         $router.clickRight();
       },
+    }
+  });
+}
+
+Kai.createToast = function(EL) {
+  var TM;
+
+  return new Kai({
+    name: '_toast_',
+    data: {
+      text: ''
+    },
+    template: '{{ text }}',
+    mounted: function() {
+      EL.classList.add('kui-toast');
+    },
+    methods: {
+      showToast: function(txt) {
+        if (TM) {
+          clearTimeout(TM);
+        }
+        this.setData({ text: txt });
+        EL.classList.add('kui-toast-visible');
+        TM = setTimeout(function() {
+          EL.classList.remove('kui-toast-visible');
+        }, 2000);
+      }
     }
   });
 }

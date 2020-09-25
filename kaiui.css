@@ -113,13 +113,13 @@ h1, h2, h3, h4, h5, ul, p {
 
 .kui-overlay-visible {
     height: calc(100% - 30px);
-    z-Index: 1;
+    z-index: 1;
     visibility: visible;
 }
 
 .kui-overlay-visible-no-sk {
     height: calc(100%);
-    z-Index: 1;
+    z-index: 1;
     visibility: visible;
 }
 
@@ -292,11 +292,24 @@ h1, h2, h3, h4, h5, ul, p {
 
 /* ============== Toast ============== */
 .kui-toast {
-    height: 42px;
-    line-height: 42px;
+    top: 0;
+    z-index: -1;
+    position: fixed;
+    min-height: 32px;
     color: #fff;
     text-align: center;
+    width: 100%;
     background-color: #323232;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.kui-toast-visible {
+    z-index: 10;
+    visibility: visible;
 }
 
 .kui-toast .kui-pri {

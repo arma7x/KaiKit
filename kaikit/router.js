@@ -12,6 +12,7 @@ const KaiRouter = (function() {
     this.stack = [];
     this.header;
     this.softwareKey;
+    this.toast;
     this.bottomSheet = false;
 
     this._KaiRouter = function (options) {
@@ -75,6 +76,7 @@ const KaiRouter = (function() {
   KaiRouter.prototype.run = function() {
     this.mountHeader();
     this.mountSoftKey();
+    this.mountToast();
     this.calcRouterHeight();
     const paths = getURLParam('page[]');
     if (paths.length === 0) {
@@ -173,7 +175,6 @@ const KaiRouter = (function() {
         const DOM = document.getElementById('__kai_router__');
         if (DOM) {
           if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_router__') {
-            // console.log('unmount previous:', DOM.__kaikit__.name);
             DOM.__kaikit__.unmount();
             DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
           }
@@ -220,7 +221,6 @@ const KaiRouter = (function() {
     const SK = document.getElementById('__kai_soft_key__');
     if (DOM) {
       if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_bottom_sheet__') {
-        // console.log('unmount previous:', DOM.__kaikit__.name);
         DOM.__kaikit__.unmount();
         DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
       }
@@ -350,6 +350,18 @@ const KaiRouter = (function() {
       this.softwareKey.methods.setCenterText('');
       this.softwareKey.methods.setRightText('');
     }
+  }
+
+  KaiRouter.prototype.mountToast = function() {
+    const EL = document.getElementById('__kai_toast__');
+    if (EL) {
+      this.toast = Kai.createToast(EL);
+      this.toast.mount('__kai_toast__');
+    }
+  }
+
+  KaiRouter.prototype.showToast = function(text) {
+    this.toast.methods.showToast(text);
   }
 
   KaiRouter.prototype.setSoftKeyText = function(l, c, r) {
@@ -518,8 +530,6 @@ const KaiRouter = (function() {
           _router.arrowLeft();
         }
         break
-      default:
-        // console.log(e.key);
     }
   }
 
