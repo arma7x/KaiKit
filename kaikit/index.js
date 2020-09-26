@@ -120,6 +120,13 @@ const Kai = (function() {
   Kai.prototype.unmounted = function() {}
 
   Kai.prototype.mount = function(id) {
+
+    this.components.forEach((v, k) => {
+      if (v instanceof Kai) {
+        this.components[k].disableKeyListener = true;
+      }
+    });
+
     if (id) {
       this.id = id;
     }
@@ -349,11 +356,7 @@ const Kai = (function() {
         return null;
       }
     }
-    var _this2 = getkaikit(evt.target);
-    // console.log(evt.target, this.id, _this2.id);
-    // console.log(_this);
-     var _this = this.__kaikit__;
-    // console.log(_this);
+    var _this = getkaikit(evt.target);
 
     function dataType(n, scope) {
       if (!isNaN(parseFloat(n)) && isFinite(n)) {
