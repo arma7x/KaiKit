@@ -198,6 +198,7 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
 Kai.createHeader = function(EL, $router) {
   return new Kai({
     name: '_header_',
+    disableKeyListener: true,
     data: {
       title: ''
     },
@@ -216,6 +217,7 @@ Kai.createHeader = function(EL, $router) {
 Kai.createSoftKey = function(EL, $router) {
   return new Kai({
     name: '_software_key_',
+    disableKeyListener: true,
     data: {
       left: '',
       center: '',
@@ -256,6 +258,7 @@ Kai.createToast = function(EL) {
 
   return new Kai({
     name: '_toast_',
+    disableKeyListener: true,
     data: {
       text: ''
     },
