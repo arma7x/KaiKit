@@ -338,31 +338,34 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
-  const subcomponent = new Kai({
-    name: '_subcomponent_',
-    data: {
-      title: '_subcomponent_',
-      counter: -1,
-    },
-    template: '<button class="kui-btn" @click="plus()">{{ counter }}</button>',
-    mounted: function() {
-      console.log(this.id, 'mounted');
-    },
-    unmounted: function() {
-      console.log(this.id, 'unmounted');
-    },
-    methods: {
-      minus: function() {
-        this.setData({ counter: this.data.counter - 1 });
+  const createSubComponent = function() {
+    return new Kai({
+      name: '_subcomponent_',
+      disableKeyListener: true,
+      data: {
+        title: '_subcomponent_',
+        counter: -1,
       },
-      reset: function() {
-        this.setData({ counter: 0 });
+      template: '<button class="kui-btn" @click="plus()">{{ counter }}</button>',
+      mounted: function() {
+        console.log(this.id, 'mounted');
       },
-      plus: function() {
-        this.setData({ counter: this.data.counter + 1 });
+      unmounted: function() {
+        console.log(this.id, 'unmounted');
       },
-    }
-  });
+      methods: {
+        minus: function() {
+          this.setData({ counter: this.data.counter - 1 });
+        },
+        reset: function() {
+          this.setData({ counter: 0 });
+        },
+        plus: function() {
+          this.setData({ counter: this.data.counter + 1 });
+        },
+      }
+    });
+  }
 
   const firstChild = new Kai({
     name: '_CHILD_ 1',
@@ -383,14 +386,16 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         { "text": "React Native", "checked": false }
       ]
     },
-    components: [subcomponent],
     verticalNavClass: '.child1Nav',
     templateUrl: document.location.origin + '/templates/child_1.html',
     mounted: function() {
       this.$state.addStateListener('counter', this.methods.listenState);
-      if (this.components.length > 0) {
-        this.components[0].mount('subcomponent');
+      if (this.components.length === 0) {
+        this.components = [createSubComponent(), createSubComponent()];
       }
+      this.components.forEach(function(v, k) {
+        v.mount('subcomponent' + k.toString());
+      });
     },
     unmounted: function() {
       this.$state.removeStateListener('counter', this.methods.listenState);
