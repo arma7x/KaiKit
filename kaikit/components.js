@@ -102,6 +102,7 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
         this.scrollThreshold = 0;
         this.verticalNavIndex = -1;
         this.horizontalNavIndex = -1;
+        console.log(tabs);
         tabs.forEach((v, i) => {
           if (v.component instanceof Kai) {
             v.component.scrollThreshold = 0;
