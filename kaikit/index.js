@@ -121,20 +121,16 @@ const Kai = (function() {
 
   Kai.prototype.mount = function(id) {
 
-    this.components.forEach((v, k) => {
-      if (v instanceof Kai) {
-        this.components[k].disableKeyListener = true;
-      }
-    });
-
     if (id) {
       this.id = id;
     }
-    const DOM = document.getElementById(id);
+
+    const DOM = document.getElementById(this.id);
     if (!DOM) {
       return;
     }
-    if ((DOM.__kaikit__ !== undefined || DOM.__kaikit__ !== null) && DOM.__kaikit__ instanceof Kai && this.id !== '__kai_router__' && this.id !== '__kai_tab__') {
+
+    if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && this.id !== '__kai_router__' && this.id !== '__kai_tab__') {
       DOM.__kaikit__.unmount();
       DOM.removeEventListener('click', this.handleClick);
     }
@@ -166,11 +162,6 @@ const Kai = (function() {
 
   Kai.prototype.unmount = function() {
     this.isMounted = false;
-    this.components.forEach((v) => {
-      if (v instanceof Kai) {
-        v.unmount();
-      }
-    });
     this.removeKeydownListener();
     this.unmounted();
   }
@@ -187,6 +178,13 @@ const Kai = (function() {
     if (!DOM) {
       return;
     }
+
+    this.components.forEach((v) => {
+      if (v instanceof Kai) {
+        v.unmount();
+      }
+    });
+
     if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
       data['__stringify__'] = function () {
@@ -205,6 +203,19 @@ const Kai = (function() {
       DOM.innerHTML = render;
     }
     this.isMounted = true;
+
+    this.components.forEach((v) => {
+      if (v instanceof Kai) {
+        if (this.$router) {
+          v.$router = this.$router;
+        }
+        if (this.$state) {
+          v.$state = this.$state;
+        }
+        v.disableKeyListener = true;
+        v.mount();
+      }
+    });
 
     const listNav = document.querySelectorAll(this.verticalNavClass);
     if (listNav.length > 0 && this.id !== '__kai_header__' && this.id !==  '__kai_soft_key__') {
@@ -229,6 +240,7 @@ const Kai = (function() {
       cur.parentElement.scrollLeft = cur.offsetLeft - cur.offsetWidth;
     }
     this.templateCompiled = DOM.innerHTML;
+
   }
 
   Kai.prototype.setData = function(data) {

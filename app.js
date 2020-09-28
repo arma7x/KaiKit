@@ -338,15 +338,16 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
-  const createSubComponent = function() {
+  const createSubComponent = function(id) {
     return new Kai({
+      id: id,
       name: '_subcomponent_',
       disableKeyListener: true,
       data: {
         title: '_subcomponent_',
         counter: -1,
       },
-      template: '<button class="kui-btn" @click="plus()">{{ counter }}</button>',
+      template: '<button class="kui-btn">{{ counter }}</button>',
       mounted: function() {
         console.log(this.id, 'mounted');
       },
@@ -391,11 +392,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     mounted: function() {
       this.$state.addStateListener('counter', this.methods.listenState);
       if (this.components.length === 0) {
-        this.components = [createSubComponent(), createSubComponent()];
+        this.components = [createSubComponent('subcomponent0'), createSubComponent('subcomponent1')];
+        this.render();
       }
-      this.components.forEach(function(v, k) {
-        v.mount('subcomponent' + k.toString());
-      });
     },
     unmounted: function() {
       this.$state.removeStateListener('counter', this.methods.listenState);
@@ -543,6 +542,10 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     templateUrl: document.location.origin + '/templates/child_3.html',
     mounted: function() {
       this.$state.addStateListener('counter', this.methods.listenState);
+      if (this.components.length === 0) {
+        this.components = [createSubComponent('subcomponent0'), createSubComponent('subcomponent1')];
+        this.render();
+      }
     },
     unmounted: function() {
       this.$state.removeStateListener('counter', this.methods.listenState);

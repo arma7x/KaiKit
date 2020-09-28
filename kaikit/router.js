@@ -174,6 +174,11 @@ const KaiRouter = (function() {
         if (DOM) {
           if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_router__') {
             DOM.__kaikit__.unmount();
+            DOM.__kaikit__.components.forEach((v) => {
+              if (v instanceof Kai) {
+                v.unmount();
+              }
+            });
             DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
           }
         }

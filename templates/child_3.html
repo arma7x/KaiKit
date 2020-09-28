@@ -4,6 +4,8 @@
     <h5 class="kai-text-center">Local: {{ counter }} & State: {{ $state.counter }} & {{ selected }}</h5>
   </div>
   <ul class="kui-list kai-container">
+    <div id="subcomponent0" class="child2Nav" @click="plus()"></div>
+    <div id="subcomponent1" class="child2Nav" @click="minus()"></div>
     <li class="child2Nav" @click="plus()">Plus +1</li>
     <li class="child2Nav" @click="reset()">Reset 0</li>
     <li class="child2Nav" @click="minus()">Minus -1</li>
