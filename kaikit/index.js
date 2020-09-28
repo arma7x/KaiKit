@@ -65,7 +65,7 @@ const Kai = (function() {
 
     this._Kai = function (options) {
       this._options = options;
-      this._data = JSON.stringify(options.data);
+      this._data = JSON.stringify(typeof options.data === 'object' ? options.data : {});
       const allow = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener', 'disableKeyListener'];
       for (var i in options) {
         if (allow.indexOf(i) !== -1) {
@@ -106,6 +106,8 @@ const Kai = (function() {
                 }
               }
             }
+          } else if (i === 'data') {
+            this[i] = JSON.parse(JSON.stringify(typeof options[i] === 'object' ? options[i] : {}));
           } else {
             this[i] = options[i];
           }
@@ -405,6 +407,20 @@ const Kai = (function() {
         });
       }
     }
+  }
+
+  Kai.prototype.clone = function(data) {
+    const options = {};
+    for(var x in this._options) {
+      options[x] = this._options[x];
+    }
+    if (typeof data === 'object') {
+      options.data = JSON.parse(JSON.stringify(data));
+    } else {
+      options.data = JSON.parse(this._data);
+    }
+    console.log(options);
+    return new Kai(options);
   }
 
   Kai.prototype.reset = function(data) {
