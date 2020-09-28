@@ -164,6 +164,11 @@ const Kai = (function() {
 
   Kai.prototype.unmount = function() {
     this.isMounted = false;
+    this.components.forEach((v) => {
+      if (v instanceof Kai) {
+        v.unmount();
+      }
+    });
     this.removeKeydownListener();
     this.unmounted();
   }
@@ -180,12 +185,6 @@ const Kai = (function() {
     if (!DOM) {
       return;
     }
-
-    this.components.forEach((v) => {
-      if (v instanceof Kai) {
-        v.unmount();
-      }
-    });
 
     if (window.Mustache) {
       const data = JSON.parse(JSON.stringify(this.data));
@@ -214,7 +213,6 @@ const Kai = (function() {
         if (this.$state) {
           v.$state = this.$state;
         }
-        v.disableKeyListener = true;
         v.mount();
       }
     });
@@ -419,7 +417,6 @@ const Kai = (function() {
     } else {
       options.data = JSON.parse(this._data);
     }
-    console.log(options);
     return new Kai(options);
   }
 

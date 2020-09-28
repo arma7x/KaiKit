@@ -2,14 +2,73 @@ window.addEventListener("load", function() {
 
   const state = new KaiState({'counter': -1});
 
+  const createSubComponent = function(id) {
+    return new Kai({
+      id: id,
+      name: '_createsubcomponent_',
+      disableKeyListener: true,
+      data: {
+        title: '_createsubcomponent_',
+        counter: -1,
+      },
+      template: '<button class="kui-btn">{{ counter }} {{ $state.counter }}</button>',
+      mounted: function() {},
+      unmounted: function() {},
+      methods: {
+        minus: function() {
+          this.setData({ counter: this.data.counter - 1 });
+        },
+        reset: function() {
+          this.setData({ counter: 0 });
+        },
+        plus: function() {
+          this.setData({ counter: this.data.counter + 1 });
+        },
+      }
+    });
+  }
+
+  const subcomponent = new Kai({
+    name: '_subcomponent_',
+    disableKeyListener: true,
+    data: {
+      title: '_subcomponent_',
+      counter: -1,
+    },
+    template: '<button class="kui-btn">{{ counter }} {{ $state.counter }}</button>',
+    mounted: function() {},
+    unmounted: function() {},
+    methods: {
+      minus: function() {
+        this.setData({ counter: this.data.counter - 1 });
+      },
+      reset: function() {
+        this.setData({ counter: 0 });
+      },
+      plus: function() {
+        this.setData({ counter: this.data.counter + 1 });
+      },
+    }
+  });
+
   const firstTab = new Kai({
     name: '_firstTab_',
     data: {
-      title: '_firstTab_'
+      title: '_firstTab_',
+      subcomponentIds: [],
     },
+    components: [subcomponent],
     verticalNavClass: '.firstTabNav',
     templateUrl: document.location.origin + '/templates/tabs/firstTab.html',
-    mounted: function() {},
+    mounted: function() {
+      this.setData({ subcomponentIds: ['sc1', 'sc2'] });
+      this.data.subcomponentIds.forEach((id) => {
+        const c = this.components[0].clone();
+        c.id = id;
+        this.components.push(c);
+      });
+      this.render();
+    },
     unmounted: function() {},
     methods: {},
     softKeyListener: {
@@ -19,7 +78,12 @@ window.addEventListener("load", function() {
       },
       center: {
         text: 'C1',
-        func: function() {}
+        func: function() {
+          if (this.verticalNavIndex > -1) {
+            const nav = document.querySelectorAll(this.verticalNavClass);
+            nav[this.verticalNavIndex].click();
+          }
+        }
       },
       right: {
         text: 'R1',
@@ -338,32 +402,6 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
-  const createSubComponent = function(id) {
-    return new Kai({
-      id: id,
-      name: '_subcomponent_',
-      disableKeyListener: true,
-      data: {
-        title: '_subcomponent_',
-        counter: -1,
-      },
-      template: '<button class="kui-btn">{{ counter }} {{ $state.counter }}</button>',
-      mounted: function() {},
-      unmounted: function() {},
-      methods: {
-        minus: function() {
-          this.setData({ counter: this.data.counter - 1 });
-        },
-        reset: function() {
-          this.setData({ counter: 0 });
-        },
-        plus: function() {
-          this.setData({ counter: this.data.counter + 1 });
-        },
-      }
-    });
-  }
-
   const firstChild = new Kai({
     name: '_CHILD_ 1',
     data: {
@@ -385,12 +423,15 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       ]
     },
     verticalNavClass: '.child1Nav',
+    components: [subcomponent],
     templateUrl: document.location.origin + '/templates/child_1.html',
     mounted: function() {
       this.$state.addStateListener('counter', this.methods.listenState);
       this.setData({ subcomponentIds: ['sc1', 'sc2'] });
       this.data.subcomponentIds.forEach((id) => {
-        this.components.push(createSubComponent(id));
+        const c = this.components[0].clone();
+        c.id = id;
+        this.components.push(c);
       });
       this.render();
     },
@@ -519,16 +560,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
-  const secondChild = Kai.createTabNav('_CHILD_ 2', '.child2DemoNav', [
-    {name: 'firstTab', component: firstTab},
-    {name: 'secondTab', component: secondTab},
-    {name: 'thirdTab', component: thirdTab},
-    {name: 'fourthTab', component: fourthTab},
-    {name: 'fifthTab', component: fifthTab},
-    {name: 'sixthTab', component: sixthTab},
-    {name: 'seventhTab', component: seventhTab},
-    {name: 'eighthTab', component: eighthTab}
-  ]);
+  const secondChild = Kai.createTabNav('_CHILD_ 2', '.child2DemoNav', [firstTab, secondTab, thirdTab, fourthTab, fifthTab, seventhTab, eighthTab]);
 
   const thirdChild = new Kai({
     name: '_CHILD_ 3',

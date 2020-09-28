@@ -1,5 +1,8 @@
 <div class="kui-flex-wrap">
   <ul class="kui-list kai-container">
+    {{#subcomponentIds}}
+      <div id="{{ . }}" class="firstTabNav" @click="plus()"></div>
+    {{/subcomponentIds}}
     <li class="firstTabNav">First Tab 0</li>
     <li class="firstTabNav">First Tab 1</li>
     <li class="firstTabNav">First Tab 2</li>
