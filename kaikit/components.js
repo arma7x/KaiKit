@@ -133,6 +133,7 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
         func: function() {
           const component = this.components[this.horizontalNavIndex];
           if (component instanceof Kai) {
+            console.log('component.name', component.name);
             component.softKeyListener.center.func();
           }
         }
