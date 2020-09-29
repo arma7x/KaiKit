@@ -417,6 +417,7 @@ const Kai = (function() {
     } else {
       options.data = JSON.parse(this._data);
     }
+    options.id = undefined;
     return new Kai(options);
   }
 

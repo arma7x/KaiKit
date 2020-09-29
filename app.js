@@ -560,7 +560,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     }
   });
 
-  const secondChild = Kai.createTabNav('_CHILD_ 2', '.child2DemoNav', [firstTab, secondTab, thirdTab, fourthTab, fifthTab, seventhTab, eighthTab]);
+  const secondChild = Kai.createTabNav('_CHILD_ 2', '.child2DemoNav', [firstTab, firstTab.clone(), secondTab, thirdTab, fourthTab, fifthTab, seventhTab, eighthTab]);
 
   const thirdChild = new Kai({
     name: '_CHILD_ 3',

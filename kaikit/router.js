@@ -104,8 +104,8 @@ const KaiRouter = (function() {
         }
       } else {
         if (this.routes[path]) {
-          const clone = this.routes[path].component.reset();
-          this.stack.push(clone);
+          const reset = this.routes[path].component.reset();
+          this.stack.push(reset);
         } else {
           this._404.mount('__kai_router__');
           this._404.$router = this;
@@ -130,17 +130,17 @@ const KaiRouter = (function() {
       this.stack[this.stack.length - 1].unmount();
     }
     if (typeof path === 'string' && this.routes[path]) {
-      const clone = this.routes[path].component.reset();
-      this.setSoftKeyText(clone.softKeyListener.left.text, clone.softKeyListener.center.text, clone.softKeyListener.right.text);
-      clone.mount('__kai_router__');
-      this.stack.push(clone);
+      const reset = this.routes[path].component.reset();
+      this.setSoftKeyText(reset.softKeyListener.left.text, reset.softKeyListener.center.text, reset.softKeyListener.right.text);
+      reset.mount('__kai_router__');
+      this.stack.push(reset);
     } else if (path instanceof Kai) {
-      const clone = path.reset();
-      clone.$router = this;
-      clone.mount('__kai_router__');
-      this.setSoftKeyText(clone.softKeyListener.left.text, clone.softKeyListener.center.text, clone.softKeyListener.right.text);
-      this.stack.push(clone);
-      name = clone.name;
+      const reset = path.reset();
+      reset.$router = this;
+      reset.mount('__kai_router__');
+      this.setSoftKeyText(reset.softKeyListener.left.text, reset.softKeyListener.center.text, reset.softKeyListener.right.text);
+      this.stack.push(reset);
+      name = reset.name;
     } else {
       this._404.mount('__kai_router__');
       this._404.$router = this;
@@ -175,11 +175,6 @@ const KaiRouter = (function() {
         if (DOM) {
           if (DOM.__kaikit__ != undefined && DOM.__kaikit__ instanceof Kai && DOM.__kaikit__.id === '__kai_router__') {
             DOM.__kaikit__.unmount();
-            //DOM.__kaikit__.components.forEach((v) => {
-              //if (v instanceof Kai) {
-                //v.unmount();
-              //}
-            //});
             DOM.removeEventListener('click', DOM.__kaikit__.handleClick);
           }
         }
