@@ -191,6 +191,19 @@ const KaiRouter = (function() {
     return false;
   }
 
+  KaiRouter.prototype.onInputFocus = function() {
+    this.setSoftKeyText('', '', '');
+    const SK = document.getElementById('__kai_soft_key__');
+    SK.classList.add('kui-software-key-dark');
+  }
+
+  KaiRouter.prototype.onInputBlur = function() {
+    const component = this.stack[this.stack.length -1];
+    this.setSoftKeyText(component.softKeyText.left, component.softKeyText.center, component.softKeyText.right);
+    const SK = document.getElementById('__kai_soft_key__');
+    SK.classList.remove('kui-software-key-dark');
+  }
+
   KaiRouter.prototype.showBottomSheet = function(component) {
     component.mount('__kai_bottom_sheet__');
     this.setSoftKeyText(component.softKeyText.left, component.softKeyText.center, component.softKeyText.right);

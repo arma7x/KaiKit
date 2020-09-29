@@ -229,7 +229,14 @@ const Kai = (function() {
       cur.parentElement.scrollLeft = cur.offsetLeft - cur.offsetWidth;
     }
     this.templateCompiled = DOM.innerHTML;
-
+    for(var i=0;i<DOM.getElementsByTagName('input').length;i++) {
+      DOM.getElementsByTagName('input')[i].addEventListener('focus', (evt) => {
+        this.$router.onInputFocus();
+      });
+      DOM.getElementsByTagName('input')[i].addEventListener('blur', (evt) => {
+        this.$router.onInputBlur();
+      });
+    }
   }
 
   Kai.prototype.setData = function(data) {
