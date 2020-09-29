@@ -379,31 +379,25 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.clickLeft = function() {
-    if (this.stack[this.stack.length - 1].softKeyListener) {
-      if (this.stack[this.stack.length - 1].softKeyListener.left) {
-        if (typeof this.stack[this.stack.length - 1].softKeyListener.left === 'function') {
-          this.stack[this.stack.length - 1].softKeyListener.left();
-        }
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].softKeyListener.left === 'function') {
+        this.stack[this.stack.length - 1].softKeyListener.left();
       }
     }
   }
 
   KaiRouter.prototype.clickCenter = function() {
-    if (this.stack[this.stack.length - 1].softKeyListener) {
-      if (this.stack[this.stack.length - 1].softKeyListener.center) {
-        if (typeof this.stack[this.stack.length - 1].softKeyListener.center === 'function') {
-          this.stack[this.stack.length - 1].softKeyListener.center();
-        }
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].softKeyListener.center === 'function') {
+        this.stack[this.stack.length - 1].softKeyListener.center();
       }
     }
   }
 
   KaiRouter.prototype.clickRight = function() {
-    if (this.stack[this.stack.length - 1].softKeyListener) {
-      if (this.stack[this.stack.length - 1].softKeyListener.right) {
-        if (typeof this.stack[this.stack.length - 1].softKeyListener.right === 'function') {
-          this.stack[this.stack.length - 1].softKeyListener.right();
-        }
+    if (this.stack[this.stack.length - 1]) {
+      if (typeof this.stack[this.stack.length - 1].softKeyListener.right === 'function') {
+        this.stack[this.stack.length - 1].softKeyListener.right();
       }
     }
   }
