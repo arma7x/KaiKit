@@ -129,24 +129,23 @@ const KaiRouter = (function() {
     if (this.stack.length > 0) {
       this.stack[this.stack.length - 1].unmount();
     }
+    var component;
     if (typeof path === 'string' && this.routes[path]) {
-      const reset = this.routes[path].component.reset();
-      this.setSoftKeyText(reset.softKeyListener.left.text, reset.softKeyListener.center.text, reset.softKeyListener.right.text);
-      reset.mount('__kai_router__');
-      this.stack.push(reset);
+      component = this.routes[path].component.reset();
     } else if (path instanceof Kai) {
-      const reset = path.reset();
-      reset.$router = this;
-      reset.mount('__kai_router__');
-      this.setSoftKeyText(reset.softKeyListener.left.text, reset.softKeyListener.center.text, reset.softKeyListener.right.text);
-      this.stack.push(reset);
-      name = reset.name;
+      component = path.reset();
+      component.$router = this;
+      name = component.name;
     } else {
-      this._404.mount('__kai_router__');
-      this._404.$router = this;
-      this.setSoftKeyText(this._404.softKeyListener.left.text, this._404.softKeyListener.center.text, this._404.softKeyListener.right.text);
-      this.stack.push(this._404);
+      component = this._404.reset();
+      component.$router = this;
     }
+    component.scrollThreshold = 0;
+    component.verticalNavIndex = -1;
+    component.horizontalNavIndex = -1;
+    this.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
+    component.mount('__kai_router__');
+    this.stack.push(component);
     const paths = getURLParam('page[]');
     paths.push(name);
     var pathname = window.location.pathname.replace(/\/$/, '');

@@ -552,8 +552,10 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     templateUrl: document.location.origin + '/templates/child_3.html',
     mounted: function() {
       this.$state.addStateListener('counter', this.methods.listenState);
-      this.components = [createSubComponent('subcomponent0'), createSubComponent('subcomponent1')];
-      this.render();
+      //if (this.components.length === 0) {
+        this.components = [createSubComponent('subcomponent0'), createSubComponent('subcomponent1')];
+        this.render();
+      //}
     },
     unmounted: function() {
       this.$state.removeStateListener('counter', this.methods.listenState);
