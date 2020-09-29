@@ -2,32 +2,6 @@ window.addEventListener("load", function() {
 
   const state = new KaiState({'counter': -1});
 
-  const createSubComponent = function(id) {
-    return new Kai({
-      id: id,
-      name: '_createsubcomponent_',
-      disableKeyListener: true,
-      data: {
-        title: '_createsubcomponent_',
-        counter: -1,
-      },
-      template: '<button class="kui-btn">{{ counter }} {{ $state.counter }}</button>',
-      mounted: function() {},
-      unmounted: function() {},
-      methods: {
-        minus: function() {
-          this.setData({ counter: this.data.counter - 1 });
-        },
-        reset: function() {
-          this.setData({ counter: 0 });
-        },
-        plus: function() {
-          this.setData({ counter: this.data.counter + 1 });
-        },
-      }
-    });
-  }
-
   const subcomponent = new Kai({
     name: '_subcomponent_',
     disableKeyListener: true,
@@ -50,6 +24,12 @@ window.addEventListener("load", function() {
       },
     }
   });
+
+  const createSubComponent = function(id) {
+    const clone = subcomponent.clone();
+    clone.id = id;
+    return clone;
+  }
 
   const firstTab = new Kai({
     name: '_firstTab_',
