@@ -41,7 +41,6 @@ window.addEventListener("load", function() {
     verticalNavClass: '.firstTabNav',
     templateUrl: document.location.origin + '/templates/tabs/firstTab.html',
     mounted: function() {
-      console.log('this.verticalNavIndex', this.name, this.verticalNavIndex);
       this.setData({ subcomponentIds: ['sc1', 'sc2'] });
       this.data.subcomponentIds.forEach((id) => {
         const c = this.components[0].clone();
@@ -52,34 +51,23 @@ window.addEventListener("load", function() {
     },
     unmounted: function() {},
     methods: {},
+    softKeyText: { left: 'L1', center: 'C1', right: 'R1' },
     softKeyListener: {
-      left: {
-        text: 'L1',
-        func: function() {}
-      },
-      center: {
-        text: 'C1',
-        func: function() {
-          if (this.verticalNavIndex > -1) {
-            console.log('enter', this.name, this.verticalNavIndex);
-            const nav = document.querySelectorAll(this.verticalNavClass);
-            nav[this.verticalNavIndex].click();
-          }
+      left: function() {},
+      center: function() {
+        if (this.verticalNavIndex > -1) {
+          const nav = document.querySelectorAll(this.verticalNavClass);
+          nav[this.verticalNavIndex].click();
         }
       },
-      right: {
-        text: 'R1',
-        func: function() {}
-      }
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
         this.navigateListNav(-1);
-        console.log('up', this.name, this.verticalNavIndex);
       },
       arrowDown: function() {
         this.navigateListNav(1);
-        console.log('down', this.name, this.verticalNavIndex);
       }
     }
   });
@@ -94,19 +82,11 @@ window.addEventListener("load", function() {
     mounted: function() {},
     unmounted: function() {},
     methods: {},
+    softKeyText: { left: 'L2', center: 'C2', right: 'R2' },
     softKeyListener: {
-      left: {
-        text: 'L2',
-        func: function() {}
-      },
-      center: {
-        text: 'C2',
-        func: function() {}
-      },
-      right: {
-        text: 'R2',
-        func: function() {}
-      }
+      left: function() {},
+      center: function() {},
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -128,19 +108,11 @@ window.addEventListener("load", function() {
     mounted: function() {},
     unmounted: function() {},
     methods: {},
+    softKeyText: { left: 'L3', center: 'C3', right: 'R3' },
     softKeyListener: {
-      left: {
-        text: 'L3',
-        func: function() {}
-      },
-      center: {
-        text: 'C3',
-        func: function() {}
-      },
-      right: {
-        text: 'R3',
-        func: function() {}
-      }
+      left: function() {},
+      center: function() {},
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -162,19 +134,11 @@ window.addEventListener("load", function() {
     mounted: function() {},
     unmounted: function() {},
     methods: {},
+    softKeyText: { left: 'L4', center: 'C4', right: 'R4' },
     softKeyListener: {
-      left: {
-        text: 'L4',
-        func: function() {}
-      },
-      center: {
-        text: 'C4',
-        func: function() {}
-      },
-      right: {
-        text: 'R4',
-        func: function() {}
-      }
+      left: function() {},
+      center: function() {},
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -196,19 +160,11 @@ window.addEventListener("load", function() {
     mounted: function() {},
     unmounted: function() {},
     methods: {},
+    softKeyText: { left: 'L5', center: 'C5', right: 'R5' },
     softKeyListener: {
-      left: {
-        text: 'L5',
-        func: function() {}
-      },
-      center: {
-        text: 'C5',
-        func: function() {}
-      },
-      right: {
-        text: 'R5',
-        func: function() {}
-      }
+      left: function() {},
+      center: function() {},
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -232,22 +188,14 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     mounted: function() {},
     unmounted: function() {},
     methods: {},
+    softKeyText: { left: 'PUSH', center: '', right: 'POP' },
     softKeyListener: {
-      left: {
-        text: 'Push',
-        func: function() {
-          this.$router.push('third');
-        }
+      left: function() {
+        this.$router.push('third');
       },
-      center: {
-        text: '',
-        func: function() {}
-      },
-      right: {
-        text: 'Pop',
-        func: function() {
-          this.$router.pop();
-        }
+      center: function() {},
+      right: function() {
+        this.$router.pop();
       }
     }
   });
@@ -276,27 +224,19 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
     },
+    softKeyText: { left: 'PUSH', center: 'SELECT', right: 'POP' },
     softKeyListener: {
-      left: {
-        text: 'Push',
-        func: function() {
-          this.$router.push('404');
+      left: function() {
+        this.$router.push('404');
+      },
+      center: function() {
+        if (this.verticalNavIndex > -1) {
+          const nav = document.querySelectorAll(this.verticalNavClass);
+          nav[this.verticalNavIndex].click();
         }
       },
-      center: {
-        text: 'SELECT',
-        func: function() {
-          if (this.verticalNavIndex > -1) {
-            const nav = document.querySelectorAll(this.verticalNavClass);
-            nav[this.verticalNavIndex].click();
-          }
-        }
-      },
-      right: {
-        text: 'Pop',
-        func: function() {
-          this.$router.pop();
-        }
+      right: function() {
+        this.$router.pop();
       }
     },
     dPadNavListener: {
@@ -347,27 +287,19 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
     },
+    softKeyText: { left: 'POP', center: 'SELECT', right: 'POP' },
     softKeyListener: {
-      left: {
-        text: 'Push',
-        func: function() {
-          this.$router.push('404');
+      left: function() {
+        this.$router.push('404');
+      },
+      center: function() {
+        if (this.verticalNavIndex > -1) {
+          const nav = document.querySelectorAll(this.verticalNavClass);
+          nav[this.verticalNavIndex].click();
         }
       },
-      center: {
-        text: 'SELECT',
-        func: function() {
-          if (this.verticalNavIndex > -1) {
-            const nav = document.querySelectorAll(this.verticalNavClass);
-            nav[this.verticalNavIndex].click();
-          }
-        }
-      },
-      right: {
-        text: 'Pop',
-        func: function() {
-          this.$router.pop();
-        }
+      right: function() {
+        this.$router.pop();
       }
     },
     dPadNavListener: {
@@ -502,27 +434,19 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         });
       }
     },
+    softKeyText: { left: 'MINUS', center: 'SELECT', right: 'PLUS' },
     softKeyListener: {
-      left: {
-        text: 'Minus',
-        func: function() {
-          this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', this.data, 'Yes', this.methods.minus, 'Cancel', undefined);
+      left: function() {
+        this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', this.data, 'Yes', this.methods.minus, 'Cancel', undefined);
+      },
+      center: function() {
+        const listNav = document.querySelectorAll(this.verticalNavClass);
+        if (this.verticalNavIndex > -1) {
+          listNav[this.verticalNavIndex].click();
         }
       },
-      center: {
-        text: 'SELECT',
-        func: function() {
-          const listNav = document.querySelectorAll(this.verticalNavClass);
-          if (this.verticalNavIndex > -1) {
-            listNav[this.verticalNavIndex].click();
-          }
-        }
-      },
-      right: {
-        text: 'Plus',
-        func: function() {
-          this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', this.data, 'Yes', this.methods.plus, 'Cancel', undefined);
-        }
+      right: function() {
+        this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', this.data, 'Yes', this.methods.plus, 'Cancel', undefined);
       }
     },
     dPadNavListener: {
@@ -583,27 +507,19 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
     },
+    softKeyText: { left: 'PUSH', center: 'SELECT', right: 'POP' },
     softKeyListener: {
-      left: {
-        text: 'Push',
-        func: function() {
-          this.$router.push(lastChild);
+      left: function() {
+        this.$router.push(lastChild);
+      },
+      center: function() {
+        if (this.verticalNavIndex > -1) {
+          const nav = document.querySelectorAll(this.verticalNavClass);
+          nav[this.verticalNavIndex].click();
         }
       },
-      center: {
-        text: 'SELECT',
-        func: function() {
-          if (this.verticalNavIndex > -1) {
-            const nav = document.querySelectorAll(this.verticalNavClass);
-            nav[this.verticalNavIndex].click();
-          }
-        }
-      },
-      right: {
-        text: 'Pop',
-        func: function() {
-          this.$router.pop();
-        }
+      right: function() {
+        this.$router.pop();
       }
     },
     dPadNavListener: {

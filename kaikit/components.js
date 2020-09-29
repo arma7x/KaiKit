@@ -43,12 +43,12 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
           const component = this.components[this.horizontalNavIndex];
           if (component instanceof Kai) {
             component.mount('__kai_tab__');
-            this.$router.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
+            this.$router.setSoftKeyText(component.softKeyText.left, component.softKeyText.center, component.softKeyText.right);
           } else {
             const __kai_tab__ = document.getElementById('__kai_tab__');
             __kai_tab__.innerHTML = component;
             __kai_tab__.scrollTop = this.scrollThreshold;
-            this.$router.setSoftKeyText(this.softKeyListener.left.text, this.softKeyListener.center.text, this.softKeyListener.right.text);
+            this.$router.setSoftKeyText(this.softKeyText.left, this.softKeyText.center, this.softKeyText.right);
           }
 
           const tabBody = document.getElementById('__kai_tab__');
@@ -119,32 +119,22 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
       }
     },
     softKeyListener: {
-      left: {
-        text: '',
-        func: function() {
-          const component = this.components[this.horizontalNavIndex];
-          if (component instanceof Kai) {
-            component.softKeyListener.left.func();
-          }
+      left: function() {
+        const component = this.components[this.horizontalNavIndex];
+        if (component instanceof Kai) {
+          component.softKeyListener.left();
         }
       },
-      center: {
-        text: '',
-        func: function() {
-          const component = this.components[this.horizontalNavIndex];
-          if (component instanceof Kai) {
-            console.log('component.name', component.name);
-            component.softKeyListener.center.func();
-          }
+      center: function() {
+        const component = this.components[this.horizontalNavIndex];
+        if (component instanceof Kai) {
+          component.softKeyListener.center();
         }
       },
-      right: {
-        text: '',
-        func: function() {
-          const component = this.components[this.horizontalNavIndex];
-          if (component instanceof Kai) {
-            component.softKeyListener.right.func();
-          }
+      right: function() {
+        const component = this.components[this.horizontalNavIndex];
+        if (component instanceof Kai) {
+          component.softKeyListener.right();
         }
       }
     },
@@ -167,11 +157,11 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
         if (component instanceof Kai) {
           component.mount('__kai_tab__');
           __kai_tab__.scrollTop = component.scrollThreshold;
-          this.$router.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
+          this.$router.setSoftKeyText(component.softKeyText.left, component.softKeyText.center, component.softKeyText.right);
         } else {
           __kai_tab__.innerHTML = component;
           __kai_tab__.scrollTop = this.scrollThreshold;
-          this.$router.setSoftKeyText(this.softKeyListener.left.text, this.softKeyListener.center.text, this.softKeyListener.right.text);
+          this.$router.setSoftKeyText(this.softKeyText.left, this.softKeyText.center, this.softKeyText.right);
         }
       },
       arrowDown: function() {
@@ -191,11 +181,11 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
         if (component instanceof Kai) {
           component.mount('__kai_tab__');
           __kai_tab__.scrollTop = component.scrollThreshold;
-          this.$router.setSoftKeyText(component.softKeyListener.left.text, component.softKeyListener.center.text, component.softKeyListener.right.text);
+          this.$router.setSoftKeyText(component.softKeyText.left, component.softKeyText.center, component.softKeyText.right);
         } else {
           __kai_tab__.innerHTML = component;
           __kai_tab__.scrollTop = this.scrollThreshold;
-          this.$router.setSoftKeyText(this.softKeyListener.left.text, this.softKeyListener.center.text, this.softKeyListener.right.text);
+          this.$router.setSoftKeyText(this.softKeyText.left, this.softKeyText.center, this.softKeyText.right);
         }
       },
     }
@@ -318,24 +308,16 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNa
         }
       }
     },
+    softKeyText: { left: '', center: selectText || 'SELECT', right: '' },
     softKeyListener: {
-      left: {
-        text: '',
-        func: function() {}
-      },
-      center: {
-        text: selectText || 'SELECT',
-        func: function() {
-          const listNav = document.querySelectorAll(this.verticalNavClass);
-          if (this.verticalNavIndex > -1) {
-            listNav[this.verticalNavIndex].click();
-          }
+      left: function() {},
+      center: function() {
+        const listNav = document.querySelectorAll(this.verticalNavClass);
+        if (this.verticalNavIndex > -1) {
+          listNav[this.verticalNavIndex].click();
         }
       },
-      right: {
-        text: '',
-        func: function() {}
-      }
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -358,38 +340,30 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
       body: body
     },
     template: '<div class="kui-option-menu"><div class="kui-option-title">{{ title }}</div><div class="kui-option-body kai-padding-5">{{ body }}</div></div>',
+    softKeyText: { left: negativeText || 'Cancel', center: neutralText || '', right: positiveText || 'Yes' },
     softKeyListener: {
-      left: {
-        text: negativeText || 'Cancel',
-        func: function() {
-          if (typeof negativeCb === 'function') {
-            negativeCb(dataCb);
-          }
-          if ($router) {
-            $router.hideDialog();
-          }
+      left: function() {
+        if (typeof negativeCb === 'function') {
+          negativeCb(dataCb);
+        }
+        if ($router) {
+          $router.hideDialog();
         }
       },
-      center: {
-        text: neutralText || '',
-        func: function() {
-          if (typeof neutralCb === 'function') {
-            neutralCb(dataCb);
-          }
-          if ($router) {
-            $router.hideDialog();
-          }
+      center: function() {
+        if (typeof neutralCb === 'function') {
+          neutralCb(dataCb);
+        }
+        if ($router) {
+          $router.hideDialog();
         }
       },
-      right: {
-        text: positiveText || 'Yes',
-        func: function() {
-          if (typeof positiveCb === 'function') {
-            positiveCb(dataCb);
-          }
-          if ($router) {
-            $router.hideDialog();
-          }
+      right: function() {
+        if (typeof positiveCb === 'function') {
+          positiveCb(dataCb);
+        }
+        if ($router) {
+          $router.hideDialog();
         }
       }
     }
@@ -447,31 +421,23 @@ Kai.createSingleSelector = function(title, options, selectText, selectCb, cancel
         }
       }
     },
+    softKeyText: { left: cancelText || 'Cancel', center: selectText || 'SELECT', right: '' },
     softKeyListener: {
-      left: {
-        text: cancelText || 'Cancel',
-        func: function() {
-          if (typeof cancelCb === 'function') {
-            cancelCb(data);
-          }
-          if ($router) {
-            $router.hideSingleSelector();
-          }
+      left: function() {
+        if (typeof cancelCb === 'function') {
+          cancelCb(data);
+        }
+        if ($router) {
+          $router.hideSingleSelector();
         }
       },
-      center: {
-        text: selectText || 'SELECT',
-        func: function() {
-          const listNav = document.querySelectorAll(this.verticalNavClass);
-          if (this.verticalNavIndex > -1) {
-            listNav[this.verticalNavIndex].click();
-          }
+      center: function() {
+        const listNav = document.querySelectorAll(this.verticalNavClass);
+        if (this.verticalNavIndex > -1) {
+          listNav[this.verticalNavIndex].click();
         }
       },
-      right: {
-        text: '',
-        func: function() {}
-      }
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -547,36 +513,28 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
         }
       }
     },
+    softKeyText: { left: cancelText || 'Cancel', center: selectText || 'SELECT', right: saveText || 'Save' },
     softKeyListener: {
-      left: {
-        text: cancelText || 'Cancel',
-        func: function() {
-          if (typeof cancelCb === 'function') {
-            cancelCb(data);
-          }
-          if ($router) {
-            $router.hideSingleSelector();
-          }
+      left: function() {
+        if (typeof cancelCb === 'function') {
+          cancelCb(data);
+        }
+        if ($router) {
+          $router.hideSingleSelector();
         }
       },
-      center: {
-        text: selectText || 'SELECT',
-        func: function() {
-          const listNav = document.querySelectorAll(this.verticalNavClass);
-          if (this.verticalNavIndex > -1) {
-            listNav[this.verticalNavIndex].click();
-          }
+      center: function() {
+        const listNav = document.querySelectorAll(this.verticalNavClass);
+        if (this.verticalNavIndex > -1) {
+          listNav[this.verticalNavIndex].click();
         }
       },
-      right: {
-        text: saveText || 'Save',
-        func: function() {
-          if (typeof saveCb === 'function') {
-            saveCb(this.data.options);
-          }
-          if ($router) {
-            $router.hideSingleSelector();
-          }
+      right: function() {
+        if (typeof saveCb === 'function') {
+          saveCb(this.data.options);
+        }
+        if ($router) {
+          $router.hideSingleSelector();
         }
       }
     },
@@ -715,30 +673,22 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
         this.methods.focus();
       }
     },
+    softKeyText: { left: 'Cancel', center: 'Save', right: '' },
     softKeyListener: {
-      left: {
-        text: 'Cancel',
-        func: function() {
-          if ($router) {
-            $router.hideDatePicker();
-          }
+      left: function() {
+        if ($router) {
+          $router.hideDatePicker();
         }
       },
-      center: {
-        text: 'Save',
-        func: function() {
-          if (typeof selectCb === 'function') {
-            selectCb(new Date(this.data.yearM, MONTHS.indexOf(this.data.monthM), this.data.dayM));
-          }
-          if ($router) {
-            $router.hideDatePicker();
-          }
+      center: function() {
+        if (typeof selectCb === 'function') {
+          selectCb(new Date(this.data.yearM, MONTHS.indexOf(this.data.monthM), this.data.dayM));
+        }
+        if ($router) {
+          $router.hideDatePicker();
         }
       },
-      right: {
-        text: '',
-        func: function() {}
-      }
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {
@@ -906,39 +856,31 @@ Kai.createTimePicker = function(hour, minute, is12H, selectCb, $router) {
         this.methods.focus();
       }
     },
+    softKeyText: { left: 'Cancel', center: 'Save', right: '' },
     softKeyListener: {
-      left: {
-        text: 'Cancel',
-        func: function() {
-          if ($router) {
-            $router.hideTimePicker();
-          }
+      left: function() {
+        if ($router) {
+          $router.hideTimePicker();
         }
       },
-      center: {
-        text: 'Save',
-        func: function() {
-          if (typeof selectCb === 'function') {
-            var h = parseInt(this.data.hourM);
-            var m = parseInt(this.data.minuteM)
-            if (this.data.is12H) {
-              if (parseInt(this.data.hourM) < 12 && this.data.periodM === 'PM') {
-                h = parseInt(this.data.hourM) + 12;
-              }
+      center: function() {
+        if (typeof selectCb === 'function') {
+          var h = parseInt(this.data.hourM);
+          var m = parseInt(this.data.minuteM)
+          if (this.data.is12H) {
+            if (parseInt(this.data.hourM) < 12 && this.data.periodM === 'PM') {
+              h = parseInt(this.data.hourM) + 12;
             }
-            const dt = new Date();
-            dt.setHours(h, m, 0);
-            selectCb(dt);
           }
-          if ($router) {
-            $router.hideTimePicker();
-          }
+          const dt = new Date();
+          dt.setHours(h, m, 0);
+          selectCb(dt);
+        }
+        if ($router) {
+          $router.hideTimePicker();
         }
       },
-      right: {
-        text: '',
-        func: function() {}
-      }
+      right: function() {}
     },
     dPadNavListener: {
       arrowUp: function() {

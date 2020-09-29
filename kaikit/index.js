@@ -23,19 +23,11 @@ const Kai = (function() {
     this.horizontalNavIndex = -1;
     this.components = [];
     this.disableKeyListener = false;
+    this.softKeyText = { left: '', center: '', right: '' };
     this.softKeyListener = {
-      left: {
-        text: '',
-        func: function() {}
-      },
-      center: {
-        text: '',
-        func: function() {}
-      },
-      right: {
-        text: '',
-        func: function() {}
-      }
+      left: () => {},
+      center: () => {},
+      right: () => {}
     };
     this.backKeyListener = function(evt) {};
     this.dPadNavListener = {
@@ -66,7 +58,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(typeof options.data === 'object' ? options.data : {});
-      const allow = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener', 'disableKeyListener'];
+      const allow = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'softKeyText', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener', 'disableKeyListener'];
       for (var i in options) {
         if (allow.indexOf(i) !== -1) {
           if (i === 'methods') {
@@ -77,11 +69,8 @@ const Kai = (function() {
             }
           } else if (i === 'softKeyListener') {
             for (f in options[i]) {
-              this[i][f] = options[i][f];
-              for (g in options[i][f]) {
-                if (typeof options[i][f][g] === 'function') {
-                  this[i][f][g] = options[i][f][g].bind(this);
-                }
+              if (typeof options[i][f] === 'function') {
+                this[i][f] = options[i][f].bind(this);
               }
             }
           } else if (i === 'dPadNavListener') {
@@ -298,15 +287,15 @@ const Kai = (function() {
         break
       case 'SoftLeft':
         if (this.softKeyListener.left) {
-          if (typeof this.softKeyListener.left.func === 'function') {
-            this.softKeyListener.left.func();
+          if (typeof this.softKeyListener.left === 'function') {
+            this.softKeyListener.left();
           }
         }
         break
       case 'SoftRight':
         if (this.softKeyListener.right) {
-          if (typeof this.softKeyListener.right.func === 'function') {
-            this.softKeyListener.right.func();
+          if (typeof this.softKeyListener.right === 'function') {
+            this.softKeyListener.right();
           }
         }
         break
@@ -315,8 +304,8 @@ const Kai = (function() {
           return
         }
         if (this.softKeyListener.center) {
-          if (typeof this.softKeyListener.center.func === 'function') {
-            this.softKeyListener.center.func();
+          if (typeof this.softKeyListener.center === 'function') {
+            this.softKeyListener.center();
           }
         }
         break
@@ -418,7 +407,12 @@ const Kai = (function() {
       options.data = JSON.parse(this._data);
     }
     options.id = undefined;
-    return new Kai(options);
+    options.name.clone = this._options.name + '_clone';
+    options.scrollThreshold = 0;
+    options.verticalNavIndex = -1;
+    options.horizontalNavIndex = -1;
+    const a = new Kai(options);
+    return a;
   }
 
   Kai.prototype.reset = function(data) {
