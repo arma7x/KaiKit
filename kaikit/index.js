@@ -414,7 +414,7 @@ const Kai = (function() {
       options.data = JSON.parse(this._data);
     }
     options.id = undefined;
-    options.name.clone = this._options.name + '_clone';
+    options.components = [];
     options.scrollThreshold = 0;
     options.verticalNavIndex = -1;
     options.horizontalNavIndex = -1;

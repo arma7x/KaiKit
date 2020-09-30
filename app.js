@@ -37,17 +37,19 @@ window.addEventListener("load", function() {
       title: '_firstTab_',
       subcomponentIds: [],
     },
-    components: [subcomponent],
+    components: [],
     verticalNavClass: '.firstTabNav',
     templateUrl: document.location.origin + '/templates/tabs/firstTab.html',
     mounted: function() {
       this.setData({ subcomponentIds: ['sc1', 'sc2'] });
-      this.data.subcomponentIds.forEach((id) => {
-        const c = this.components[0].clone();
-        c.id = id;
-        this.components.push(c);
-      });
-      this.render();
+      if (this.components.length === 0) {
+        this.data.subcomponentIds.forEach((id) => {
+          const c = subcomponent.clone();
+          c.id = id;
+          this.components.push(c);
+        });
+        this.render();
+      }
     },
     unmounted: function() {},
     methods: {},
@@ -469,7 +471,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
   });
 
   const ftc = firstTab.clone();
-  ftc.name = 'ftccloned';
+  ftc.name = 'ft_cloned';
   const secondChild = Kai.createTabNav('_CHILD_ 2', '.child2DemoNav', [firstTab, ftc, secondTab, thirdTab, fourthTab, fifthTab, seventhTab, eighthTab]);
 
   const thirdChild = new Kai({

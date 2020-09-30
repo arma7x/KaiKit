@@ -113,6 +113,7 @@ Kai.createTabNav = function(name, horizontalNavClass, tabs) {
             v.scrollThreshold = 0;
             v.verticalNavIndex = -1;
             v.horizontalNavIndex = -1;
+            v.components = [];
             this.components[i].reset();
           }
         });
