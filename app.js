@@ -2,9 +2,8 @@ window.addEventListener("load", function() {
 
   const state = new KaiState({'counter': -1});
 
-  const subcomponent = new Kai({
+  const subcomponent = Kai.createComponent({
     name: '_subcomponent_',
-    disableKeyListener: true,
     data: {
       title: '_subcomponent_',
       counter: -1,

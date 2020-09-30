@@ -1,3 +1,8 @@
+Kai.createComponent = function(options) {
+  options.disableKeyListener = true;
+  return new Kai(options);
+}
+
 Kai.createTabNav = function(name, horizontalNavClass, tabs) {
   return new Kai({
     name: name,
