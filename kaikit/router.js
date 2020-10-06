@@ -192,7 +192,8 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.onInputFocus = function() {
-    this.setSoftKeyText('', '', '');
+    const component = this.stack[this.stack.length -1];
+    this.setSoftKeyText(component.softKeyInputFocusText.left, component.softKeyInputFocusText.center, component.softKeyInputFocusText.right);
     const SK = document.getElementById('__kai_soft_key__');
     SK.classList.add('kui-software-key-dark');
   }
@@ -393,6 +394,12 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.clickLeft = function() {
     if (this.stack[this.stack.length - 1]) {
+      if (document.activeElement.tagName === 'INPUT') {
+        if (typeof this.stack[this.stack.length - 1].softKeyInputFocusListener.left === 'function') {
+          this.stack[this.stack.length - 1].softKeyInputFocusListener.left();
+        }
+        return;
+      }
       if (typeof this.stack[this.stack.length - 1].softKeyListener.left === 'function') {
         this.stack[this.stack.length - 1].softKeyListener.left();
       }
@@ -401,6 +408,12 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.clickCenter = function() {
     if (this.stack[this.stack.length - 1]) {
+      if (document.activeElement.tagName === 'INPUT') {
+        if (typeof this.stack[this.stack.length - 1].softKeyInputFocusListener.center === 'function') {
+          this.stack[this.stack.length - 1].softKeyInputFocusListener.center();
+        }
+        return;
+      }
       if (typeof this.stack[this.stack.length - 1].softKeyListener.center === 'function') {
         this.stack[this.stack.length - 1].softKeyListener.center();
       }
@@ -409,6 +422,12 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.clickRight = function() {
     if (this.stack[this.stack.length - 1]) {
+      if (document.activeElement.tagName === 'INPUT') {
+        if (typeof this.stack[this.stack.length - 1].softKeyInputFocusListener.right === 'function') {
+          this.stack[this.stack.length - 1].softKeyInputFocusListener.right();
+        }
+        return;
+      }
       if (typeof this.stack[this.stack.length - 1].softKeyListener.right === 'function') {
         this.stack[this.stack.length - 1].softKeyListener.right();
       }
@@ -463,9 +482,9 @@ const KaiRouter = (function() {
         if (document.activeElement.tagName === 'INPUT') {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
-            e.preventDefault();
-            e.stopPropagation();
           }
+          e.preventDefault();
+          e.stopPropagation();
           return;
         }
         if (_router) {
@@ -496,9 +515,6 @@ const KaiRouter = (function() {
         }
         break
       case 'Enter':
-        if (document.activeElement.tagName === 'INPUT') {
-          return;
-        }
         if (_router) {
           _router.clickCenter();
         }

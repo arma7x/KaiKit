@@ -29,6 +29,12 @@ const Kai = (function() {
       center: () => {},
       right: () => {}
     };
+    this.softKeyInputFocusText = { left: '', center: '', right: '' };
+    this.softKeyInputFocusListener = {
+      left: () => {},
+      center: () => {},
+      right: () => {}
+    };
     this.backKeyListener = function(evt) {};
     this.dPadNavListener = {
       arrowUp: () => {
@@ -58,7 +64,7 @@ const Kai = (function() {
     this._Kai = function (options) {
       this._options = options;
       this._data = JSON.stringify(typeof options.data === 'object' ? options.data : {});
-      const allow = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyListener', 'softKeyText', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener', 'disableKeyListener'];
+      const allow = ['id','name', 'data', 'template' , 'templateUrl', 'methods', 'mounted', 'unmounted', 'router', 'state', 'softKeyInputFocusText', 'softKeyInputFocusListener', 'softKeyText', 'softKeyListener', 'dPadNavListener', 'verticalNavClass', 'verticalNavIndex', 'horizontalNavClass', 'horizontalNavIndex', 'components', 'backKeyListener', 'disableKeyListener'];
       for (var i in options) {
         if (allow.indexOf(i) !== -1) {
           if (i === 'methods') {
@@ -67,7 +73,13 @@ const Kai = (function() {
                 this[i][f] = options[i][f].bind(this);
               }
             }
-          } else if (i === 'softKeyListener') {
+          } else if (i === 'softKeyInputFocusListener') {
+            for (f in options[i]) {
+              if (typeof options[i][f] === 'function') {
+                this[i][f] = options[i][f].bind(this);
+              }
+            }
+          }  else if (i === 'softKeyListener') {
             for (f in options[i]) {
               if (typeof options[i][f] === 'function') {
                 this[i][f] = options[i][f].bind(this);
@@ -278,10 +290,10 @@ const Kai = (function() {
         if (document.activeElement.tagName === 'INPUT') {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
-            e.preventDefault();
-            e.stopPropagation();
           }
-          return
+          e.preventDefault();
+          e.stopPropagation();
+          return;
         }
         if (typeof this.backKeyListener === 'function') {
           const isStop = this.backKeyListener();
@@ -293,27 +305,36 @@ const Kai = (function() {
         }
         break
       case 'SoftLeft':
-        if (this.softKeyListener.left) {
-          if (typeof this.softKeyListener.left === 'function') {
-            this.softKeyListener.left();
+        if (document.activeElement.tagName === 'INPUT') {
+          if (typeof this.softKeyInputFocusListener.left === 'function') {
+            this.softKeyInputFocusListener.left();
           }
+          return;
+        }
+        if (typeof this.softKeyListener.left === 'function') {
+          this.softKeyListener.left();
         }
         break
       case 'SoftRight':
-        if (this.softKeyListener.right) {
-          if (typeof this.softKeyListener.right === 'function') {
-            this.softKeyListener.right();
+        if (document.activeElement.tagName === 'INPUT') {
+          if (typeof this.softKeyInputFocusListener.right === 'function') {
+            this.softKeyInputFocusListener.right();
           }
+          return;
+        }
+        if (typeof this.softKeyListener.right === 'function') {
+          this.softKeyListener.right();
         }
         break
       case 'Enter':
         if (document.activeElement.tagName === 'INPUT') {
-          return
-        }
-        if (this.softKeyListener.center) {
-          if (typeof this.softKeyListener.center === 'function') {
-            this.softKeyListener.center();
+          if (typeof this.softKeyInputFocusListener.center === 'function') {
+            this.softKeyInputFocusListener.center();
           }
+          return;
+        }
+        if (typeof this.softKeyListener.center === 'function') {
+          this.softKeyListener.center();
         }
         break
       case 'ArrowUp':
@@ -326,7 +347,7 @@ const Kai = (function() {
         break
       case 'ArrowRight':
         if (document.activeElement.tagName === 'INPUT') {
-          return
+          return;
         }
         if (typeof this.dPadNavListener.arrowRight === 'function') {
           this.dPadNavListener.arrowRight();
@@ -342,7 +363,7 @@ const Kai = (function() {
         break
       case 'ArrowLeft':
         if (document.activeElement.tagName === 'INPUT') {
-          return
+          return;
         }
         if (typeof this.dPadNavListener.arrowLeft === 'function') {
           this.dPadNavListener.arrowLeft();
@@ -443,7 +464,7 @@ const Kai = (function() {
     const currentIndex = this[navIndex];
     const nav = document.querySelectorAll(this[navClass]);
     if (nav.length === 0) {
-      return
+      return;
     }
     var move = currentIndex + next;
     var targetElement = nav[move];
