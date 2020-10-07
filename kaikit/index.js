@@ -284,7 +284,6 @@ const Kai = (function() {
 
   Kai.prototype.handleLocalKeydown = function(evt) {
     switch(evt.key) {
-      case "BrowserBack":
       case 'Backspace':
       case 'EndCall':
         if (document.activeElement.tagName === 'INPUT') {

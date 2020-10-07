@@ -476,7 +476,6 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.handleKeydown = function(e, _router) {
     switch(e.key) {
-      case "BrowserBack":
       case 'Backspace':
       case 'EndCall':
         if (document.activeElement.tagName === 'INPUT') {

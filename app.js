@@ -1,6 +1,9 @@
 window.addEventListener("load", function() {
 
-  const state = new KaiState({'counter': -1});
+  const state = new KaiState({
+    'counter': -1,
+    'editor': '',
+  });
 
   const subcomponent = Kai.createComponent({
     name: '_subcomponent_',
@@ -303,6 +306,29 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$router.pop();
       }
     },
+    softKeyInputFocusText: { left: 'Copy', center: 'Paste', right: 'Cut' },
+    softKeyInputFocusListener: {
+      left: function() {
+        if (document.activeElement.tagName === 'INPUT') {
+          if (document.activeElement.value && document.activeElement.value.length > 0) {
+            this.$state.setState('editor', document.activeElement.value);
+          }
+        }
+      },
+      center: function() {
+        if (document.activeElement.tagName === 'INPUT') {
+          document.activeElement.value += this.$state.getState('editor');
+        }
+      },
+      right: function() {
+        if (document.activeElement.tagName === 'INPUT') {
+          if (document.activeElement.value && document.activeElement.value.length > 0) {
+            this.$state.setState('editor', document.activeElement.value);
+            document.activeElement.value = '';
+          }
+        }
+      }
+    },
     dPadNavListener: {
       arrowUp: function() {
         this.navigateListNav(-1);
@@ -453,6 +479,28 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
       }
     },
     softKeyInputFocusText: { left: 'Copy', center: 'Paste', right: 'Cut' },
+    softKeyInputFocusListener: {
+      left: function() {
+        if (document.activeElement.tagName === 'INPUT') {
+          if (document.activeElement.value && document.activeElement.value.length > 0) {
+            this.$state.setState('editor', document.activeElement.value);
+          }
+        }
+      },
+      center: function() {
+        if (document.activeElement.tagName === 'INPUT') {
+          document.activeElement.value += this.$state.getState('editor');
+        }
+      },
+      right: function() {
+        if (document.activeElement.tagName === 'INPUT') {
+          if (document.activeElement.value && document.activeElement.value.length > 0) {
+            this.$state.setState('editor', document.activeElement.value);
+            document.activeElement.value = '';
+          }
+        }
+      }
+    },
     dPadNavListener: {
       arrowUp: function() {
         this.navigateListNav(-1);
