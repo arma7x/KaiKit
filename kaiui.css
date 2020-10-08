@@ -343,8 +343,8 @@ h1, h2, h3, h4, h5, ul, p {
   margin: 0 0 0 0;
   padding: 0;
   vertical-align: middle;
-  width: 1em;
-  height: 1em;
+  width: 1.2em;
+  height: 1.2em;
   border: 2px solid #ccc;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
@@ -378,16 +378,16 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .checkbox input + span {
-  border-radius: 6.5px;
+  border-radius: 8px;
 }
 
 .checkbox input + span::after {
-  content: '\2714';
-  font-size: 17px;
-  font-weight: 600;
+  content: '\2713';
+  font-size: 18px;
+  font-weight: bold;
   color: #873eff;
-  margin-top: -1.1em;
-  margin-left: -0.2em;
+  margin-top: -1em;
+  margin-left: 0em;
 }
 
 .radio input + span {
@@ -397,8 +397,8 @@ h1, h2, h3, h4, h5, ul, p {
 .radio input + span::after {
   border-radius: 100%;
   margin: .20em;
-  width: .6em;
-  height: .6em;
+  width: .8em;
+  height: .8em;
 }
 
 .radio input:checked + span::after {
