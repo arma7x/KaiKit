@@ -19,6 +19,107 @@
  * ===========================
  */
 
+@font-face {
+  font-family: 'kai-icons';
+  src:  url('fonts/kai-icons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="kai-icon-"], [class*=" kai-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'kai-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.kai-icon-arrow:before {
+  content: "\e900";
+}
+
+.kai-icon-checkbox-checked:before {
+  content: "\e901";
+}
+
+.kai-icon-checkbox-unchecked:before {
+  content: "\e902";
+}
+
+.kai-icon-radio-button-selected:before {
+  content: "\e906";
+}
+
+.kai-icon-radio-button-unselected:before {
+  content: "\e90f";
+}
+
+.kai-icon-bluetooth:before {
+  content: "\e903";
+}
+
+.kai-icon-calendar:before {
+  content: "\e904";
+}
+
+.kai-icon-camera:before {
+  content: "\e905";
+}
+
+.kai-icon-contacts:before {
+  content: "\e907";
+}
+
+.kai-icon-download:before {
+  content: "\e908";
+}
+
+.kai-icon-email:before {
+  content: "\e909";
+}
+
+.kai-icon-favorite-off:before {
+  content: "\e90a";
+}
+
+.kai-icon-favorite-on:before {
+  content: "\e90b";
+}
+
+.kai-icon-message:before {
+  content: "\e90c";
+}
+
+.kai-icon-mic:before {
+  content: "\e90d";
+}
+
+.kai-icon-phone:before {
+  content: "\e90e";
+}
+
+.kai-icon-search:before {
+  content: "\e910";
+}
+
+.kai-icon-settings:before {
+  content: "\e911";
+}
+
+.kai-icon-video:before {
+  content: "\e912";
+}
+
+.kai-icon-wifi:before {
+  content: "\e913";
+}
 
 /* ============== Basic ============== */
 body {
@@ -325,7 +426,6 @@ h1, h2, h3, h4, h5, ul, p {
   flex-direction: row;
   position: relative;
   cursor: pointer;
-  padding: 0.5em;
 }
 
 .checkbox::-moz-selection, .radio::-moz-selection {
@@ -337,34 +437,57 @@ h1, h2, h3, h4, h5, ul, p {
 }
 
 .radio input + span, .checkbox input + span {
-  background: white;
-  content: "";
   display: inline-block;
-  margin: 0 0 0 0;
-  padding: 0;
   vertical-align: middle;
-  width: 1.2em;
-  height: 1.2em;
-  border: 2px solid #ccc;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
 }
 
-.checkbox input + span::after, .radio input + span::after {
-  content: "";
+.radio input + span::after {
+  font-family: 'kai-icons' !important;
+  content: "\e90f";
   display: block;
-  -webkit-transform: scale(0);
-  transform: scale(0);
+  -webkit-transform: scale(1);
+  transform: scale(1);
   -webkit-transition: -webkit-transform .2s;
   transition: -webkit-transform .2s;
   transition: transform .2s;
   transition: transform .2s, -webkit-transform .2s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.checkbox input:checked + span::after, .radio input:checked + span::after {
+.checkbox input + span::after {
+  font-family: 'kai-icons' !important;
+  content: "\e902";
+  display: block;
   -webkit-transform: scale(1);
   transform: scale(1);
+  -webkit-transition: -webkit-transform .2s;
+  transition: -webkit-transform .2s;
+  transition: transform .2s;
+  transition: transform .2s, -webkit-transform .2s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.radio input:checked + span::after {
+  font-family: 'kai-icons' !important;
+  content: "\e906";
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.checkbox input:checked + span::after {
+  font-family: 'kai-icons' !important;
+  content: "\e901";
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .checkbox input, .radio input {
@@ -373,36 +496,10 @@ h1, h2, h3, h4, h5, ul, p {
   opacity: 0;
 }
 
-.checkbox input:checked + span, .radio input:checked + span {
-  border: 2px solid #873eff;
-}
-
-.checkbox input + span {
-  border-radius: 8px;
-}
-
-.checkbox input + span::after {
-  content: '\2713';
-  font-size: 18px;
-  font-weight: bold;
+.checkbox input + span::after, .radio input + span::after {
+  font-size: 20px;
+  font-weight: normal;
   color: #873eff;
-  margin-top: -1em;
-  margin-left: 0em;
-}
-
-.radio input + span {
-  border-radius: 100%;
-}
-
-.radio input + span::after {
-  border-radius: 100%;
-  margin: .20em;
-  width: .8em;
-  height: .8em;
-}
-
-.radio input:checked + span::after {
-  background: #873eff;
 }
 
 /* ============== List ============== */
@@ -510,21 +607,11 @@ h1, h2, h3, h4, h5, ul, p {
     background-color: #873eff;
 }
 
-.kui-options li.focus .radio input:checked + span {
-  border: 2px solid #fff;
+.kui-options li.focus .radio input:checked + span, .kui-options li.focus .checkbox input:checked + span  {
   background: #873eff;
 }
 
-.kui-options li.focus .radio input:checked + span::after {
-  background: #fff;
-}
-
-.kui-options li.focus .checkbox input:checked + span {
-  border: 2px solid #fff;
-  background: #873eff;
-}
-
-.kui-options li.focus .checkbox input + span::after {
+.kui-options li.focus .radio input + span::after, .kui-options li.focus .checkbox input + span::after {
   color: #fff;
 }
 
