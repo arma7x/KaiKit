@@ -844,7 +844,7 @@ button.kui-btn:focus {
 
 .kai-404 {
   text-align: center;
-  padding-top: 50%;
+  padding-top: calc(0.35 * 100vh);
 }
 
 .kui-row-center {

@@ -469,7 +469,7 @@ const KaiRouter = (function() {
   KaiRouter.prototype.backKey = function() {
     if (this.stack[this.stack.length - 1]) {
       if (typeof this.stack[this.stack.length - 1].backKeyListener === 'function') {
-        this.stack[this.stack.length - 1].backKeyListener();
+        return this.stack[this.stack.length - 1].backKeyListener();
       }
     }
   }
@@ -489,6 +489,8 @@ const KaiRouter = (function() {
         if (_router) {
           const isStop = _router.backKey();
           if (isStop === true) {
+            e.preventDefault();
+            e.stopPropagation();
             return;
           }
           if (_router.bottomSheet) {
