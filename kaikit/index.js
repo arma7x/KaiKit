@@ -462,7 +462,7 @@ const Kai = (function() {
   Kai.prototype.nav = function(next, navIndex, navClass) {
     const currentIndex = this[navIndex];
     const nav = document.querySelectorAll(this[navClass]);
-    if (nav.length === 0) {
+    if (nav.length === 0 || nav.length === 1) {
       return;
     }
     var move = currentIndex + next;
