@@ -462,7 +462,7 @@ const Kai = (function() {
   Kai.prototype.nav = function(next, navIndex, navClass) {
     const currentIndex = this[navIndex];
     const nav = document.querySelectorAll(this[navClass]);
-    if (nav.length === 0 || nav.length === 1) {
+    if (nav.length === 0) {
       return;
     }
     var move = currentIndex + next;
@@ -481,7 +481,7 @@ const Kai = (function() {
       this[navIndex] = move;
     }
     targetElement.classList.add('focus');
-    if (currentIndex > -1) {
+    if (currentIndex > -1 && nav.length > 1) {
       nav[currentIndex].classList.remove('focus');
     }
     if (navClass === 'horizontalNavClass') {
