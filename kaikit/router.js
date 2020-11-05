@@ -121,7 +121,7 @@ const KaiRouter = (function() {
 
   KaiRouter.prototype.push = function(path) {
     if (this.bottomSheet) {
-      return;
+      this.hideBottomSheet();
     }
     const DOM = document.getElementById('__kai_router__');
     DOM.scrollTop = 0;
