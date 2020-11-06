@@ -249,6 +249,9 @@ const Kai = (function() {
         this.$router.onInputBlur();
       });
     }
+    if (document.activeElement.tagName === 'INPUT' && this.$router) {
+      this.$router.onInputFocus();
+    }
   }
 
   Kai.prototype.setData = function(data) {
