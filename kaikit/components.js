@@ -306,11 +306,11 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, verticalNa
     </div>',
     methods: {
       selectOption: function(data) {
-        if (typeof selectCb === 'function') {
-          selectCb(data);
-        }
         if ($router) {
           $router.hideOptionMenu();
+        }
+        if (typeof selectCb === 'function') {
+          selectCb(data);
         }
       }
     },
@@ -349,27 +349,27 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
     softKeyText: { left: negativeText || 'Cancel', center: neutralText || '', right: positiveText || 'Yes' },
     softKeyListener: {
       left: function() {
+        if ($router) {
+          $router.hideDialog();
+        }
         if (typeof negativeCb === 'function') {
           negativeCb(dataCb);
         }
+      },
+      center: function() {
         if ($router) {
           $router.hideDialog();
         }
-      },
-      center: function() {
         if (typeof neutralCb === 'function') {
           neutralCb(dataCb);
         }
-        if ($router) {
-          $router.hideDialog();
-        }
       },
       right: function() {
-        if (typeof positiveCb === 'function') {
-          positiveCb(dataCb);
-        }
         if ($router) {
           $router.hideDialog();
+        }
+        if (typeof positiveCb === 'function') {
+          positiveCb(dataCb);
         }
       }
     }
@@ -419,22 +419,22 @@ Kai.createSingleSelector = function(title, options, selectText, selectCb, cancel
     </div>',
     methods: {
       selectOption: function(data) {
-        if (typeof selectCb === 'function') {
-          selectCb(data);
-        }
         if ($router) {
           $router.hideSingleSelector();
+        }
+        if (typeof selectCb === 'function') {
+          selectCb(data);
         }
       }
     },
     softKeyText: { left: cancelText || 'Cancel', center: selectText || 'SELECT', right: '' },
     softKeyListener: {
       left: function() {
-        if (typeof cancelCb === 'function') {
-          cancelCb(data);
-        }
         if ($router) {
           $router.hideSingleSelector();
+        }
+        if (typeof cancelCb === 'function') {
+          cancelCb(data);
         }
       },
       center: function() {
@@ -522,11 +522,11 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
     softKeyText: { left: cancelText || 'Cancel', center: selectText || 'SELECT', right: saveText || 'Save' },
     softKeyListener: {
       left: function() {
-        if (typeof cancelCb === 'function') {
-          cancelCb(data);
-        }
         if ($router) {
           $router.hideSingleSelector();
+        }
+        if (typeof cancelCb === 'function') {
+          cancelCb(data);
         }
       },
       center: function() {
@@ -536,11 +536,11 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
         }
       },
       right: function() {
-        if (typeof saveCb === 'function') {
-          saveCb(this.data.options);
-        }
         if ($router) {
           $router.hideSingleSelector();
+        }
+        if (typeof saveCb === 'function') {
+          saveCb(this.data.options);
         }
       }
     },
@@ -687,11 +687,11 @@ Kai.createDatePicker = function(year, month, day = 1, selectCb, $router) {
         }
       },
       center: function() {
-        if (typeof selectCb === 'function') {
-          selectCb(new Date(this.data.yearM, MONTHS.indexOf(this.data.monthM), this.data.dayM));
-        }
         if ($router) {
           $router.hideDatePicker();
+        }
+        if (typeof selectCb === 'function') {
+          selectCb(new Date(this.data.yearM, MONTHS.indexOf(this.data.monthM), this.data.dayM));
         }
       },
       right: function() {}
@@ -870,6 +870,9 @@ Kai.createTimePicker = function(hour, minute, is12H, selectCb, $router) {
         }
       },
       center: function() {
+        if ($router) {
+          $router.hideTimePicker();
+        }
         if (typeof selectCb === 'function') {
           var h = parseInt(this.data.hourM);
           var m = parseInt(this.data.minuteM)
@@ -881,9 +884,6 @@ Kai.createTimePicker = function(hour, minute, is12H, selectCb, $router) {
           const dt = new Date();
           dt.setHours(h, m, 0);
           selectCb(dt);
-        }
-        if ($router) {
-          $router.hideTimePicker();
         }
       },
       right: function() {}
