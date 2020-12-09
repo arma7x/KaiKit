@@ -135,6 +135,10 @@ h1, h2, h3, h4, h5, ul, p {
     padding: 0;
 }
 
+.p-5 {
+  padding: 0 5px!important;
+}
+
 .statusbar-placeholder {
     background-color: #320374;
     height: 26px;
@@ -783,11 +787,11 @@ button.kui-btn:focus {
     }
 
     .kui-option-menu {
-        max-height: 178px;
+        max-height: 288px;
     }
 
     .kui-options {
-        max-height: 150px;
+        max-height: 200px;
     }
 }
 
