@@ -401,7 +401,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$router.showDialog('Decrement', 'Are sure to reset the counter ?', this.data, 'Yes', () => {
           this.setData({ counter: 0 });
           this.$state.setState('counter', 0);
-        }, 'Cancel', undefined);
+        }, 'Cancel', undefined, undefined);
       },
       plus: function() {
         this.setData({ counter: this.data.counter + 1 });
@@ -413,7 +413,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         });
         this.$router.showOptionMenu('Option', this.data.opts, 'Select', (selected) => {
           this.setData({ selected: selected.text });
-        }, idx);
+        }, undefined, idx);
       },
       testSingleSelector: function() {
         const idx = this.data.opts.findIndex((opt) => {
@@ -421,7 +421,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         });
         this.$router.showSingleSelector('Select', this.data.opts, 'Select', (selected) => {
           this.setData({ selected: selected.text });
-        }, 'Cancel', null, idx);
+        }, 'Cancel', null, undefined, idx);
       },
       testMultiSelector: function() {
         const idx = this.data.opts.findIndex((opt) => {
@@ -429,17 +429,17 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         });
         this.$router.showMultiSelector('Select', this.data.opts, 'Select', null, 'Save', (options) => {
           this.setData({ opts: options });
-        }, 'Cancel', null, 0);
+        }, 'Cancel', null, undefined, 0);
       },
       testDatePicker: function() {
         this.$router.showDatePicker(null, null, null, (dt) => {
           this.setData({ title: dt.toLocaleDateString() });
-        });
+        }, undefined);
       },
       testTimePicker: function() {
         this.$router.showTimePicker(null, null, null, (dt) => {
           this.setData({ title: dt.toLocaleTimeString() });
-        });
+        }, undefined);
       },
       testToast: function() {
         this.$router.showToast('This is test toast');
@@ -474,7 +474,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
     softKeyText: { left: 'MINUS', center: 'SELECT', right: 'PLUS' },
     softKeyListener: {
       left: function() {
-        this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', this.data, 'Yes', this.methods.minus, 'Cancel', undefined);
+        this.$router.showDialog('Decrement', 'Are sure to minus -1 from counter ?', this.data, 'Yes', this.methods.minus, 'Cancel', undefined, undefined);
       },
       center: function() {
         const listNav = document.querySelectorAll(this.verticalNavClass);
@@ -483,7 +483,7 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         }
       },
       right: function() {
-        this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', this.data, 'Yes', this.methods.plus, 'Cancel', undefined);
+        this.$router.showDialog('Increment', 'Are sure to add +1 into counter ?', this.data, 'Yes', this.methods.plus, 'Cancel', undefined, undefined);
       }
     },
     softKeyInputFocusText: { left: 'Copy', center: 'Paste', right: 'Cut' },
