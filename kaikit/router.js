@@ -207,6 +207,7 @@ const KaiRouter = (function() {
   }
 
   KaiRouter.prototype.showBottomSheet = function(component) {
+    document.body.style.position = '';
     component.mount('__kai_bottom_sheet__');
     this.setSoftKeyText(component.softKeyText.left, component.softKeyText.center, component.softKeyText.right);
     this.bottomSheet = true;
