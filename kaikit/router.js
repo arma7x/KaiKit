@@ -287,7 +287,7 @@ const KaiRouter = (function() {
     if (document.activeElement.tagName === 'INPUT') {
       document.activeElement.blur();
     }
-    const multi_selector = Kai.createMultiSelector(title, options, selectText, selectCb, saveText, saveCb, cancelText, cancelCb, verticalNavIndex, this);
+    const multi_selector = Kai.createMultiSelector(title, options, selectText, selectCb, saveText, saveCb, cancelText, cancelCb, closeCb, verticalNavIndex, this);
     this.showBottomSheet(multi_selector);
   }
 
