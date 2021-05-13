@@ -1,7 +1,14 @@
 {
+  "version": "1.0.0",
   "name": "KaiKit",
   "description": "JS framework for KaiOS",
   "launch_path": "/index.html",
+  "theme": "#873eff",
+  "theme_color": "#873eff",
+  "background_color": "#873eff",
+  "categories": [
+    "utilities"
+  ],
   "icons": {
     "16": "/icons/icon16x16.png",
     "48": "/icons/icon48x48.png",
@@ -26,5 +33,13 @@
     {
       "serviceworker-notification": "/index.html"
     }
-  ]
+  ],
+  "locales": {
+    "en-US": {
+      "name": "KaiKit",
+      "subtitle": "JS framework for KaiOS",
+      "description": "JS framework for KaiOS"
+    }
+  },
+  "default_locale": "en-US"
 }
