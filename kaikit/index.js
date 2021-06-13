@@ -498,7 +498,7 @@ const Kai = (function() {
         const max = targetElement.clientHeight * this[navIndex];
         const less = targetElement.offsetTop - max;
         fill = targetElement.clientHeight - less;
-        return targetElement.parentElement.scrollTop = scroll + fill;
+        return targetElement.parentElement.scrollTop = scroll + fill + (this[navIndex] * 1);
       } else {
         return targetElement.parentElement.scrollTop = 0;
       }
