@@ -251,7 +251,7 @@ const Kai = (function() {
           this.$router.onInputBlur();
       });
     }
-    if (document.activeElement.tagName === 'INPUT' && this.$router) {
+    if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') && this.$router) {
       this.$router.onInputFocus();
     }
   }
@@ -291,7 +291,7 @@ const Kai = (function() {
     switch(evt.key) {
       case 'Backspace':
       case 'EndCall':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           if (document.activeElement.value.length === 0) {
             document.activeElement.blur();
           }
@@ -309,7 +309,7 @@ const Kai = (function() {
         }
         break
       case 'SoftLeft':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           if (typeof this.softKeyInputFocusListener.left === 'function') {
             this.softKeyInputFocusListener.left();
           }
@@ -320,7 +320,7 @@ const Kai = (function() {
         }
         break
       case 'SoftRight':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           if (typeof this.softKeyInputFocusListener.right === 'function') {
             this.softKeyInputFocusListener.right();
           }
@@ -331,7 +331,7 @@ const Kai = (function() {
         }
         break
       case 'Enter':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           if (typeof this.softKeyInputFocusListener.center === 'function') {
             this.softKeyInputFocusListener.center();
           }
@@ -342,7 +342,7 @@ const Kai = (function() {
         }
         break
       case 'ArrowUp':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           document.activeElement.blur();
         }
         if (typeof this.dPadNavListener.arrowUp === 'function') {
@@ -350,7 +350,7 @@ const Kai = (function() {
         }
         break
       case 'ArrowRight':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           return;
         }
         if (typeof this.dPadNavListener.arrowRight === 'function') {
@@ -358,7 +358,7 @@ const Kai = (function() {
         }
         break
       case 'ArrowDown':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           document.activeElement.blur();
         }
         if (typeof this.dPadNavListener.arrowDown === 'function') {
@@ -366,7 +366,7 @@ const Kai = (function() {
         }
         break
       case 'ArrowLeft':
-        if (document.activeElement.tagName === 'INPUT') {
+        if ((document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
           return;
         }
         if (typeof this.dPadNavListener.arrowLeft === 'function') {
