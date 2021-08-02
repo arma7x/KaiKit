@@ -7,7 +7,7 @@
     {{#subcomponentIds}}
       <div id="{{ . }}" class="child1Nav" @click="plus()"></div>
     {{/subcomponentIds}}
-    <li class="child1Nav" @click="push()">Push</li>
+    <li class="child1Nav" @click="push()">Push <span class="sr-only">Next Page</span></li>
     <input class="child1Nav kui-input" value="{{ title }}"/>
     <li class="child1Nav" @click="reset()">Reset 0</li>
     <li class="child1Nav" @click="testLoading()">Test Loading</li>
