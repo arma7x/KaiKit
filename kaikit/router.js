@@ -254,9 +254,6 @@ const KaiRouter = (function() {
     } else {
       DOM.classList.remove('kui-overlay-visible-no-sk');
     }
-    if (document.activeElement) {
-      document.activeElement.blur();
-    }
     if (component.verticalNavIndex > -1) {
       component.verticalNavIndex -= 1;
       component.dPadNavListener.arrowDown();
