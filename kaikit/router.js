@@ -223,6 +223,10 @@ const KaiRouter = (function() {
     } else {
       DOM.classList.add('kui-overlay-visible-no-sk');
     }
+    if (component.verticalNavIndex > -1) {
+      component.verticalNavIndex -= 1;
+      component.dPadNavListener.arrowDown();
+    }
   }
 
   KaiRouter.prototype.hideBottomSheet = function() {
