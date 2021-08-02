@@ -566,7 +566,7 @@ Kai.createMultiSelector = function(title, options, selectText, selectCb, saveTex
           {{#options}}\
             <li class="optMSNav" tabIndex="{{_tabIndex}}" @click=\'selectOption({{__stringify__}})\'>\
               <div class="kui-row-center">\
-                <span class="sr-only">{{ _idx }}, {{text}}, {{#checked}}, Checked, Press Enter to untick{{/checked}}{{^checked}}, Unselected, Press Enter to select{{/checked}}' + sr + '</span><span style="height:100%;width:80%;overflow:hidden;text-overflow: ellipsis;">{{text}}</span>\
+                <span class="sr-only">{{ _idx }}, {{text}}, {{#checked}}, Selected, Press Enter to deselect{{/checked}}{{^checked}}, Unselected, Press Enter to select{{/checked}}' + sr + '</span><span style="height:100%;width:80%;overflow:hidden;text-overflow: ellipsis;">{{text}}</span>\
                 {{#checked}}\
                   <label class="checkbox"><input type="checkbox" checked><span></span></label>\
                 {{/checked}}\
