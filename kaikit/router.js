@@ -254,10 +254,12 @@ const KaiRouter = (function() {
     } else {
       DOM.classList.remove('kui-overlay-visible-no-sk');
     }
-    if (component.verticalNavIndex > -1) {
-      component.verticalNavIndex -= 1;
-      component.dPadNavListener.arrowDown();
-    }
+    setTimeout(() => {
+      if (component.verticalNavIndex > -1) {
+        component.verticalNavIndex -= 1;
+        component.dPadNavListener.arrowDown();
+      }
+    }, 10);
   }
 
   KaiRouter.prototype.showDialog = function(title, body, dataCb, positiveText, positiveCb, negativeText, negativeCb, neutralText, neutralCb, closeCb) {
