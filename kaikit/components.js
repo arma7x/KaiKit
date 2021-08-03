@@ -356,7 +356,7 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
 
 Kai.createOptionMenu = function(title, options, selectText, selectCb, closeCb, verticalNavIndex = -1, $router) {
 
-  const sr = `<span class="sr-only">, Press Enter to ${selectText}, Presss Back to return,</span>`;
+  const sr = `, Press Enter to ${selectText}, Presss Back to return,`;
   var tabIndex = document.querySelectorAll("[tabIndex").length;
   options.forEach((opt, idx) => {
     opt['_tabIndex'] = tabIndex;
@@ -378,7 +378,7 @@ Kai.createOptionMenu = function(title, options, selectText, selectCb, closeCb, v
       <div class="kui-option-body">\
         <ul id="kui-options" class="kui-options">\
           {{#options}}\
-            <li class="optMenuNav" tabIndex="{{_tabIndex}}" @click=\'selectOption({{__stringify__}})\'><span class="sr-only">{{ _idx }}, </span>{{text}}{{#subtext}}</br><small>{{subtext}}</small>{{/subtext}}' + sr + '</li>\
+            <li class="optMenuNav" tabIndex="{{_tabIndex}}" @click=\'selectOption({{__stringify__}})\'><span class="sr-only">{{ _idx }}, {{text}}{{#subtext}}, {{subtext}}{{/subtext}}' + sr + '</span><span>{{text}}</span>{{#subtext}}</br><small>{{subtext}}</small>{{/subtext}}</li>\
           {{/options}}\
         </ul>\
       </div>\
