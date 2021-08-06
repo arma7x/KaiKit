@@ -344,6 +344,11 @@ Kai.createDialog = function(title, body, dataCb, positiveText, positiveCb, negat
         }
       }
     },
+    mounted: function() {
+      setTimeout(() => {
+        this.navigateListNav(1);
+      }, 100);
+    },
     unmounted: function() {
       if (closeCb) {
         closeCb();
