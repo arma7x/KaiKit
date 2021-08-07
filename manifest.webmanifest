@@ -1,34 +1,34 @@
 {
-    "name": "KaiKit",
-    "description": "JS framework for KaiOS",
-    "theme": "#873eff",
-    "theme_color": "#873eff",
-    "background_color": "#873eff",
-    "orientation": "default",
-    "start_url": "/index.html",
-    "icons": [
-        {
-            "src": "/icons/icon56x56.png",
-            "type": "image/png",
-            "sizes": "56x56"
-        },
-        {
-            "src": "/icons/icon112x112.png",
-            "type": "image/png",
-            "sizes": "112x112"
-        }
-    ],
-    "b2g_features": {
-        "type": "web",
-        "default_locale": "en-US",
-        "locales": {
-            "en-US": {
-                "name": "KaiKit",
-                "subtitle": "JS framework for KaiOS",
-                "description": "JS framework for KaiOS"
-            }
-        },
-        "permissions": {},
-        "version": "1.0"
+  "name": "KaiKit",
+  "description": "JS framework for KaiOS",
+  "theme": "#873eff",
+  "theme_color": "#873eff",
+  "background_color": "#873eff",
+  "orientation": "default",
+  "start_url": "/index.html",
+  "icons": [
+    {
+      "src": "/icons/icon56x56.png",
+      "type": "image/png",
+      "sizes": "56x56"
+    },
+    {
+      "src": "/icons/icon112x112.png",
+      "type": "image/png",
+      "sizes": "112x112"
     }
+  ],
+  "b2g_features": {
+    "type": "web",
+    "default_locale": "en-US",
+    "locales": {
+      "en-US": {
+        "name": "KaiKit",
+        "subtitle": "JS framework for KaiOS",
+        "description": "JS framework for KaiOS"
+      }
+    },
+    "permissions": {},
+    "version": "1.0"
+  }
 }
