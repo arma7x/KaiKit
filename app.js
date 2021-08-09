@@ -408,7 +408,9 @@ KaiOS brings support of 4G/LTE, GPS, and Wi-Fi, as well as HTML5-based apps and 
         this.$state.setState('counter', this.$state.getState('counter') + 1);
       },
       testShowDialog: function() {
-        this.$router.showDialog('Dialog', `<div class="kai-list-nav"><span class="sr-only">Test show dialog.</span><span aria-hidden="true">Test show dialog.</span></div>`, null, 'Yes', () => {}, 'Close', () => {}, 'Neutral', null, () => {});
+        this.$router.showDialog('Dialog', `<div class="kai-list-nav"><span class="sr-only">Test show dialog.</span><span aria-hidden="true">Test show dialog.</span></div>`, null, 'Yes', () => {}, 'Close', () => {
+          window.close();
+        }, 'Neutral', null, () => {});
       },
       testOptMenu: function() {
         const idx = this.data.opts.findIndex((opt) => {
