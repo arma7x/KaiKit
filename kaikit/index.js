@@ -501,13 +501,9 @@ const Kai = (function() {
     if (navClass === 'horizontalNavClass') {
       return targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
-      if (targetElement.offsetTop > targetElement.parentElement.clientHeight) {
-        var fill = 0;
+      if (targetElement.offsetTop + ((targetElement.parentElement.clientHeight / 2) - (targetElement.clientHeight / 2) + 2) > targetElement.parentElement.clientHeight) {
         var scroll = targetElement.offsetTop - targetElement.parentElement.clientHeight;
-        const max = targetElement.clientHeight * this[navIndex];
-        const less = targetElement.offsetTop - max;
-        fill = targetElement.clientHeight - less;
-        return targetElement.parentElement.scrollTop = scroll + fill;
+        return targetElement.parentElement.scrollTop = scroll + (targetElement.parentElement.clientHeight / 2);
       } else {
         if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
           return targetElement.parentElement.parentElement.scrollTop = 0;
