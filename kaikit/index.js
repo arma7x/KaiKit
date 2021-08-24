@@ -499,6 +499,9 @@ const Kai = (function() {
       nav[currentIndex].classList.remove('focus');
     }
     if (navClass === 'horizontalNavClass') {
+      if (!isElementInViewport(targetElement, 0, 0)) {
+        return targetElement.parentElement.scrollLeft = targetElement.offsetLeft;
+      }
       return targetElement.parentElement.scrollLeft = targetElement.offsetLeft - targetElement.offsetWidth;
     } else if (navClass === 'verticalNavClass') {
       const container = document.getElementById(this.id);
