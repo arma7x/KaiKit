@@ -2,7 +2,9 @@
 
 ## JS framework for KaiOS
 
-## TODO DOCUMENTATION
+## ~~TODO DOCUMENTATION~~
+
+## Go here https://github.com/arma7x/kaios-svelte-starter
 
 ## Licence
 
